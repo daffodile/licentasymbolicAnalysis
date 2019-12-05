@@ -1,4 +1,4 @@
-**Symbolic Analysis
+##Symbolic Analysis
 
 # licentasymbolicAnalysis
 Licenta - Symbolic Analysis team
