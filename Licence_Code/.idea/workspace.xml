@@ -2,50 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f194bcf-f09d-4626-ba8e-4afa4089ba19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Plots/avr_channels_deep.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/avr_channels_light.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/avr_channels_medium.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_0_deep20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_0_light.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_0_medium.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_120_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_120_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_124_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_124_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_166_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_167_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_168_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_168_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_169_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_170_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_170_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_171_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_172_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_172_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_173_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_174_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_174_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_88_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_88_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_0_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_0_light.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_0_medium.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_120_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_124_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_168_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_170_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_172_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_174_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_88_light80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_30_trial_0_deep80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_30_trial_0_light.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_30_trial_0_medium.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TESPAR/Tespar_Encoding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Licence_Code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Licence_Code.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSet/MedataReaderBIN.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/MedataReaderBIN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/DataSet/Read.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/DataSet/Read.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +18,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1UZcK6xFCTGGRQngC4PYkhTLAO0" />
@@ -199,7 +161,7 @@
       <updated>1575567490706</updated>
       <workItem from="1575567505374" duration="1619000" />
       <workItem from="1575908097747" duration="14450000" />
-      <workItem from="1576156683361" duration="17860000" />
+      <workItem from="1576156683361" duration="19321000" />
     </task>
     <servers />
   </component>
