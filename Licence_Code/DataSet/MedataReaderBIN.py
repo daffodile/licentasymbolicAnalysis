@@ -41,7 +41,7 @@ class MetadataReaderBIN:
 
             self.event_codes = np.frombuffer(codes_bytes, dtype=np.int32)
 
-            self.event_timestamps = np.frombuffer(timestamps_bytes, dtype=np.int32)
+            self.event_timestamps = np.frombuffer(timestamps_bytes, dtype=np.uint32)
 
 
             # make structured array from the timestamps

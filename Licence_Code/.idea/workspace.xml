@@ -2,12 +2,49 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f194bcf-f09d-4626-ba8e-4afa4089ba19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/Segment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/avr_channels_deep.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/avr_channels_light.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/avr_channels_medium.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_0_deep20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_0_light.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_0_medium.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_120_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_120_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_124_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_124_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_166_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_167_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_168_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_168_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_169_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_170_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_170_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_171_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_172_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_172_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_173_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_174_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_174_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_88_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_1_trial_88_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_0_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_0_light.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_0_medium.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_120_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_124_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_168_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_170_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_172_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_174_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_2_trial_88_light80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_30_trial_0_deep80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_30_trial_0_light.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plots/channels/channel_30_trial_0_medium.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TESPAR/Tespar_Encoding.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Licence_Code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Licence_Code.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSet/TrialExtractorEPD.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/TrialExtractorEPD.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSet/MedataReaderBIN.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/MedataReaderBIN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/DataSet/Read.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/DataSet/Read.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,11 +64,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1UZcK6xFCTGGRQngC4PYkhTLAO0" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Data/M014_S001_SRCS3L_25,50,100_0002-Ch003.bin" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -53,7 +93,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Read">
+  <component name="RunManager" selected="Python.Tespar_Encoding">
     <configuration name="Read" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -70,6 +110,25 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/DataSet/Read.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Tespar_Encoding" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Licence_Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TESPAR" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TESPAR/Tespar_Encoding.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -122,6 +181,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Tespar_Encoding" />
         <item itemvalue="Python.Read" />
         <item itemvalue="Python.Test" />
       </list>
@@ -139,6 +199,7 @@
       <updated>1575567490706</updated>
       <workItem from="1575567505374" duration="1619000" />
       <workItem from="1575908097747" duration="14450000" />
+      <workItem from="1576156683361" duration="17860000" />
     </task>
     <servers />
   </component>
@@ -150,14 +211,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1576180454249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
     <SUITE FILE_PATH="coverage/Licence_Code$Test.coverage" NAME="Test Coverage Results" MODIFIED="1575567894132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data" />
-    <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1575928149264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
   </component>
 </project>
