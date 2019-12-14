@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema
 
+from TESPAR.Coder import Coder
+
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
 sys.path.append(project_path)
@@ -30,24 +32,38 @@ class TesparPair:
 
 tesparPairs = []
 
-print(channel_values[0])
-# find local minimas from the first line
-local_minimas_indices_0 = argrelextrema(channel_values[0], np.less)  # the indices of the local minimas in a tuple
-local_minimas_values_0 = []
-print(len(local_minimas_indices_0[0]))
-for i in range(len(local_minimas_indices_0[0])):
-    local_minimas_values_0.append(channel_values[0][local_minimas_indices_0[0][i]])
-print(local_minimas_values_0)
+# print(channel_values[0])
+# # find local minimas from the first line
+# local_minimas_indices_0 = argrelextrema(channel_values[0], np.less)  # the indices of the local minimas in a tuple
+# local_minimas_values_0 = []
+# print(len(local_minimas_indices_0[0]))
+# for i in range(len(local_minimas_indices_0[0])):
+#     local_minimas_values_0.append(channel_values[0][local_minimas_indices_0[0][i]])
+# print(local_minimas_values_0)
+#
+# df = pd.DataFrame(channel_values[0], columns=['data'])
+#
+# n = 50  # number of points to be checked before and after
+# # Find local peaks
+# df['min'] = df.iloc[argrelextrema(df.data.values, np.less_equal, order=n)[0]]['data']
+# df['max'] = df.iloc[argrelextrema(df.data.values, np.greater_equal, order=n)[0]]['data']
+#
+# # Plot results
+# plt.scatter(df.index, df['min'], c='r')
+# plt.scatter(df.index, df['max'], c='g')
+# plt.plot(df.index, df['data'])
+# plt.show()
 
-df = pd.DataFrame(channel_values[0], columns=['data'])
+# ZERO CROSSING
+my_array = np.array(channel_values[0])
+# for i in range(len(my_array)-1):
+#     if my_array[i] * my_array[i + 1] < 0:
+#
 
-n = 50  # number of points to be checked before and after
-# Find local peaks
-df['min'] = df.iloc[argrelextrema(df.data.values, np.less_equal, order=n)[0]]['data']
-df['max'] = df.iloc[argrelextrema(df.data.values, np.greater_equal, order=n)[0]]['data']
+contor = ((my_array[:-1] * my_array[1:]) < 0).sum()
+print("atatea trebe sa fie teoretic " + str(contor))
 
-# Plot results
-plt.scatter(df.index, df['min'], c='r')
-plt.scatter(df.index, df['max'], c='g')
-plt.plot(df.index, df['data'])
-plt.show()
+
+cd = Coder(channel_values[0], 0 , 2672)
+print(cd.symbolic_array)
+print("pls meeergi pls " + str(len(cd.symbolic_array)))
