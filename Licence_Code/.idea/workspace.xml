@@ -2,131 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f194bcf-f09d-4626-ba8e-4afa4089ba19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/DataSet/WriteFiles.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel12.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel14.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel15.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel17.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel20.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel22.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel23.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel24.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel25.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel7.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel8.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/poststimulus/channel9.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel12.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel14.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel15.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel17.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel20.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel22.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel23.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel24.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel25.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel7.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel8.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/spontaneous/channel9.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel12.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel14.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel15.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel17.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel20.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel22.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel23.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel24.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel25.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel7.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel8.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel9.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel12.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel14.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel15.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel17.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel20.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel22.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel23.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel24.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel25.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel7.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel8.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataSet/medium/spontaneous/channel9.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Licence_Code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Licence_Code.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/ReadFiles.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSet/TrialExtractorEPD.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/TrialExtractorEPD.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +51,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.WriteFiles">
+  <component name="RunManager" selected="Python.ReadFiles">
     <configuration name="Read" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -191,6 +68,25 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/DataSet/Read.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ReadFiles" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Licence_Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DataSet" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DataSet/ReadFiles.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -287,6 +183,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ReadFiles" />
         <item itemvalue="Python.WriteFiles" />
         <item itemvalue="Python.Read" />
         <item itemvalue="Python.Tespar_Encoding" />
@@ -310,6 +207,7 @@
       <workItem from="1576186546393" duration="3432000" />
       <workItem from="1576190020146" duration="204000" />
       <workItem from="1576190260985" duration="4000" />
+      <workItem from="1576339293187" duration="5276000" />
     </task>
     <servers />
   </component>
