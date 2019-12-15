@@ -257,7 +257,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="read input files +  tespar under worj" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1576186701294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
     <SUITE FILE_PATH="coverage/Licence_Code$Test.coverage" NAME="Test Coverage Results" MODIFIED="1575567894132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data" />
+    <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1576186701294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
   </component>
 </project>

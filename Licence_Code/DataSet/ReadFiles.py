@@ -66,4 +66,4 @@ print("atatea trebe sa fie teoretic " + str(contor))
 
 cd = Coder(channel_values[0], 0, 2672)
 print(cd.symbolic_array)
-print("pls meeergi pls " + str(len(cd.symbolic_array)))
+
