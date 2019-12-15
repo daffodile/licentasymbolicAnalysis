@@ -2,6 +2,8 @@ import os
 import sys
 import numpy as np
 
+# creating the directories tree and saving the data in here
+
 from DataSet.TrialExtractorEPD import TrialExtractorEPD
 
 project_path = os.path.join('', '..')

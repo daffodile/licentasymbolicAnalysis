@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f194bcf-f09d-4626-ba8e-4afa4089ba19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/TESPAR/Alphabet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TESPAR/Coder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_0_pairs.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_1_pairs.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_2_pairs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Licence_Code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Licence_Code.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataSet/ReadFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/ReadFiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSet/WriteFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/WriteFiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TESPAR/Coder.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/Coder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TESPAR/Tespar_Encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/Tespar_Encoding.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -83,9 +89,6 @@
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DataSet" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -216,6 +219,7 @@
       <workItem from="1576190020146" duration="204000" />
       <workItem from="1576190260985" duration="4000" />
       <workItem from="1576339293187" duration="8855000" />
+      <workItem from="1576413887846" duration="3904000" />
     </task>
     <task id="LOCAL-00001" summary="read input files +  tespar under worj">
       <created>1576346398940</created>
@@ -250,7 +254,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="read input files +  tespar under worj" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Licence_Code$Test.coverage" NAME="Test Coverage Results" MODIFIED="1575567894132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data" />
     <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1576186701294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
+    <SUITE FILE_PATH="coverage/Licence_Code$Test.coverage" NAME="Test Coverage Results" MODIFIED="1575567894132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data" />
   </component>
 </project>
