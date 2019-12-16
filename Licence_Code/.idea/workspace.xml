@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f194bcf-f09d-4626-ba8e-4afa4089ba19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/TESPAR/Alphabet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TESPAR/Coder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataSet/ReadFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/ReadFiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TESPAR/Coder.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/Coder.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,13 +34,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code_Git\licentasymbolicAnalysis\Licence_Code\TESPAR" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code\Tests\DataSet" />
       <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code\DataSet" />
       <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code\Data" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code_Git\licentasymbolicAnalysis\Licence_Code\TESPAR" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -216,6 +215,9 @@
       <workItem from="1576190020146" duration="204000" />
       <workItem from="1576190260985" duration="4000" />
       <workItem from="1576339293187" duration="8855000" />
+      <workItem from="1576355056515" duration="11510000" />
+      <workItem from="1576487326243" duration="18000" />
+      <workItem from="1576495635642" duration="260000" />
     </task>
     <task id="LOCAL-00001" summary="read input files +  tespar under worj">
       <created>1576346398940</created>
@@ -224,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576346398940</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="tespar encoding - Andreea S">
+      <created>1576353115642</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1576353115642</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,10 +256,29 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="create directories struct" />
     <MESSAGE value="read input files +  tespar under worj" />
-    <option name="LAST_COMMIT_MESSAGE" value="read input files +  tespar under worj" />
+    <MESSAGE value="tespar encoding - Andreea S" />
+    <option name="LAST_COMMIT_MESSAGE" value="tespar encoding - Andreea S" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/DataSet/ReadFiles.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="current" language="Python" />
+        <watch expression="next" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Licence_Code$Test.coverage" NAME="Test Coverage Results" MODIFIED="1575567894132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data" />
     <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1576186701294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
+    <SUITE FILE_PATH="coverage/Licence_Code$ReadFiles.coverage" NAME="ReadFiles Coverage Results" MODIFIED="1576444492109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DataSet" />
   </component>
 </project>

@@ -32,8 +32,8 @@ class Coder:
                 d = i - last_zero_crossing
                 alphabet = Alphabet(d, s)
                 self.symbolic_array.append(alphabet.value_to_return)
-                last_zero_crossing = i;
-                current_epoch = current_epoch + 1;
+                last_zero_crossing = i
+                current_epoch = current_epoch + 1
                 d = 0
                 s = 0
 
