@@ -55,10 +55,13 @@ tesparPairs = []
 # plt.show()
 
 # ZERO CROSSING
-
+my_array = np.array(channel_values[0])
 # for i in range(len(my_array)-1):
 #     if my_array[i] * my_array[i + 1] < 0:
 #
+
+contor = ((my_array[:-1] * my_array[1:]) < 0).sum()
+print("atatea trebe sa fie teoretic " + str(contor))
 
 # for i in range(len(channel_values)):
 #     print(i)

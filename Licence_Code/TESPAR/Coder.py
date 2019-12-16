@@ -1,8 +1,10 @@
-import os
 import numpy as np
 from sqlalchemy import false
 
 from TESPAR.Alphabet import Alphabet
+
+# added a file to write the values before transforming them to a symbol
+# fileName = 'Pairs/channel_2_pairs.txt'
 
 
 class Coder:
@@ -26,10 +28,12 @@ class Coder:
         current_epoch = 0
         last_zero_crossing = self.aOffset
 
+        saving_pairs = []
         for i in range(1, self.length-1):
             if self.segment_array[i] * self.lastValue < 0:  # Zero Crossing -> new Epoch
                 self.positive = self.segment_array[i] > 0
                 d = i - last_zero_crossing
+                # saving_pairs.append("pair(" + str(d) + ", " + str(s)+")")
                 alphabet = Alphabet(d, s)
                 self.symbolic_array.append(alphabet.value_to_return)
                 last_zero_crossing = i
@@ -48,4 +52,6 @@ class Coder:
                     s = s + 1
             self.lastValue = self.segment_array[i]
 
-        return self.symbolic_array;
+        # np.savetxt(fileName, saving_pairs, fmt="%s")
+
+        return self.symbolic_array
