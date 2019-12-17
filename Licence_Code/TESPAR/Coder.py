@@ -1,5 +1,9 @@
+import os
+import sys
+import pandas as pd
 import numpy as np
-from sqlalchemy import false
+import matplotlib.pyplot as plt
+from scipy.signal import argrelextrema
 
 from TESPAR.Alphabet import Alphabet
 
@@ -12,15 +16,32 @@ class Coder:
     parameters:  - file_epd: - name of the file with extension .epd
     '''
 
-    def __init__(self, segment_array, aOffset, aLength):
-        self.aOffset = aOffset
-        self.lastValue = segment_array[aOffset]
-        self.segment_array = segment_array
-        self.length = aLength
+    def __init__(self, file_name):
+        self.read_file(file_name)
+        self.aOffset = 0
+        # self.lastValue = segment_array[aOffset]
+        # self.segment_array = segment_array
         self.symbolic_array = []
 
-        self.positive = self.segment_array[aOffset] > 0
+        # self.positive = self.segment_array[aOffset] > 0
         self.create_matrix()
+
+    def read_file(self, file_name):
+        project_path = os.path.join('', '..')
+        data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
+        sys.path.append(project_path)
+        file_name = file_name
+
+        line = None
+        self.channel_values = []
+        with open(os.path.join(data_dir, file_name), 'r') as f:
+            line = f.readline()
+            while line:
+                line = line.replace("[", "")
+                line = line.replace("]", "")
+                new_array = np.fromstring(line, dtype=np.float, sep=', ')
+                self.channel_values.append(new_array)
+                line = f.readline()
 
     def create_matrix(self):
         d = 0
@@ -28,30 +49,41 @@ class Coder:
         current_epoch = 0
         last_zero_crossing = self.aOffset
 
+        self.test_matrix = [[0 for i in range(260)] for j in range(883)]
+
         saving_pairs = []
-        for i in range(1, self.length-1):
-            if self.segment_array[i] * self.lastValue < 0:  # Zero Crossing -> new Epoch
-                self.positive = self.segment_array[i] > 0
-                d = i - last_zero_crossing
-                # saving_pairs.append("pair(" + str(d) + ", " + str(s)+")")
-                alphabet = Alphabet(d, s)
-                self.symbolic_array.append(alphabet.value_to_return)
-                last_zero_crossing = i
-                current_epoch = current_epoch + 1
-                d = 0
-                s = 0
+        for channel in range(len(self.channel_values)):
+            length = len(self.channel_values[channel])
+            last_value = self.channel_values[channel][0]
+            positive = self.channel_values[channel][0] > 0
+            for i in range(1, length-1):
+                if self.channel_values[channel][i] * last_value < 0:  # Zero Crossing -> new Epoch
+                    positive = self.channel_values[channel][i] > 0
+                    d = i - last_zero_crossing
+                    # saving_pairs.append("pair(" + str(d) + ", " + str(s)+")")
+                    self.test_matrix[d][s] += 1
+                    # alphabet = Alphabet(d, s)
+                    # self.symbolic_array.append(alphabet.value_to_return)
+                    last_zero_crossing = i
+                    current_epoch = current_epoch + 1
+                    d = 0
+                    s = 0
 
-            tmp1 = self.lastValue - self.segment_array[i]
+                tmp1 = last_value - self.channel_values[channel][i]
 
-            tmp2 = self.segment_array[i] - self.segment_array[i + 1];
-            if tmp1 * tmp2 < 0:  # We have an extremum
-                if self.positive:
-                    if tmp1 > 0:
+                tmp2 = self.channel_values[channel][i] - self.channel_values[channel][i + 1]
+                if tmp1 * tmp2 < 0:  # We have an extremum
+                    if positive:
+                        if tmp1 > 0:
+                            s = s + 1
+                    if tmp1 < 0:
                         s = s + 1
-                if tmp1 < 0:
-                    s = s + 1
-            self.lastValue = self.segment_array[i]
+                last_value = self.channel_values[channel][i]
 
-        # np.savetxt(fileName, saving_pairs, fmt="%s")
+            d = 0
+            s = 0
+            current_epoch = 0
+            last_zero_crossing = 0
+            # np.savetxt(fileName, saving_pairs, fmt="%s")
 
-        return self.symbolic_array
+        # return self.symbolic_array
