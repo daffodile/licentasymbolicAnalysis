@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 
@@ -40,13 +42,24 @@ class CLUSTER():
 
         return partial_distocion
 
-    def print_cluster(self):
+    def print_cluster(self, f):
 
-        print("-----CENTROID-------")
-        print(self.centroid)
-        print("-------PATTERNS-----")
-        print(self.patterns)
-        print("------------")
+        # print("-----CENTROID-------")
+
+        # print(self.centroid)
+        np.savetxt(f, self.centroid, fmt="%s", newline=" ")
+        f.write("\n")
+
+        # print("-------PATTERNS-----")
+        f.write("-------PATTERNS-----\n")
+
+        # print(self.patterns)
+        np.savetxt(f, self.patterns, fmt="%s", newline=" ")
+        f.write("\n")
+
+        # print("------------")
+        f.write("------------")
+
 
 
 class VQ_LGB():
@@ -126,8 +139,18 @@ class VQ_LGB():
 
     def print_clusters(self):
 
+        file_name = os.getcwd() + "/light_spontaneous_32_clusters.txt"
+
+        f = open(file_name, 'a+')  # so that we append thi sequence of pairs to the file
+
+        count = 0
+
         for cluster in self.clusters:
-            cluster.print_cluster()
+            f.write(str(count))
+            count += 1
+            f.write("\n")
+            f.write("-----CENTROID   %d    -------\n")
+            cluster.print_cluster(f)
 
     def run(self):
 
