@@ -1,7 +1,7 @@
 import os
 
 import numpy as np
-
+# https://github.com/marronedantas/Vector-Quantization---LBG/blob/master/Vector_Quantization.py
 
 class CLUSTER():
 

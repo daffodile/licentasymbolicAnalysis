@@ -3,7 +3,7 @@ import sys
 import numpy as np
 
 from DataSet.MedataReaderBIN import MetadataReaderBIN
-from DataSet.Segment import Segment, ClassLabel, SegmentLabel
+
 
 
 class TrialExtractorEPD:
@@ -16,7 +16,7 @@ class TrialExtractorEPD:
         self.averages = []
 
     def extract_trial(self):
-        # self.segments = []
+
         self.amplitude_array = []
         self.timestamp_array = self.codes_timestamps_reader.event_timestamps
         self.codes_array = self.codes_timestamps_reader.event_codes
@@ -49,16 +49,14 @@ class TrialExtractorEPD:
                         oldAmplitudes.append(temp_amplitudes)
                         tempDict = {start_code: oldAmplitudes}
                         self.storage.update(tempDict)
-                        # segment = Segment(ClassLabel.LIGHT, SegmentLabel.SPONTANEOUS, i, temp_amplitudes)
-                        # self.segments.append(segment)
+
 
                     if start_code == 129:
                         oldAmplitudes = self.storage[start_code]
                         oldAmplitudes.append(temp_amplitudes)
                         tempDict = {start_code: oldAmplitudes}
                         self.storage.update(tempDict)
-                        # segment = Segment(ClassLabel.LIGHT, SegmentLabel.STIMULUS, i, temp_amplitudes)
-                        # self.segments.append(segment)
+
                         # np.concatenate(self.temp_values129,temp_amplitudes)
 
                     if start_code == 150:
@@ -66,8 +64,7 @@ class TrialExtractorEPD:
                         oldAmplitudes.append(temp_amplitudes)
                         tempDict = {start_code: oldAmplitudes}
                         self.storage.update(tempDict)
-                        # segment = Segment(ClassLabel.LIGHT, SegmentLabel.POST_STIMULUS, i, temp_amplitudes)
-                        # self.segments.append(segment)
+
 
 
 

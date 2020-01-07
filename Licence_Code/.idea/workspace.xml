@@ -2,12 +2,50 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f194bcf-f09d-4626-ba8e-4afa4089ba19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/TESPAR/LBG.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TESPAR/TestKMEANS.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TESPAR/TestLBG.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/Tespar/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/HighPassFilterPreProcessing.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_pairs_0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_pairs_1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_pairs_1_stimulus.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_pairs_1_stimulus_filtered_with_1hz.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/Pairs/channel_pairs_filtered.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/WriteFilesFiltered.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/light/stimulus/channel80.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel10.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel11.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel12.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel13.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel14.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel15.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel16.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel17.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel18.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel19.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel20.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel21.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel22.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel23.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel24.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel25.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel26.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel27.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel28.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel29.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel5.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel6.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel7.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel8.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataSet/lightFiltered/spontaneous/channel9.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TESPAR/KMeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/KMeans.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSet/ReadFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/ReadFiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSet/deep/spontaneous/channel0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet/deep/spontaneous/channel0.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TESPAR/Coder.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/Coder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TESPAR/DSMatrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/DSMatrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TESPAR/LBG.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESPAR/LBG.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,13 +76,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code_Git\licentasymbolicAnalysis\Licence_Code\TESPAR" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code\Tests\DataSet" />
       <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code\DataSet" />
       <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code\Data" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\UTCN_LICENTA\LICENSE\Licence_Code_Git\licentasymbolicAnalysis\Licence_Code\TESPAR" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -59,18 +97,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.TestLBG">
-    <configuration name="KMeans" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.DSMatrix">
+    <configuration name="DSMatrix" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TESPAR" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TESPAR/KMeans.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TESPAR/DSMatrix.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -105,6 +146,9 @@
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TESPAR" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -120,17 +164,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="TestKMeans" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="TestLBG" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/Tespar" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TESPAR" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/Tespar/TestKMeans.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TESPAR/TestLBG.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,17 +186,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="TestLBG" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="WriteFilesFiltered" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Licence_Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TESPAR" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DataSet" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TESPAR/TestLBG.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DataSet/WriteFilesFiltered.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -182,11 +232,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.DSMatrix" />
+        <item itemvalue="Python.WriteFilesFiltered" />
+        <item itemvalue="Python.ReadFiles" />
         <item itemvalue="Python.TestLBG" />
         <item itemvalue="Python.TestKMEANS" />
-        <item itemvalue="Python.TestKMeans" />
-        <item itemvalue="Python.KMeans" />
-        <item itemvalue="Python.ReadFiles" />
       </list>
     </recent_temporary>
   </component>
@@ -209,7 +259,10 @@
       <workItem from="1576339293187" duration="8855000" />
       <workItem from="1576413887846" duration="3904000" />
       <workItem from="1576446162255" duration="307000" />
-      <workItem from="1576598257755" duration="11635000" />
+      <workItem from="1576598257755" duration="11897000" />
+      <workItem from="1578316512932" duration="5201000" />
+      <workItem from="1578323816325" duration="5440000" />
+      <workItem from="1578330458288" duration="9454000" />
     </task>
     <task id="LOCAL-00001" summary="read input files +  tespar under worj">
       <created>1576346398940</created>
@@ -225,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576446409920</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="LBG algorithm">
+      <created>1576615592422</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1576615592422</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -249,17 +309,8 @@
     <MESSAGE value="create directories struct" />
     <MESSAGE value="read input files +  tespar under worj" />
     <MESSAGE value="incercare git" />
-    <option name="LAST_COMMIT_MESSAGE" value="incercare git" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/TESPAR/TestKMEANS.py</url>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="LBG algorithm" />
+    <option name="LAST_COMMIT_MESSAGE" value="LBG algorithm" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Licence_Code$Read.coverage" NAME="Read Coverage Results" MODIFIED="1576186701294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests/DataSet" />
