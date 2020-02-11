@@ -4,9 +4,9 @@ import pandas as pd
 from DataSet.HighPassFilterPreProcessing import HighPassFilterPreProcessing
 from TESPAR.Coder import Coder
 
-file_deep_stimulus = 'DataSet/lightFiltered/stimulus'
-file_deep_spontaneous = 'DataSet/lightFiltered/spontaneous'
-file_deep_post = 'DataSet/lightFiltered/poststimulus'
+file_deep_stimulus = 'DataSet/deepFiltered/stimulus'
+file_deep_spontaneous = 'DataSet/deepFiltered/spontaneous'
+file_deep_post = 'DataSet/deepFiltered/poststimulus'
 
 file_medium_stimulus = 'DataSet/mediumFiltered/stimulus'
 file_medium_spontaneous = 'DataSet/mediumFiltered/spontaneous'
