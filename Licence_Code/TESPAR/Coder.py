@@ -18,8 +18,8 @@ class Coder:
     '''
 
     def __init__(self, filePath):
-        self.distributionD = [0] * 1000
-        self.distributionS = [0] * 400
+        # self.distributionD = [0] * 550
+        # self.distributionS = [0] * 250
         self.channel_values = []
         self.maxD = -1
         self.maxS = -1
@@ -34,14 +34,7 @@ class Coder:
     '''
     changed to read all 30 channels in a directory
         open each channel and save each of its line as an element in "channel_values"
-            -> channel_values should have size 30*240, each array having 2672 floats
-            
-    # maxD is 996  # for 'DataSet/light/stimulus'
-    # maxS 0s 337  # for 'DataSet/light/stimulus'
-    # 
-    # - normalized d / 9 => range 0 to 111
-    # - normalized s / 3 => range 0 to 112
-        
+            -> channel_values should have size 30*240, each array having 2672 floats  
     '''
 
     def read_file(self):
@@ -66,10 +59,15 @@ class Coder:
         s = 0
         current_epoch = 0
         last_zero_crossing = self.aOffset
+        '''
+        declare the DS matrix of 250*250 as we ignore outside values as being artifacts
+        
+        values for d > 500 are cut
+                <500 => divided by 2
 
-        self.test_matrix = [[0 for i in range(600)] for j in range(600)]
+        '''
+        self.test_matrix = [[0 for i in range(250)] for j in range(250)]
 
-        saving_pairs = []
         for channel in range(len(self.channel_values)):  # length 30*240
             length = len(self.channel_values[channel])
             last_value = self.channel_values[channel][0]
@@ -78,14 +76,21 @@ class Coder:
                 if self.channel_values[channel][i] * last_value < 0:  # Zero Crossing -> new Epoch
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
-                    self.distributionD[d] = self.distributionD[d] + 1
-                    self.distributionS[s] = self.distributionS[s] + 1
+                    # self.distributionD[d] = self.distributionD[d] + 1
+                    # self.distributionS[s] = self.distributionS[s] + 1
                     # if d > self.maxD:
                     #     self.maxD = d
                     # if s > self.maxS:
                     #     self.maxS = s
 
-                    self.test_matrix[d][s] += 1
+                    '''
+                     here instead of [d][s] the value will be [d/2][s] in order to obtain a more patratic matrix
+                        so D ans S values should be in aprox same range
+                        
+                        d > 500 are IGNORED
+                    '''
+                    if d <= 500:
+                        self.test_matrix[int(d / 2)][s] += 1
                     last_zero_crossing = i
                     current_epoch = current_epoch + 1
                     d = 0

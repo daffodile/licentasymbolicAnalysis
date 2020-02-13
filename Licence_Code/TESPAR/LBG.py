@@ -1,9 +1,11 @@
 import os
 
 import numpy as np
+
+
 # https://github.com/marronedantas/Vector-Quantization---LBG/blob/master/Vector_Quantization.py
 
-class CLUSTER():
+class CLUSTER:
 
     def __init__(self, centroid):
 
@@ -59,7 +61,6 @@ class CLUSTER():
 
         # print("------------")
         f.write("------------")
-
 
 
 class VQ_LGB():
@@ -139,17 +140,16 @@ class VQ_LGB():
 
     def print_clusters(self):
 
-        file_name = os.getcwd() + "/light_spontaneous_32_clusters.txt"
+        file_name = os.getcwd() + "/light_stimulus_filtered_32_clusters.txt"
 
         f = open(file_name, 'a+')  # so that we append thi sequence of pairs to the file
 
         count = 0
 
         for cluster in self.clusters:
-            f.write(str(count))
             count += 1
             f.write("\n")
-            f.write("-----CENTROID   %d    -------\n")
+            f.write("-----CENTROID  " + str(count)+"  -------\n")
             cluster.print_cluster(f)
 
     def run(self):
