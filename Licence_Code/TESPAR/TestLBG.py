@@ -28,6 +28,7 @@ print("run clustering")
 
 alphabet_matrix = [[0 for i in range(250)] for j in range(250)]
 
+# file_name = os.getcwd() + "/clusters_light_stim_others.txt"
 file_name = os.getcwd() + "/clusters_light_stim.txt"
 f = open(file_name, 'w')
 
