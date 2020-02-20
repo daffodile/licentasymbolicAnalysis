@@ -18,8 +18,8 @@ class Coder:
     '''
 
     def __init__(self, filePath):
-        self.distributionD = [0] * 1000
-        self.distributionS = [0] * 400
+        self.distributionD = [0] * 550
+        self.distributionS = [0] * 210
         self.channel_values = []
         self.maxD = -1
         self.maxS = -1
@@ -29,6 +29,7 @@ class Coder:
         self.aOffset = 0
 
         self.symbolic_array = []
+        self.test_epoch = []
         self.create_matrix()
 
     '''
@@ -67,7 +68,7 @@ class Coder:
         current_epoch = 0
         last_zero_crossing = self.aOffset
 
-        self.test_matrix = [[0 for i in range(600)] for j in range(600)]
+        # self.test_matrix = [[0 for i in range(600)] for j in range(600)]
 
         saving_pairs = []
         for channel in range(len(self.channel_values)):  # length 30*240
@@ -75,17 +76,29 @@ class Coder:
             last_value = self.channel_values[channel][0]
             positive = self.channel_values[channel][0] > 0
             for i in range(1, length - 1):
+                #create array of every epoch
+                self.test_epoch.append(self.channel_values[channel][i])
                 if self.channel_values[channel][i] * last_value < 0:  # Zero Crossing -> new Epoch
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
-                    self.distributionD[d] = self.distributionD[d] + 1
-                    self.distributionS[s] = self.distributionS[s] + 1
+                    #
+                    if d > 150:
+                        print(self.test_epoch)
+                        print("hey")
+                        plt.plot(self.test_epoch)
+                        plt.show()
+
+                    else:
+                        self.distributionD[d] = self.distributionD[d] + 1
+                        self.distributionS[s] = self.distributionS[s] + 1
+
                     # if d > self.maxD:
                     #     self.maxD = d
                     # if s > self.maxS:
                     #     self.maxS = s
 
-                    self.test_matrix[d][s] += 1
+                    self.test_epoch = []
+                    #self.test_matrix[d][s] += 1
                     last_zero_crossing = i
                     current_epoch = current_epoch + 1
                     d = 0
@@ -106,5 +119,6 @@ class Coder:
             s = 0
             current_epoch = 0
             last_zero_crossing = 0
+            self.test_epoch = []
 
         # return self.symbolic_array

@@ -24,8 +24,8 @@ total_s = sum(cd.distributionS)
 print(total_d)
 print(total_s)
 
-distribution_s = [0] * 400
-distribution_d = [0] * 1000
+distribution_s = [0] * 210
+distribution_d = [0] * 550
 for i in range(len(cd.distributionS)):
     distribution_s[i] = cd.distributionS[i]/total_s
 for i in range(len(cd.distributionD)):
@@ -35,10 +35,10 @@ print(distribution_s)
 print(distribution_d)
 
 # print(cd.test_matrix)
-# plt.plot(cd.channel_values[0][0])
+plt.plot(distribution_d)
 # print(cd.test_matrix)
 # plt.xlabel("D")
 # plt.ylabel("S")
 # plt.title("DS MATRIX")
 # plt.matshow(cd.test_matrix)
-# plt.show()
+plt.show()
