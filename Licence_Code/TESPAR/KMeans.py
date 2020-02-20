@@ -1,7 +1,8 @@
+from random import randint
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import copy
 
 from TESPAR.Coder import Coder
 
@@ -86,6 +87,43 @@ from TESPAR.Coder import Coder
 #             dy = (centroids[i][1] - old_centroids[i][1]) * 0.75
 #             ax.arrow(old_x, old_y, dx, dy, head_width=2, head_length=3, fc=colmap[i], ec=colmap[i])
 #         plt.show()
+
+from sklearn.cluster import KMeans
+
+# here number of clusters
+k = 32
+
+cd = Coder('DataSet/lightFiltered/stimulus')
+a = np.asmatrix(cd.test_matrix)
+df = pd.DataFrame(a)
+kmeans = KMeans(n_clusters=k)
+kmeans.fit(df)
+
+labels = kmeans.predict(df)
+print(labels)
+centroids = kmeans.cluster_centers_
+fig = plt.figure(figsize=(5, 5))
+
+# colmap = {1: 'r', 2: 'g', 3: 'b',
+#           4: 'c', 5: 'm', 6: 'y'}
+
+# generate 32 of random colors to be the labels of clusters
+colmap = []
+for i in range(k):
+    colmap.append('#%06X' % randint(0, 0xFFFFFF))
+
+colors = map(lambda x: colmap[x], labels)
+
+plt.scatter(df[0], df[1], color=list(colors), alpha=0.5, edgecolor='k')
+for idx, centroid in enumerate(centroids):
+    plt.scatter(*centroid, color=colmap[idx])
+plt.xlim(0, 250)
+plt.ylim(0, 250)
+plt.show()
+
+'''
+#  before, for 6 clusters
+
 from sklearn.cluster import KMeans
 
 cd = Coder('channel0.txt')
@@ -108,3 +146,4 @@ for idx, centroid in enumerate(centroids):
 plt.xlim(0, 260)
 plt.ylim(0, 883)
 plt.show()
+'''
