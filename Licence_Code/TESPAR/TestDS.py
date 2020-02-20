@@ -15,7 +15,7 @@ data_dir = os.path.join(project_path, 'DataSet/lightFiltered/stimulus', '')
 sys.path.append(project_path)
 file_name = "channel10.txt"
 channel_values = []
-signal_array = []
+signal_array = [],,
 with open(os.path.join(data_dir, file_name), 'r') as f:
     line = f.readline()
     line = line.replace("[", "")
