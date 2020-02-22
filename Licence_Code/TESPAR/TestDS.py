@@ -15,21 +15,23 @@ data_dir = os.path.join(project_path, 'DataSet/lightFiltered/stimulus', '')
 sys.path.append(project_path)
 file_name = "channel10.txt"
 channel_values = []
-signal_array = [],,
+signal_array = []
 with open(os.path.join(data_dir, file_name), 'r') as f:
     line = f.readline()
     line = line.replace("[", "")
     line = line.replace("]", "")
     new_array = np.fromstring(line, dtype=np.float, sep=', ')
-    for i in range(60):
+    for i in range(1
+    00):
         signal_array.append(new_array[i])
 
     print(signal_array)
+    print('lungime '+str(len(signal_array)))
 
 # plot the signal
 
 plt.plot(signal_array)
-plt.ylim(-20, 20)
+plt.ylim(-25, 25)
 plt.axhline(linewidth=1, color='r')
 plt.show()
 
@@ -37,9 +39,11 @@ plt.show()
 d = 0
 s = 0
 ds_matrix = [[0 for i in range(100)] for j in range(100)]
+
 aOffset = 0
 current_epoch = 0
 last_zero_crossing = aOffset
+
 test_epoch = []
 markers_on = []
 
@@ -47,6 +51,7 @@ length = len(signal_array)
 last_value = signal_array[0]
 positive = signal_array[0] > 0
 test_epoch.append(signal_array[0])
+
 for i in range(1, length):
     # create array of every epoch
 
