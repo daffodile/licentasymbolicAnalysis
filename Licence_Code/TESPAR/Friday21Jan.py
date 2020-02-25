@@ -67,10 +67,13 @@ class Coder:
 
         self.test_matrix = [[0 for i in range(250)] for j in range(550)]
 
-        current_epoch = 0
-        last_zero_crossing = self.aOffset
+
 
         for channel in range(len(self.channel_values)):  # length 30*240
+
+            current_epoch = 0
+            last_zero_crossing = self.aOffset
+
             length = len(self.channel_values[channel])
             last_value = self.channel_values[channel][0]
             positive = self.channel_values[channel][0] > 0
