@@ -117,8 +117,8 @@ colors = map(lambda x: colmap[x], labels)
 plt.scatter(df[0], df[1], color=list(colors), alpha=0.5, edgecolor='k')
 for idx, centroid in enumerate(centroids):
     plt.scatter(*centroid, color=colmap[idx])
-plt.xlim(0, 250)
-plt.ylim(0, 250)
+# plt.xlim(0, 250)
+# plt.ylim(0, 250)
 plt.show()
 
 '''

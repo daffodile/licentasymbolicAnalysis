@@ -3,18 +3,11 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import argrelextrema
-
-from TESPAR.Alphabet import Alphabet
-
-
-# added a file to write the values before transforming them to a symbol
-# fileName = 'Pairs/channel_2_pairs.txt'
 
 
 class Coder:
     '''
-    parameters:  - file_epd: - name of the file with extension .epd
+    parameters:  - filePath: - name of the directory from which we get the 30 channels
     '''
 
     def __init__(self, filePath):
@@ -60,13 +53,9 @@ class Coder:
         current_epoch = 0
         last_zero_crossing = self.aOffset
         '''
-        declare the DS matrix of 250*250 as we ignore outside values as being artifacts
-        
-        values for d > 500 are cut
-                <500 => divided by 2
-
+        declare the DS matrix of 150*150 as we ignore outside values as being artifacts
         '''
-        self.test_matrix = [[0 for i in range(250)] for j in range(250)]
+        self.test_matrix = [[0 for i in range(150)] for j in range(150)]
 
         for channel in range(len(self.channel_values)):  # length 30*240
             length = len(self.channel_values[channel])
@@ -83,14 +72,15 @@ class Coder:
                     # if s > self.maxS:
                     #     self.maxS = s
 
+                    '''       
+                    values for d > 150 are cut
+                    values of s > 30 are cut // remaining are multiplied with 5 
+                    ///
+                    values for d > 100 are cut
+                    values of s > 50 are cut // remaining are multiplied with 5
                     '''
-                     here instead of [d][s] the value will be [d/2][s] in order to obtain a more patratic matrix
-                        so D ans S values should be in aprox same range
-                        
-                        d > 500 are IGNORED
-                    '''
-                    if d <= 500:
-                        self.test_matrix[int(d / 2)][s] += 1
+                    if d < 100 and s < 50:
+                        self.test_matrix[d][s] += 1
                     last_zero_crossing = i
                     current_epoch = current_epoch + 1
                     d = 0

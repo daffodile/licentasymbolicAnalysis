@@ -97,7 +97,7 @@ class VQ_LGB():
 
     def generate_clusters(self):
 
-        #  choose at random 32 indexes from the list of lenth 250*250
+        #  choose at random 32 indexes from the list of lenth 250*250  /// 100*50
         indexes = np.random.choice(range(len(self.dataset)), self.k, replace=False)
 
         # TRY:   first impose a condition on the indexes that can be chosen
@@ -148,7 +148,8 @@ class VQ_LGB():
     def print_clusters(self):
 
         # file_name = os.getcwd() + "/light_stimulus_filtered_32_clusters_others.txt"
-        file_name = os.getcwd() + "/light_stimulus_filtered_32_clusters.txt"
+        # file_name = os.getcwd() + "/global_DS_ clusters_30000.txt"
+        file_name = os.getcwd() + " nume fisier unde sa le printez"
 
         f = open(file_name, 'a+')  # so that we append thi sequence of pairs to the file
 
