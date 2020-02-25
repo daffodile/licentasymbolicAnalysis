@@ -18,8 +18,6 @@ class Coder:
     '''
 
     def __init__(self, filePath):
-
-        self.ds_matrix = [[0 for i in range(536)] for j in range(106)]
         self.distributionD = [0] * 550
         self.distributionS = [0] * 210
         self.channel_values = []
@@ -31,20 +29,19 @@ class Coder:
         self.aOffset = 0
 
         self.symbolic_array = []
-        self.test_epoch = []
         self.create_matrix()
 
     '''
     changed to read all 30 channels in a directory
         open each channel and save each of its line as an element in "channel_values"
             -> channel_values should have size 30*240, each array having 2672 floats
-            
+
     # maxD is 996  # for 'DataSet/light/stimulus'
     # maxS 0s 337  # for 'DataSet/light/stimulus'
     # 
     # - normalized d / 9 => range 0 to 111
     # - normalized s / 3 => range 0 to 112
-        
+
     '''
 
     def read_file(self):
@@ -65,28 +62,33 @@ class Coder:
                     line = f.readline()
 
     def create_matrix(self):
+        d = 0
+        s = 0
+
+        self.test_matrix = [[0 for i in range(250)] for j in range(550)]
+
+
+
         for channel in range(len(self.channel_values)):  # length 30*240
-            d = 0
-            s = 0
+
             current_epoch = 0
             last_zero_crossing = self.aOffset
 
-            test_epoch = []
-            markers_on = []
-
             length = len(self.channel_values[channel])
-            # print("length = " + str(length))
             last_value = self.channel_values[channel][0]
+            positive = self.channel_values[channel][0] > 0
+
+            self.markers_on = []
+            test_epoch = []
+
+            # create array of every epoch
+            test_epoch.append(self.channel_values[channel][0])
 
             for i in range(1, length):
-                # create array of every epoch
 
-                if self.channel_values[channel][i] * last_value < 0 or i == length - 1:  # Zero Crossing -> new Epoch
+                if i == (length - 1) or self.channel_values[channel][i] * last_value < 0:  # Zero Crossing -> new Epoch
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
-
-                    # print("the epoch")
-                    # print(test_epoch)
 
                     if i == length - 1:
                         test_epoch.append(self.channel_values[channel][i])
@@ -99,26 +101,17 @@ class Coder:
                     series = np.array(test_epoch)
                     peaks, _ = find_peaks(series)
                     mins, _ = find_peaks(series * -1)
-                    x = np.linspace(0, 10, len(series))
-                    # plt.plot(x, series, color='black');
-                    # plt.plot(x[mins], series[mins], 'x', label='mins')
-                    # plt.plot(x[peaks], series[peaks], '*', label='peaks')
-                    # plt.legend()
-                    # plt.ylim(-20, 20)
-                    # plt.show()
+                    # x = np.linspace(0, 10, len(series))
 
                     s = len(mins)
-                    self.ds_matrix[s][d] += 1
+                    if d > 550 or d < 0:
+                        print(str(d) + "d depaseste")
+                    if s > 250 or s < 0:
+                        print(str(s) + "s depaseste")
 
-                    if s > self.maxS:
-                        self.maxS = s
-                    if d > self.maxD:
-                        self.maxD = d
-                    # print(s)
-                    # print(d)
-                    # plotul cu toate epocile
+                    self.test_matrix[d][s] += 1
                     for j in range(len(mins)):
-                        markers_on.append(mins[j] + last_zero_crossing)
+                        self.markers_on.append(mins[j] + last_zero_crossing)
 
                     test_epoch = []
                     test_epoch.append(self.channel_values[channel][i])
@@ -130,3 +123,5 @@ class Coder:
                     test_epoch.append(self.channel_values[channel][i])
 
                 last_value = self.channel_values[channel][i]
+
+        print(self.test_matrix)
