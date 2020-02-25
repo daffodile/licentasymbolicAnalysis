@@ -14,8 +14,8 @@ class CLUSTER:
 
         self.patterns = []
         self.centroid = centroid
-        self.relative_error = [0, 0]
-        self.absolute_error = [0, 0]
+        self.old_error = 0  # corresponding to distortion from the LBG alg
+        self.new_error = 0
 
     def add_pattern(self, pattern):
 
@@ -33,54 +33,38 @@ class CLUSTER:
 
         self.centroid = [sum_d / sum_freq, sum_s / sum_freq]
 
-    def get_distance_centroid(self, pattern):
+    def get_distance_centroid(self, pattern, scale_s):
 
         dist_d = abs(self.centroid[0] - pattern[0])  # centroid.d - pattern.d
         dist_s = abs(self.centroid[1] - pattern[1])  # centroid.s - pattern.s
 
-        return dist_d ** 2 + dist_s ** 2  # non sqrt euclidean dist
+        # ! scale_s to increase importance of s dist
+        return np.sqrt(dist_d ** 2 + scale_s * (dist_s ** 2))  # sqrt euclidean dist
 
     def clean_patterns(self):
 
         self.patterns = []
 
+    def set_cluster_error(self, scale_s):
+
+        total_error = 0
+
+        for pattern in self.patterns:
+            total_error += self.get_distance_centroid(pattern, scale_s) * pattern[2]
+
+        self.old_error = self.new_error
+        self.new_error = total_error
+
+    def get_relative_error(self):
+        if self.new_error != 0:
+            return abs(self.new_error - self.old_error) / self.new_error
+        else:
+            print(' eroare 0 ' + str(self.centroid[0]) + ' ' + str(self.centroid[1]))
+            return 0
+
     def get_partial_distortion(self):
 
-        partial_distortion = 0
-
-        # sum of all dist inside this cluster * freq of that  DS combination
-        for index in range(len(self.patterns)):
-            partial_distortion += self.get_distance_centroid(self.patterns[index]) * self.patterns[index][2]
-
-        return partial_distortion
-
-    # return the average value of the relative errors among this patterns list
-    def get_relative_error(self):
-        relative_error = [0, 0]
-        count = 0
-        if len(self.patterns) != 0:
-            for pattern in self.patterns:
-                relative_error[0] += abs(self.centroid[0] - pattern[0]) / pattern[0] * pattern[2]
-                relative_error[1] += abs(self.centroid[1] - pattern[1]) / pattern[0] * pattern[2]
-                count += pattern[2]
-
-            self.relative_error = np.array(relative_error) / count
-
-        return self.relative_error
-
-    # return the average value of the absolute errors among this patterns list
-    def get_absolute_error(self):
-        absolute_error = [0, 0]
-        count = 0
-        if len(self.patterns) != 0:
-            for pattern in self.patterns:
-                absolute_error[0] += abs(self.centroid[0] - pattern[0]) * pattern[2]
-                absolute_error[1] += abs(self.centroid[1] - pattern[1]) * pattern[2]
-                count += pattern[2]
-
-            self.absolute_error = np.array(absolute_error) / count
-
-        return self.absolute_error
+        return self.new_error
 
     def print_cluster(self, f):
 
@@ -102,21 +86,27 @@ class CLUSTER:
 
 
 class VQ_LGB():
+    '''
+    k=number of clusters
+    alpha = threshold for distortion of overall alg
+    t = max nr of iterations
+    scale_s = how important to be s in the error/ distortion calculation
+    epsilon = how much to recenter the clusters
+    '''
 
-    def __init__(self, k, alpha, t, freq_replacer, scale_s, epsilon):
+    def __init__(self, k, alpha, t, scale_s, epsilon):
 
         self.dataset = []
         self.k = k
         self.alpha = alpha
         self.t = t
-        self.freq_replacer = freq_replacer  # 10^-5 for example
         self.scale_s = scale_s
         self.epsilon = epsilon
         self.clusters = []
         self.old_distortion = 0
         self.new_distortion = 0
         self.codebook = []
-        # resulting cluster corresp to an input of dataset
+        # resulting cluster corresponding to an input of dataset
         self.dataset_clusters = []
         # mai am dimS, dimD din set_dataset
         self.dimD = None
@@ -128,11 +118,7 @@ class VQ_LGB():
 
         for d in range(len(input_matrix)):
             for s in range(len(input_matrix[0])):
-                # self.dataset.append([d, s, input_matrix[d][s]])
-                if input_matrix[d][s] > 0:
-                    self.dataset.append([d, s, input_matrix[d][s]])
-                else:
-                    self.dataset.append([d, s, self.freq_replacer])
+                self.dataset.append([d, s, input_matrix[d][s]])
 
         self.dataset_clusters = [0 for i in range(len(self.dataset))]
 
@@ -170,17 +156,17 @@ class VQ_LGB():
     def remove_cluster(self, cluster):
         self.clusters.remove(cluster)
 
-    # now it is ABSOLUTE error
+    # split cluster having the highest relative error
     def get_highest_relative_error_index(self):
-        highest_error = [-1, -1]
+        highest_error = -1
         highest_error_index = -1
 
         for index in range(len(self.clusters)):
 
-            relative_error = self.clusters[index].get_absolute_error()
+            absolute_error = self.clusters[index].get_relative_error()
 
-            if relative_error[0] > highest_error[0] or relative_error[1] > highest_error[1]:
-                highest_error = relative_error
+            if absolute_error > highest_error:
+                highest_error = absolute_error
                 highest_error_index = index
 
         return highest_error_index
@@ -194,7 +180,7 @@ class VQ_LGB():
 
             for index in range(len(self.clusters)):
 
-                distance = self.clusters[index].get_distance_centroid(pattern)
+                distance = self.clusters[index].get_distance_centroid(pattern, self.scale_s)
 
                 if distance < lowest_distance:
                     lowest_distance = distance
@@ -213,18 +199,23 @@ class VQ_LGB():
         distortion = 0
 
         for index in range(len(self.clusters)):
+            # update individual errors per clusters
+            self.clusters[index].set_cluster_error(self.scale_s)
+
             distortion += self.clusters[index].get_partial_distortion()
 
+        # on whole algorithm
         self.old_distortion = self.new_distortion
         self.new_distortion = distortion
 
     def get_distortion_flag(self):
 
-        return (self.old_distortion - self.new_distortion) / self.new_distortion
+        return abs(self.old_distortion - self.new_distortion) / self.new_distortion
 
     def plot_dataset_clusters(self, current_k):
 
-        print('in plot_dataset_clusters\n')
+        # print('in plot_dataset_clusters\n')
+
         # figure
         fig, ax1 = plt.subplots()
         fig.set_size_inches(13, 10)
@@ -243,11 +234,15 @@ class VQ_LGB():
         clusters_range = []
         c_x = []
         c_y = []
+        c_counts = []
 
         for c in range(current_k):
+            if len(self.clusters[c].patterns) == 0:
+                print(str(current_k) + ' e gol \n')
             clusters_range.append(c)
             c_x.append(self.clusters[c].centroid[0])
             c_y.append(self.clusters[c].centroid[1])
+            c_counts.append(len(self.clusters[c].patterns))  # here count the nr of elem in cluster
 
         norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis, 'cluster_values': self.dataset_clusters})
 
@@ -258,11 +253,18 @@ class VQ_LGB():
 
         sns.set()
 
-        cmap = sns.cubehelix_palette(dark=.3, light=.8, as_cmap=True)
+        # cmap = sns.cubehelix_palette(dark=.8, light=.3, as_cmap=True, n_colors=current_k)
 
-        sns.scatterplot(data=norm_data, x='d_axis', y='s_axis', hue='cluster_values', edgecolor='none', palette=cmap)
-        sns.heatmap()
-        plt.scatter(c_x, c_y, color='red')
+        # x = sns.dark_palette(n_colors=current_k, color='blue', )
+
+        diverge = sns.diverging_palette(h_neg=240, h_pos=10, n=current_k)
+
+        sns.scatterplot(data=norm_data, x='d_axis', y='s_axis', hue='cluster_values', edgecolor='none', palette=diverge)
+
+        # heatmap_matrix = np.reshape(self.dataset_clusters, (self.dimD, self.dimS))
+        # sns.heatmap(data=heatmap_matrix, cbar=True)
+
+        plt.scatter(c_x, c_y, color='red')  # centroids here
         plt.show()
 
     def run(self):
@@ -278,7 +280,7 @@ class VQ_LGB():
             self.clean_clusters()
 
             # Allocate the initial patterns to the clusters
-            self.allocate_closest_cluster()
+            self.allocate_closest_cluster()  # distance with scale_s
 
             # First update
             self.update_centroids()
@@ -307,41 +309,42 @@ class VQ_LGB():
                 # Update t_patial
                 t_partial += 1
 
-            # afiseaza clusterele pe culori #####################################################################
+            # afiseaza clusterele pe culori ################################################################
             print('k=' + str(current_k) + '\n')
             # m = np.reshape(self.dataset_clusters, (100, 50))
             # print(m)
             self.plot_dataset_clusters(current_k)
 
-            # find the cluster having the highest relative error
-            cluster_to_replace = self.clusters[self.get_highest_relative_error_index()]
+            if current_k < 32:
+                # find the cluster having the highest relative error
+                cluster_to_replace = self.clusters[self.get_highest_relative_error_index()]
 
-            d1 = cluster_to_replace.centroid[0] - self.epsilon
-            s1 = cluster_to_replace.centroid[1] - self.epsilon
+                d1 = cluster_to_replace.centroid[0] - self.epsilon
+                s1 = cluster_to_replace.centroid[1] - self.epsilon
 
-            d2 = cluster_to_replace.centroid[0] + self.epsilon
-            s2 = cluster_to_replace.centroid[1] + self.epsilon
+                d2 = cluster_to_replace.centroid[0] + self.epsilon
+                s2 = cluster_to_replace.centroid[1] + self.epsilon
 
-            # remove that cluster
-            self.remove_cluster(cluster_to_replace)
+                # remove that cluster
+                self.remove_cluster(cluster_to_replace)
 
-            # slightly replace the removed cluster with 2 closed ones
-            # c.d-e, c.s-e
-            self.add_cluster([d1, s1])
+                # slightly replace the removed cluster with 2 closed ones
+                # c.d-e, c.s-e
+                self.add_cluster([d1, s1])
 
-            #  c.d + e, c.s + e
-            self.add_cluster([d2, s2])
+                #  c.d + e, c.s + e
+                self.add_cluster([d2, s2])
 
-            # Clear the patterns on the clusters
-            self.clean_clusters()
+                # Clear the patterns on the clusters
+                self.clean_clusters()
 
-            # Alocate the patterns to the clusters
-            self.allocate_closest_cluster()
+                # Alocate the patterns to the clusters
+                self.allocate_closest_cluster()
 
-            # Update centroids
-            self.update_centroids()
+                # Update centroids
+                self.update_centroids()
 
-            # Set the new distortion
-            self.set_distortion()
+                # Set the new distortion
+                self.set_distortion()
 
             current_k += 1
