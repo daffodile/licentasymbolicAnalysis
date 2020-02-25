@@ -1,5 +1,5 @@
 import os
-
+import seaborn as sns
 import sys
 from pylab import *
 import numpy
@@ -11,17 +11,17 @@ from scipy.signal import argrelextrema, find_peaks
 from TESPAR.FindMinimum import FindMinimum
 
 project_path = os.path.join('', '..')
-data_dir = os.path.join(project_path, 'DataSet/lightFiltered/stimulus', '')
+data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
 sys.path.append(project_path)
-file_name = "channel10.txt"
+file_name = "channel20.txt"
 channel_values = []
-signal_array = [],,
+signal_array = []
 with open(os.path.join(data_dir, file_name), 'r') as f:
     line = f.readline()
     line = line.replace("[", "")
     line = line.replace("]", "")
     new_array = np.fromstring(line, dtype=np.float, sep=', ')
-    for i in range(60):
+    for i in range(200):
         signal_array.append(new_array[i])
 
     print(signal_array)
@@ -36,7 +36,7 @@ plt.show()
 # make ds matrix
 d = 0
 s = 0
-ds_matrix = [[0 for i in range(100)] for j in range(100)]
+ds_matrix = [[0 for i in range(40)] for j in range(40)]
 aOffset = 0
 current_epoch = 0
 last_zero_crossing = aOffset
@@ -69,15 +69,16 @@ for i in range(1, length):
         peaks, _ = find_peaks(series)
         mins, _ = find_peaks(series * -1)
         x = np.linspace(0, 10, len(series))
-        plt.plot(x, series, color='black');
-        plt.plot(x[mins], series[mins], 'x', label='mins')
-        plt.plot(x[peaks], series[peaks], '*', label='peaks')
-        plt.legend()
-        plt.ylim(-20, 20)
-        plt.show()
+        # plt.plot(x, series, color='black');
+        # plt.plot(x[mins], series[mins], 'x', label='mins')
+        # plt.plot(x[peaks], series[peaks], '*', label='peaks')
+        # plt.legend()
+        # plt.ylim(-20, 20)
+        # plt.show()
 
         s = len(mins)
-        ds_matrix[d][s] += 1
+        if d < 40 and s < 40:
+            ds_matrix[s][d] += 1
         # plotul cu toate epocile
         for j in range(len(mins)):
             markers_on.append(mins[j] + last_zero_crossing)
@@ -100,3 +101,6 @@ plt.ylim(-20, 20)
 plt.show()
 
 print(ds_matrix)
+ax = sns.heatmap(ds_matrix, cmap="YlGnBu", vmin=0, vmax=4)
+ax.invert_yaxis()
+plt.show()
