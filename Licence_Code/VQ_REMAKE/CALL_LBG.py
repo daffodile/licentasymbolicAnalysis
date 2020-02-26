@@ -13,7 +13,7 @@ import numpy as np
 from VQ_REMAKE.LBG import VQ_LGB
 
 # citeste o matrice din orice fisier
-input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_3.txt', dtype='i')
+input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_cutoff1hz.txt', dtype='i')
 
 # # check the read matrix
 # for i in range(len(input_matrix)):
@@ -25,5 +25,5 @@ input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_3.txt', dtype='i')
 lbg = VQ_LGB(k=32, alpha=0.00005, t=10000, scale_s=5, epsilon=0.1)
 
 # after creating it,  set the dataset
-lbg.set_dataset(input_matrix[0:150, 0:48])
+lbg.set_dataset(input_matrix[0:250, 0:100])
 lbg.run()

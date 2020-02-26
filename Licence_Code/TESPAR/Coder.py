@@ -17,7 +17,7 @@ class Coder:
 
     def __init__(self, filePath):
 
-        self.ds_matrix = [[0 for i in range(48)] for j in range(222)]
+        self.ds_matrix = [[0 for i in range(210)] for j in range(550)]
         self.distributionD = [0] * 550
         self.distributionS = [0] * 210
         self.channel_values = []

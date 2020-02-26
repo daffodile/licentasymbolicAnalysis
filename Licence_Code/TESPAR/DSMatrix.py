@@ -6,17 +6,20 @@ import os
 from DataSet.HighPassFilterPreProcessing import HighPassFilterPreProcessing
 from TESPAR.Coder import Coder
 
-file_deep_stimulus = 'DataSet/deep/stimulus'
-file_deep_spontaneous = 'DataSet/deep/spontaneous'
-file_deep_post = 'DataSet/deep/poststimulus'
+maxD_allocate = 550
+maxS_Allocate = 210
 
-file_medium_stimulus = 'DataSet/medium/stimulus'
-file_medium_spontaneous = 'DataSet/medium/spontaneous'
-file_medium_poststimulus = 'DataSet/medium/poststimulus'
+file_deep_stimulus = 'DataSet/cutoff1hz/deep/stimulus'
+file_deep_spontaneous = 'DataSet/cutoff1hz/deep/spontaneous'
+file_deep_post = 'DataSet/cutoff1hz/deep/poststimulus'
 
-file_light_stimulus = 'DataSet/light/stimulus'
-file_light_spontaneous = 'DataSet/light/spontaneous'
-file_light_poststimulus = 'DataSet/light/poststimulus'
+file_medium_stimulus = 'DataSet/cutoff1hz/medium/stimulus'
+file_medium_spontaneous = 'DataSet/cutoff1hz/medium/spontaneous'
+file_medium_poststimulus = 'DataSet/cutoff1hz/medium/poststimulus'
+
+file_light_stimulus = 'DataSet/cutoff1hz/light/stimulus'
+file_light_spontaneous = 'DataSet/cutoff1hz/light/spontaneous'
+file_light_poststimulus = 'DataSet/cutoff1hz/light/poststimulus'
 
 # total_d = sum(cd.distributionD)
 # total_s = sum(cd.distributionS)
@@ -38,7 +41,7 @@ filesToOpen = [file_light_stimulus, file_light_spontaneous, file_light_poststimu
                file_medium_stimulus, file_medium_spontaneous, file_medium_poststimulus,
                file_deep_stimulus, file_deep_spontaneous, file_deep_post]
 
-mat_global = [[0 for i in range(48)] for j in range(222)]
+mat_global = [[0 for i in range(maxS_Allocate)] for j in range(maxD_allocate)]
 
 for i in range(len(filesToOpen)):
     # coder for this DOA and segment
@@ -64,10 +67,10 @@ for i in range(len(filesToOpen)):
 
 # wite matrix
 path = os.getcwd()
-fileName = path + "/global_DS_matrix_3.txt"
+fileName = path + "/global_DS_matrix_cutoff1hz.txt"
 f = open(fileName, "w")
-for d in range(222):
-    for s in range(48):
+for d in range(maxD_allocate):
+    for s in range(maxS_Allocate):
         f.write(str(mat_global[d][s]) + " ")
     f.write("\n")
 f.close()
@@ -79,9 +82,9 @@ print("done writing")
 # plt.imshow(mat_global, interpolation='none', cmap=cmap, vmin=0.0000001)
 
 #       AICIA CRAPA
-# ax = sns.heatmap(np.log10(mat_global), cmap="YlGnBu", vmin=0, vmax=7)
-# ax.invert_yaxis()
-# plt.xlabel("S")
-# plt.title("DS frequency log10")
-# plt.ylabel("D")
-# plt.show()
+ax = sns.heatmap(np.log10(mat_global), cmap="YlGnBu", vmin=0, vmax=7)
+ax.invert_yaxis()
+plt.xlabel("S")
+plt.title("DS frequency cutoff 1Hz log10")
+plt.ylabel("D")
+plt.show()

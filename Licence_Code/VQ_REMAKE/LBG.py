@@ -271,7 +271,7 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
 
-        plt.savefig('{} s  5.png'.format(current_k))
+        plt.savefig('{} s5.png'.format(current_k))
         fig.show()
 
     def run(self):
@@ -321,7 +321,7 @@ class VQ_LGB():
             # m = np.reshape(self.dataset_clusters, (100, 50))
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
-                print('aici ar trebui sa printez ')
+                print('aici ar trebui sa printez')
                 self.plot_dataset_clusters(current_k)
 
             # self.plot_dataset_clusters(current_k)
@@ -360,7 +360,7 @@ class VQ_LGB():
 
             else:
                 path = os.getcwd()
-                fileName = path + "/symbols_3_s5.txt"
+                fileName = path + "/symbols_cutoff1_s5.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
