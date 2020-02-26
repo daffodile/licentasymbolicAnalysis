@@ -223,13 +223,23 @@ class VQ_LGB():
         # labels
         ax1.set_xlabel('D')
         ax1.set_ylabel('S')
-        ax1.set_title(str(current_k) + 'clusters')
+        ax1.set_title(str(current_k) + '  clusters s 5')
 
         d_axis = []
         s_axis = []
+        clusters = []
+
+        # for patterns in self.dataset:
+        #     d_axis.append(patterns[0])
+        #     s_axis.append(patterns[1])
+        # norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis, 'cluster_values': self.dataset_clusters})
+
         for patterns in self.dataset:
-            d_axis.append(patterns[0])
-            s_axis.append(patterns[1])
+            if patterns[2] > 0:
+                d_axis.append(patterns[0])
+                s_axis.append(patterns[1])
+                clusters.append(self.dataset_clusters[patterns[0] * self.dimS + patterns[1]])
+        norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis, 'cluster_values': clusters})
 
         clusters_range = []
         c_x = []
@@ -244,28 +254,25 @@ class VQ_LGB():
             c_y.append(self.clusters[c].centroid[1])
             c_counts.append(len(self.clusters[c].patterns))  # here count the nr of elem in cluster
 
-        norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis, 'cluster_values': self.dataset_clusters})
-
-        # norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis})
-
-        # norm_data.assign(cluster_value=lambda x: self.dataset_clusters[self.dimD * x['d_axis'] + x['s_axis']])
-        # norm_data.assign(cluster_value=self.dataset_clusters[norm_data['d_axis']*self.dimD+norm_data['s_axis']])
-
         sns.set()
 
         # cmap = sns.cubehelix_palette(dark=.8, light=.3, as_cmap=True, n_colors=current_k)
-
         # x = sns.dark_palette(n_colors=current_k, color='blue', )
 
         diverge = sns.diverging_palette(h_neg=240, h_pos=10, n=current_k)
 
-        sns.scatterplot(data=norm_data, x='d_axis', y='s_axis', hue='cluster_values', edgecolor='none', palette=diverge)
+        # diverge = sns.color_palette(n_colors=current_k, desat=0.3)
+
+        g = sns.scatterplot(data=norm_data, x='d_axis', y='s_axis', hue='cluster_values', edgecolor='none',
+                            palette=diverge, legend=False)
 
         # heatmap_matrix = np.reshape(self.dataset_clusters, (self.dimD, self.dimS))
         # sns.heatmap(data=heatmap_matrix, cbar=True)
 
-        plt.scatter(c_x, c_y, color='red')  # centroids here
-        plt.show()
+        plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
+
+        plt.savefig('{} s  5.png'.format(current_k))
+        fig.show()
 
     def run(self):
 
@@ -297,7 +304,7 @@ class VQ_LGB():
                 # Clear the patterns on the clusters
                 self.clean_clusters()
 
-                # Alocate the patterns to the clusters
+                # Allocate the patterns to the clusters
                 self.allocate_closest_cluster()
 
                 # Update centroids
@@ -313,7 +320,11 @@ class VQ_LGB():
             print('k=' + str(current_k) + '\n')
             # m = np.reshape(self.dataset_clusters, (100, 50))
             # print(m)
-            self.plot_dataset_clusters(current_k)
+            if current_k % 5 == 0 or current_k == 32:
+                print('aici ar trebui sa printez ')
+                self.plot_dataset_clusters(current_k)
+
+            # self.plot_dataset_clusters(current_k)
 
             if current_k < 32:
                 # find the cluster having the highest relative error
@@ -338,7 +349,7 @@ class VQ_LGB():
                 # Clear the patterns on the clusters
                 self.clean_clusters()
 
-                # Alocate the patterns to the clusters
+                # Allocate the patterns to the clusters
                 self.allocate_closest_cluster()
 
                 # Update centroids
@@ -346,5 +357,15 @@ class VQ_LGB():
 
                 # Set the new distortion
                 self.set_distortion()
+
+            else:
+                path = os.getcwd()
+                fileName = path + "/symbols_3_s5.txt"
+                f = open(fileName, "w")
+                for d in range(self.dimD):
+                    for s in range(self.dimS):
+                        f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
+                    f.write("\n")
+                f.close()
 
             current_k += 1

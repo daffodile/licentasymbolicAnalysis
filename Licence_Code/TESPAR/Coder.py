@@ -5,8 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema, find_peaks
 
-from TESPAR.Alphabet import Alphabet
-
 
 # added a file to write the values before transforming them to a symbol
 # fileName = 'Pairs/channel_2_pairs.txt'
@@ -19,7 +17,7 @@ class Coder:
 
     def __init__(self, filePath):
 
-        self.ds_matrix = [[0 for i in range(536)] for j in range(106)]
+        self.ds_matrix = [[0 for i in range(48)] for j in range(222)]
         self.distributionD = [0] * 550
         self.distributionS = [0] * 210
         self.channel_values = []
@@ -108,7 +106,7 @@ class Coder:
                     # plt.show()
 
                     s = len(mins)
-                    self.ds_matrix[s][d] += 1
+                    self.ds_matrix[d][s] += 1
 
                     if s > self.maxS:
                         self.maxS = s

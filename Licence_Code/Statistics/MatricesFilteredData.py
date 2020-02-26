@@ -35,7 +35,7 @@ for i in range(len(filesToOpen)):
 
 
 path = os.getcwd()
-fileName = path + "/global_DS_matrix.txt"
+fileName = path + "/global_DS_matrix-1.txt"
 f = open(fileName, "w")
 
 for d in range(550):
