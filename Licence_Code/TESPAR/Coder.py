@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema, find_peaks
 
 
+
 # added a file to write the values before transforming them to a symbol
 # fileName = 'Pairs/channel_2_pairs.txt'
 
