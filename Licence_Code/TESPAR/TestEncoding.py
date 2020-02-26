@@ -4,7 +4,7 @@ from TESPAR.Encoding import Encoding
 import os
 import sys
 
-en = Encoding('./global_DS_matrix.txt')
+en = Encoding('./symbols_3_s10.txt')
 array = []
 
 file_deep_stimulus = 'DataSet/deep/stimulus'
@@ -20,3 +20,5 @@ with open(os.path.join(data_dir, file_name), 'r') as f:
     array = np.fromstring(line, dtype=np.float, sep=', ')
 
 en.get_symbols(array)
+en.get_s()
+

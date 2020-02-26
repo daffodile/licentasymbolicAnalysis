@@ -3,7 +3,6 @@ import numpy as np
 import seaborn as sns
 import os
 
-from DataSet.HighPassFilterPreProcessing import HighPassFilterPreProcessing
 from TESPAR.Coder import Coder
 
 maxD_allocate = 550
@@ -21,36 +20,20 @@ file_light_stimulus = 'DataSet/cutoff1hz/light/stimulus'
 file_light_spontaneous = 'DataSet/cutoff1hz/light/spontaneous'
 file_light_poststimulus = 'DataSet/cutoff1hz/light/poststimulus'
 
-# total_d = sum(cd.distributionD)
-# total_s = sum(cd.distributionS)
-# print(total_d)
-# print(total_s)
-#
-# distribution_s = [0] * 210
-# distribution_d = [0] * 550
-# for i in range(len(cd.distributionS)):
-#     distribution_s[i] = cd.distributionS[i]/total_s
-# for i in range(len(cd.distributionD)):
-#     distribution_d[i] = cd.distributionD[i]/total_d
-#
-# print(distribution_s)
-# print(distribution_d)
-
 
 filesToOpen = [file_light_stimulus, file_light_spontaneous, file_light_poststimulus,
                file_medium_stimulus, file_medium_spontaneous, file_medium_poststimulus,
                file_deep_stimulus, file_deep_spontaneous, file_deep_post]
 
-mat_global = [[0 for i in range(maxS_Allocate)] for j in range(maxD_allocate)]
+mat_global = [[0 for i in range(106)] for j in range(536)]
 
 for i in range(len(filesToOpen)):
     # coder for this DOA and segment
     cd = Coder(filesToOpen[i])
-    print(str(i) + ' maxD: ' + str(cd.maxD))
-    print(str(i) + ' maxS: ' + str(cd.maxS))
 
     # add to total freq matrix
     mat_global = np.add(mat_global, cd.ds_matrix)
+
 
 # input_matrix = np.loadtxt(fname='./global_DS_matrix-1.txt', dtype='i')
 
@@ -67,19 +50,15 @@ for i in range(len(filesToOpen)):
 
 # wite matrix
 path = os.getcwd()
-fileName = path + "/global_DS_matrix_cutoff1hz.txt"
+fileName = path + "/global_DS_matrix_2.txt"
 f = open(fileName, "w")
-for d in range(maxD_allocate):
-    for s in range(maxS_Allocate):
+for d in range(536):
+    for s in range(106):
         f.write(str(mat_global[d][s]) + " ")
     f.write("\n")
 f.close()
+# print("done writing" )
 
-print("done writing")
-
-# cmap = plt.cm.OrRd
-# cmap.set_under(color='black')
-# plt.imshow(mat_global, interpolation='none', cmap=cmap, vmin=0.0000001)
 
 #       AICIA CRAPA
 ax = sns.heatmap(np.log10(mat_global), cmap="YlGnBu", vmin=0, vmax=7)

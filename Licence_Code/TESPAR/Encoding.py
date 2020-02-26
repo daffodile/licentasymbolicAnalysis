@@ -3,6 +3,8 @@ this file will serve for writing the methods that encode according with an alpha
 '''
 import numpy as np
 from scipy.signal import find_peaks
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 class Encoding:
@@ -11,6 +13,8 @@ class Encoding:
     '''
 
     def __init__(self, alphabet_path):
+        self.s_matrix = [0 for i in range(32)]
+        self.a_matrix = [[0 for i in range(32)] for j in range(32)]
         self.alphabet_path = alphabet_path
         self.symbols_array = []
         self.alphabet_matrix = [[0 for i in range(536)] for j in range(106)]
@@ -26,7 +30,6 @@ class Encoding:
 
     def set_alphabet(self):
         self.alphabet_matrix = np.loadtxt(fname=self.alphabet_path, dtype='i')
-        # print(self.alphabet_matrix)
 
     def get_symbols(self, trial):
         trial_array = trial
@@ -36,14 +39,13 @@ class Encoding:
         last_zero_crossing = 0
 
         test_epoch = []
-        markers_on = []
 
         length = len(trial_array)
         last_value = trial_array[0]
 
         for i in range(1, length):
             if trial_array[i] * last_value < 0 or i == length - 1:  # Zero Crossing -> new Epoch
-                positive =trial_array[i] > 0
+                positive = trial_array[i] > 0
                 d = i - last_zero_crossing
 
                 if i == length - 1:
@@ -60,7 +62,8 @@ class Encoding:
 
                 s = len(mins)
 
-                self.symbols_array.append(self.alphabet_matrix[d][s])
+                if d < 150 and s < 60:
+                    self.symbols_array.append(self.alphabet_matrix[d][s])
 
                 test_epoch = []
                 test_epoch.append(trial_array[i])
@@ -74,20 +77,40 @@ class Encoding:
             last_value = trial_array[i]
         print(self.symbols_array)
 
+    def get_s(self):
+        for i in range(len(self.symbols_array)):
+            self.s_matrix[self.symbols_array[i]] += 1
+        plt.hist(self.s_matrix, bins='auto')
+        plt.title("Tespar S", fontdict=None)
+        plt.xlabel("No of app")
+        plt.ylabel("Symbol")
+        plt.show()
+
+    def get_a(self, symbol_array, l):
+        lag = l
+        a_matrix1 = [[0 for i in range(32)] for j in range(32)]
+        a_matrix2 = [[0 for i in range(32)] for j in range(32)]
+        # var 1
+        for i in range(len(self.symbols_array) - l - 1):
+            current = self.symbols_array[i]
+            current_pair = self.symbols_array[i + l]
+            a_matrix1[current][current_pair] += 1
+        # var 2
+        for i in range(len(self.symbols_array) - 1):
+            current = self.symbols_array[i]
+            next = self.symbols_array[i + 1]
+            if current + lag == next or next + lag == current:
+                a_matrix2[current][next] += 1
+
+        self.a_matrix = a_matrix1
+        # print(a_matrix1)
+        # print(a_matrix2)
+        # plot heatmap
+        ax = sns.heatmap(self.a_matrix, cmap="YlGnBu", vmin=0, vmax=8)
+        ax.invert_yaxis()
+        plt.xlabel("Symbols")
+        plt.title("A Matrix lag 1")
+        plt.ylabel("Symbols")
+        plt.show()
 
 
-
-
-
-    # def read_alphabet(self, symbols_file, rows, cols):
-    #     self.cols = cols
-    #     self.rows = rows
-    #     f = open(symbols_file, 'r')
-    #     self.alphabet = [[0 for i in range(cols)] for j in range(rows)]
-    #     for i in range(rows):
-    #         for j in range(cols):
-    #             f.read(self.alphabet[i][j])
-    #
-    # def get_symbol(self, d, s):
-    #     if d < len(self.alphabet) and s < len(self.alphabet[0]):
-    #         return self.alphabet[d][s]
