@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema, find_peaks
 
 
+
 # added a file to write the values before transforming them to a symbol
 # fileName = 'Pairs/channel_2_pairs.txt'
 
@@ -17,7 +18,7 @@ class Coder:
 
     def __init__(self, filePath):
 
-        self.ds_matrix = [[0 for i in range(210)] for j in range(550)]
+        self.ds_matrix = [[0 for i in range(106)] for j in range(536)]
         self.distributionD = [0] * 550
         self.distributionS = [0] * 210
         self.channel_values = []
@@ -79,16 +80,17 @@ class Coder:
             for i in range(1, length):
                 # create array of every epoch
 
-                if self.channel_values[channel][i] * last_value < 0 or i == length - 1:  # Zero Crossing -> new Epoch
+                if self.channel_values[channel][i] * last_value < 0 :#or i == length-1:  # Zero Crossing -> new Epoch
+
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
 
                     # print("the epoch")
                     # print(test_epoch)
 
-                    if i == length - 1:
-                        test_epoch.append(self.channel_values[channel][i])
-                        positive = not positive
+                    # if i == length-1 and len(test_epoch) > 1:
+                    #     test_epoch.append(self.channel_values[channel][i])
+                    #     positive = not positive
 
                     if positive:
                         for j in range(len(test_epoch)):

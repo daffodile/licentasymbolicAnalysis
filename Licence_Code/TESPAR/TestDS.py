@@ -8,12 +8,11 @@ import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.signal import argrelextrema, find_peaks
 
-from TESPAR.FindMinimum import FindMinimum
 
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
 sys.path.append(project_path)
-file_name = "channel20.txt"
+file_name = "channel10.txt"
 channel_values = []
 signal_array = []
 with open(os.path.join(data_dir, file_name), 'r') as f:
@@ -21,7 +20,7 @@ with open(os.path.join(data_dir, file_name), 'r') as f:
     line = line.replace("[", "")
     line = line.replace("]", "")
     new_array = np.fromstring(line, dtype=np.float, sep=', ')
-    for i in range(200):
+    for i in range(120):
         signal_array.append(new_array[i])
 
     print(signal_array)
@@ -69,16 +68,18 @@ for i in range(1, length):
         peaks, _ = find_peaks(series)
         mins, _ = find_peaks(series * -1)
         x = np.linspace(0, 10, len(series))
-        # plt.plot(x, series, color='black');
-        # plt.plot(x[mins], series[mins], 'x', label='mins')
-        # plt.plot(x[peaks], series[peaks], '*', label='peaks')
-        # plt.legend()
-        # plt.ylim(-20, 20)
-        # plt.show()
+        plt.plot(x, series, color='black');
+        plt.plot(x[mins], series[mins], 'x', label='mins')
+        plt.plot(x[peaks], series[peaks], '*', label='peaks')
+        plt.legend()
+        plt.ylim(-20, 20)
+        plt.show()
+        print(mins)
 
         s = len(mins)
+
         if d < 40 and s < 40:
-            ds_matrix[s][d] += 1
+            ds_matrix[d][s] += 1
         # plotul cu toate epocile
         for j in range(len(mins)):
             markers_on.append(mins[j] + last_zero_crossing)
@@ -100,7 +101,7 @@ plt.axhline(linewidth=1, color='r')
 plt.ylim(-20, 20)
 plt.show()
 
-print(ds_matrix)
+# print(ds_matrix)
 ax = sns.heatmap(ds_matrix, cmap="YlGnBu", vmin=0, vmax=4)
 ax.invert_yaxis()
 plt.show()
