@@ -223,7 +223,7 @@ class VQ_LGB():
         # labels
         ax1.set_xlabel('D')
         ax1.set_ylabel('S')
-        ax1.set_title(str(current_k) + '  clusters s 5')
+        ax1.set_title(str(current_k) + '  clusters s10')
 
         d_axis = []
         s_axis = []
@@ -271,7 +271,7 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
 
-        plt.savefig('{} s5.png'.format(current_k))
+        plt.savefig('{} s10.png'.format(current_k))
         fig.show()
 
     def run(self):
@@ -360,7 +360,7 @@ class VQ_LGB():
 
             else:
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff1_s5.txt"
+                fileName = path + "/symbols_cutoff3_s10.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):

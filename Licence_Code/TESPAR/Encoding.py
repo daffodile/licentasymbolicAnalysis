@@ -3,8 +3,6 @@ this file will serve for writing the methods that encode according with an alpha
 '''
 import numpy as np
 from scipy.signal import find_peaks
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 class Encoding:
@@ -34,6 +32,9 @@ class Encoding:
         self.cols = len(self.alphabet_matrix[0])
 
     def get_symbols(self, trial):
+
+        self.symbols_array = []
+
         trial_array = trial
         d = 0
         s = 0
@@ -88,15 +89,16 @@ class Encoding:
 
         for i in range(len(self.symbols_array)):
             self.s_matrix[self.symbols_array[i]] += 1
-        plt.hist(self.s_matrix, bins='auto')
-        plt.title("Tespar S", fontdict=None)
-        plt.xlabel("No of app")
-        plt.ylabel("Symbol")
-        plt.show()
+
+        # plt.hist(self.s_matrix, bins='auto')
+        # plt.title("Tespar S", fontdict=None)
+        # plt.xlabel("No of app")
+        # plt.ylabel("Symbol")
+        # plt.show()
 
         return self.s_matrix
 
-    def get_a(self, symbol_array, l):
+    def get_a(self, l):
         lag = l
         a_matrix1 = [[0 for i in range(32)] for j in range(32)]
         a_matrix2 = [[0 for i in range(32)] for j in range(32)]
@@ -112,15 +114,15 @@ class Encoding:
             if current + lag == next or next + lag == current:
                 a_matrix2[current][next] += 1
 
-        self.a_matrix = a_matrix1
+        self.a_matrix = a_matrix2
         # print(a_matrix1)
         # print(a_matrix2)
         # plot heatmap
-        ax = sns.heatmap(self.a_matrix, cmap="YlGnBu", vmin=0, vmax=8)
-        ax.invert_yaxis()
-        plt.xlabel("Symbols")
-        plt.title("A Matrix lag 1")
-        plt.ylabel("Symbols")
-        plt.show()
+        # ax = sns.heatmap(self.a_matrix, cmap="YlGnBu", vmin=0, vmax=8)
+        # ax.invert_yaxis()
+        # plt.xlabel("Symbols")
+        # plt.title("A Matrix lag 1")
+        # plt.ylabel("Symbols")
+        # plt.show()
 
         return self.a_matrix

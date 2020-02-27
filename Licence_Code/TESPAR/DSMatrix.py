@@ -5,20 +5,20 @@ import os
 
 from TESPAR.Coder import Coder
 
-maxD_allocate = 536
-maxS_Allocate = 106
+maxD_allocate = 222
+maxS_Allocate = 48
 
-file_deep_stimulus = 'DataSet/cutoff1hz/deep/stimulus'
-file_deep_spontaneous = 'DataSet/cutoff1hz/deep/spontaneous'
-file_deep_post = 'DataSet/cutoff1hz/deep/poststimulus'
+file_deep_stimulus = 'DataSet/cutoff3hz/deep/stimulus'
+file_deep_spontaneous = 'DataSet/cutoff3hz/deep/spontaneous'
+file_deep_post = 'DataSet/cutoff3hz/deep/poststimulus'
 
-file_medium_stimulus = 'DataSet/cutoff1hz/medium/stimulus'
-file_medium_spontaneous = 'DataSet/cutoff1hz/medium/spontaneous'
-file_medium_poststimulus = 'DataSet/cutoff1hz/medium/poststimulus'
+file_medium_stimulus = 'DataSet/cutoff3hz/medium/stimulus'
+file_medium_spontaneous = 'DataSet/cutoff3hz/medium/spontaneous'
+file_medium_poststimulus = 'DataSet/cutoff3hz/medium/poststimulus'
 
-file_light_stimulus = 'DataSet/cutoff1hz/light/stimulus'
-file_light_spontaneous = 'DataSet/cutoff1hz/light/spontaneous'
-file_light_poststimulus = 'DataSet/cutoff1hz/light/poststimulus'
+file_light_stimulus = 'DataSet/cutoff3hz/light/stimulus'
+file_light_spontaneous = 'DataSet/cutoff3hz/light/spontaneous'
+file_light_poststimulus = 'DataSet/cutoff3hz/light/poststimulus'
 
 filesToOpen = [file_light_stimulus, file_light_spontaneous, file_light_poststimulus,
                file_medium_stimulus, file_medium_spontaneous, file_medium_poststimulus,
@@ -32,7 +32,7 @@ for i in range(len(filesToOpen)):
 
     print(str(i) + ' maxD: ' + str(cd.maxD))
     print(str(i) + ' maxS: ' + str(cd.maxS))
-    
+
     # add to total freq matrix
     mat_global = np.add(mat_global, cd.ds_matrix)
 
@@ -51,7 +51,7 @@ for i in range(len(filesToOpen)):
 
 # wite matrix
 path = os.getcwd()
-fileName = path + "/global_DS_matrix_cutoff1hz.txt"
+fileName = path + "/global_DS_matrix_cutoff3hz.txt"
 f = open(fileName, "w")
 for d in range(maxD_allocate):
     for s in range(maxS_Allocate):
@@ -65,6 +65,6 @@ f.close()
 ax = sns.heatmap(np.log10(mat_global), cmap="YlGnBu", vmin=0, vmax=7)
 ax.invert_yaxis()
 plt.xlabel("S")
-plt.title("DS frequency cutoff 1Hz log10")
+plt.title("DS frequency cutoff 3Hz log10")
 plt.ylabel("D")
 plt.show()

@@ -10,6 +10,8 @@ from scipy.signal import argrelextrema, find_peaks
 # added a file to write the values before transforming them to a symbol
 # fileName = 'Pairs/channel_2_pairs.txt'
 
+maxD_allocate = 222
+maxS_Allocate = 48
 
 class Coder:
     '''
@@ -18,9 +20,9 @@ class Coder:
 
     def __init__(self, filePath):
 
-        self.ds_matrix = [[0 for i in range(106)] for j in range(536)]
-        self.distributionD = [0] * 550
-        self.distributionS = [0] * 210
+        self.ds_matrix = [[0 for i in range(maxS_Allocate)] for j in range(maxD_allocate)]
+        self.distributionD = [0] * maxD_allocate
+        self.distributionS = [0] * maxS_Allocate
         self.channel_values = []
         self.maxD = -1
         self.maxS = -1
