@@ -17,7 +17,7 @@ class Encoding:
         self.a_matrix = [[0 for i in range(32)] for j in range(32)]
         self.alphabet_path = alphabet_path
         self.symbols_array = []
-        self.alphabet_matrix = [[0 for i in range(536)] for j in range(106)]
+        self.alphabet_matrix = None
         self.rows = 0
         self.cols = 0
         self.set_alphabet()
@@ -30,6 +30,8 @@ class Encoding:
 
     def set_alphabet(self):
         self.alphabet_matrix = np.loadtxt(fname=self.alphabet_path, dtype='i')
+        self.rows = len(self.alphabet_matrix)
+        self.cols = len(self.alphabet_matrix[0])
 
     def get_symbols(self, trial):
         trial_array = trial
@@ -75,10 +77,15 @@ class Encoding:
                 test_epoch.append(trial_array[i])
 
             last_value = trial_array[i]
-            
+
         print(self.symbols_array)
 
+        return self.symbols_array
+
     def get_s(self):
+
+        self.s_matrix = [0 for i in range(32)]
+
         for i in range(len(self.symbols_array)):
             self.s_matrix[self.symbols_array[i]] += 1
         plt.hist(self.s_matrix, bins='auto')
@@ -87,16 +94,18 @@ class Encoding:
         plt.ylabel("Symbol")
         plt.show()
 
+        return self.s_matrix
+
     def get_a(self, symbol_array, l):
         lag = l
         a_matrix1 = [[0 for i in range(32)] for j in range(32)]
         a_matrix2 = [[0 for i in range(32)] for j in range(32)]
-        # var 1
+        # var 1 Narci
         for i in range(len(self.symbols_array) - l - 1):
             current = self.symbols_array[i]
             current_pair = self.symbols_array[i + l]
             a_matrix1[current][current_pair] += 1
-        # var 2
+        # var 2 Andreea
         for i in range(len(self.symbols_array) - 1):
             current = self.symbols_array[i]
             next = self.symbols_array[i + 1]
@@ -114,4 +123,4 @@ class Encoding:
         plt.ylabel("Symbols")
         plt.show()
 
-
+        return self.a_matrix
