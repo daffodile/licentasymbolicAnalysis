@@ -75,6 +75,7 @@ class Encoding:
                 test_epoch.append(trial_array[i])
 
             last_value = trial_array[i]
+            
         print(self.symbols_array)
 
     def get_s(self):
