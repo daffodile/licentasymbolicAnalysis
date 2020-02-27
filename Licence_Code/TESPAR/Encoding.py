@@ -65,7 +65,7 @@ class Encoding:
 
                 s = len(mins)
 
-                if d < 150 and s < 60:
+                if d < self.rows and s < self.cols:
                     self.symbols_array.append(self.alphabet_matrix[d][s])
 
                 test_epoch = []
@@ -114,7 +114,7 @@ class Encoding:
             if current + lag == next or next + lag == current:
                 a_matrix2[current][next] += 1
 
-        self.a_matrix = a_matrix2
+        self.a_matrix = a_matrix1
         # print(a_matrix1)
         # print(a_matrix2)
         # plot heatmap
