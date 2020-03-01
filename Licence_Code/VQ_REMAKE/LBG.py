@@ -322,7 +322,7 @@ class VQ_LGB():
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k, 'cutoff3 clusters s10')
+                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s10')
 
             # self.plot_dataset_clusters(current_k)
 
@@ -360,7 +360,7 @@ class VQ_LGB():
 
             else:
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff3_s100_unsorted.txt"
+                fileName = path + "/symbols_cutoff1_s10_unsorted.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
@@ -385,9 +385,9 @@ class VQ_LGB():
                 # re-distribute the symbols
                 self.allocate_closest_cluster()
 
-                self.plot_dataset_clusters(current_k, 'cutoff3 clusters s10 sorted')
+                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s10 sorted')
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff3_s100_sorted.txt"
+                fileName = path + "/symbols_cutoff1_s10_sorted.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
