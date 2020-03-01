@@ -22,8 +22,9 @@ input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_cutoff3hz.txt', dt
 #         print(str(input_matrix[i][j]) + ' ')
 
 # apply alg
-lbg = VQ_LGB(k=32, alpha=0.000005, t=10000, scale_s=10, epsilon=0.1)
+lbg = VQ_LGB(k=32, alpha=0.000005, t=10000, scale_s=100, epsilon=0.1)
+# lbg = VQ_LGB(k=32, alpha=0.0005, t=100, scale_s=1, epsilon=0.1)
 
 # after creating it,  set the dataset
-lbg.set_dataset(input_matrix[0:150, 0:40])
+lbg.set_dataset(input_matrix[0:120, 0:40])
 lbg.run()

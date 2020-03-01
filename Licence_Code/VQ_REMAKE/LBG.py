@@ -360,7 +360,7 @@ class VQ_LGB():
 
             else:
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff3_s10_unsorted.txt"
+                fileName = path + "/symbols_cutoff3_s100_unsorted.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
@@ -376,7 +376,8 @@ class VQ_LGB():
                 # sort the clusters based on centroid which is am array with D and S
                 a = np.array(self.clusters, dtype=CLUSTER)
                 # np.sort(a, order='centroid[0]')
-                result = sorted(a, key=CLUSTER.centroid[0].fget)
+                # result = sorted(a, key=lambda x: x.centroid[0].fget)
+                result = sorted(a, key=lambda x: getattr(x, 'centroid'))
 
                 # replace the clusters with sorted ones
                 self.clusters = result
@@ -386,7 +387,7 @@ class VQ_LGB():
 
                 self.plot_dataset_clusters(current_k, 'cutoff3 clusters s10 sorted')
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff3_s10_sorted.txt"
+                fileName = path + "/symbols_cutoff3_s100_sorted.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
