@@ -5,13 +5,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema, find_peaks
 
-
-
 # added a file to write the values before transforming them to a symbol
 # fileName = 'Pairs/channel_2_pairs.txt'
 
-maxD_allocate = 222
-maxS_Allocate = 48
+# cutoff 1
+maxD_allocate = 536
+maxS_Allocate = 106
+
+
+# cutoff 3
+# maxD_allocate = 222
+# maxS_Allocate = 48
 
 class Coder:
     '''
@@ -82,7 +86,7 @@ class Coder:
             for i in range(1, length):
                 # create array of every epoch
 
-                if self.channel_values[channel][i] * last_value < 0 :#or i == length-1:  # Zero Crossing -> new Epoch
+                if self.channel_values[channel][i] * last_value < 0:  # or i == length-1:  # Zero Crossing -> new Epoch
 
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
