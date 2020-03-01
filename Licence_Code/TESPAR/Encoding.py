@@ -105,7 +105,7 @@ class Encoding:
         # var 1 Narci
         for i in range(len(self.symbols_array) - l - 1):
             current = self.symbols_array[i]
-            current_pair = self.symbols_array[i + l]
+            current_pair = self.symbols_array[i + 1 + l]
             a_matrix1[current][current_pair] += 1
         # var 2 Andreea
         for i in range(len(self.symbols_array) - 1):
