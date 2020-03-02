@@ -1,6 +1,3 @@
-/DataSet/deep/
-/DataSet/light/
-/DataSet/medium/
 /Data/
 /DataSet/cutoff3hz/
 /DataSet/cutoff1hz/
@@ -10,4 +7,8 @@
 /VQ_REMAKE/symbols_cutoff3_s10_unsorted.txt
 /VQ_REMAKE/symbols_cutoff3_s100_unsorted.txt
 /VQ_REMAKE/symbols_cutoff1_s10_unsorted.txt
-/.idea/
+/Afisare/A/
+/Afisare/log/
+/Afisare/S/
+/Afisare/symbols/
+/.idea
