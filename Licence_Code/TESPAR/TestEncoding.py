@@ -7,7 +7,7 @@ import sys
 en = Encoding('./symbols_3_s10.txt')
 array = []
 
-file_deep_stimulus = 'DataSet/deep/stimulus'
+file_deep_stimulus = 'DataSet/cutoff1hz/deep/stimulus'
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, file_deep_stimulus, '')
 sys.path.append(project_path)

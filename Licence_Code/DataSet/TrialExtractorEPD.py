@@ -28,7 +28,7 @@ class TrialExtractorEPD:
                     values_of_channel = channel_info.read()
                 self.amplitude = np.frombuffer(values_of_channel, dtype=np.float32)
 
-                self.amplitude_array = self.amplitude[self.timestamp_array[0] - 1:]
+                self.amplitude_array = self.amplitude[self.timestamp_array[0]:]
                 # self.temp_values129 = []
                 contor = 0
                 for i in range(len(self.timestamp_array) - 1):

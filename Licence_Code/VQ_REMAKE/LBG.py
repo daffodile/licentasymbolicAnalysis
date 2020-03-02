@@ -212,7 +212,7 @@ class VQ_LGB():
 
         return abs(self.old_distortion - self.new_distortion) / self.new_distortion
 
-    def plot_dataset_clusters(self, current_k):
+    def plot_dataset_clusters(self, current_k, title):
 
         # print('in plot_dataset_clusters\n')
 
@@ -223,7 +223,7 @@ class VQ_LGB():
         # labels
         ax1.set_xlabel('D')
         ax1.set_ylabel('S')
-        ax1.set_title(str(current_k) + '  clusters s 5')
+        ax1.set_title(str(current_k) + ' ' + title)
 
         d_axis = []
         s_axis = []
@@ -271,7 +271,7 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
 
-        plt.savefig('{} s5.png'.format(current_k))
+        # plt.savefig('{} s10.png'.format(current_k))
         fig.show()
 
     def run(self):
@@ -322,7 +322,7 @@ class VQ_LGB():
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k)
+                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s10')
 
             # self.plot_dataset_clusters(current_k)
 
@@ -360,7 +360,34 @@ class VQ_LGB():
 
             else:
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff1_s5.txt"
+                fileName = path + "/symbols_cutoff1_s10_unsorted.txt"
+                f = open(fileName, "w")
+                for d in range(self.dimD):
+                    for s in range(self.dimS):
+                        f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
+                    f.write("\n")
+                f.close()
+
+                #     sort clusters by D and S
+
+                # clean patterns array, only keep centroids
+                self.clean_clusters()
+
+                # sort the clusters based on centroid which is am array with D and S
+                a = np.array(self.clusters, dtype=CLUSTER)
+                # np.sort(a, order='centroid[0]')
+                # result = sorted(a, key=lambda x: x.centroid[0].fget)
+                result = sorted(a, key=lambda x: getattr(x, 'centroid'))
+
+                # replace the clusters with sorted ones
+                self.clusters = result
+
+                # re-distribute the symbols
+                self.allocate_closest_cluster()
+
+                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s10 sorted')
+                path = os.getcwd()
+                fileName = path + "/symbols_cutoff1_s10_sorted.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
