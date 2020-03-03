@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-symbols_matrix = np.loadtxt(fname='../../TESPAR/fisier de unde sunt salvate symboluri', dtype='i')
+symbols_matrix = np.loadtxt(fname='../../TESPAR/global_DS_matrix_cutoff1hz.txt', dtype='i')
 
 # print(symbols_matrix)
 

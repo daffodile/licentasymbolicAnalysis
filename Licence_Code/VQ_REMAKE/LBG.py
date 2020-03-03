@@ -187,7 +187,10 @@ class VQ_LGB():
                     lowest_index = index
 
             self.clusters[lowest_index].add_pattern(pattern)
-            self.dataset_clusters[idx] = lowest_index
+            if pattern[2] == 0:
+                self.dataset_clusters[idx] = -1
+            else:
+                self.dataset_clusters[idx] = lowest_index
 
     def update_centroids(self):
 
@@ -271,7 +274,7 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
 
-        # plt.savefig('{} s10.png'.format(current_k))
+        plt.savefig('{} window s5.png'.format(current_k))
         fig.show()
 
     def run(self):
@@ -322,7 +325,7 @@ class VQ_LGB():
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s3')
+                self.plot_dataset_clusters(current_k, 'cutoff 1 clusters s3 window')
 
             # self.plot_dataset_clusters(current_k)
 
@@ -359,14 +362,14 @@ class VQ_LGB():
                 self.set_distortion()
 
             else:
-                path = os.getcwd()
-                fileName = path + "/symbols_cutoff3_s3_unsorted.txt"
-                f = open(fileName, "w")
-                for d in range(self.dimD):
-                    for s in range(self.dimS):
-                        f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
-                    f.write("\n")
-                f.close()
+                # path = os.getcwd()
+                # fileName = path + "/symbols_cutoff3_s5_unsorted_fdw.txt"
+                # f = open(fileName, "w")
+                # for d in range(self.dimD):
+                #     for s in range(self.dimS):
+                #         f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
+                #     f.write("\n")
+                # f.close()
 
                 #     sort clusters by D and S
 
@@ -385,9 +388,9 @@ class VQ_LGB():
                 # re-distribute the symbols
                 self.allocate_closest_cluster()
 
-                self.plot_dataset_clusters(current_k, 'cutoff3 clusters s3 sorted')
+                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s5 sorted')
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff3_s3_sorted.txt"
+                fileName = path + "/symbols_cutoff1_s5_sorted_fdw.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):

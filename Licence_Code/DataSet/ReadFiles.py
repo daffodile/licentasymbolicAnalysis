@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema
 
-from DataSet.HighPassFilterPreProcessing import HighPassFilterPreProcessing
 from TESPAR.Coder import Coder
 
 project_path = os.path.join('', '..')
@@ -13,22 +12,24 @@ data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
 sys.path.append(project_path)
 light_stimulus_0 = 'channel0.txt'
 
+#
+# line = None
+# channel_values = []
+# with open(os.path.join(data_dir, light_stimulus_0), 'r') as f:
+#     line = f.readline()
+#     while line:
+#         line = line.replace("[", "")
+#         line = line.replace("]", "")
+#         new_array = np.fromstring(line, dtype=np.float, sep=', ')
+#         channel_values.append(new_array)
+#         line = f.readline()
+# all_arrays =[]
+# for i in range(240):
+#     highpassflt = HighPassFilterPreProcessing(np.array(channel_values[i]))
+#     all_arrays.append(highpassflt.carrierPhase)
+# np.savetxt("light/stimulus/" + "channel80" + ".txt", np.array(all_arrays), fmt="%s")
 
-line = None
-channel_values = []
-with open(os.path.join(data_dir, light_stimulus_0), 'r') as f:
-    line = f.readline()
-    while line:
-        line = line.replace("[", "")
-        line = line.replace("]", "")
-        new_array = np.fromstring(line, dtype=np.float, sep=', ')
-        channel_values.append(new_array)
-        line = f.readline()
-all_arrays =[]
-for i in range(240):
-    highpassflt = HighPassFilterPreProcessing(np.array(channel_values[i]))
-    all_arrays.append(highpassflt.carrierPhase)
-np.savetxt("light/stimulus/" + "channel80" + ".txt", np.array(all_arrays), fmt="%s")
+
 # print(highpassflt.carrierPhase)
 #
 # class TesparPair:

@@ -43,13 +43,13 @@ class Coder:
     changed to read all 30 channels in a directory
         open each channel and save each of its line as an element in "channel_values"
             -> channel_values should have size 30*240, each array having 2672 floats
-            
+
     # maxD is 996  # for 'DataSet/light/stimulus'
     # maxS 0s 337  # for 'DataSet/light/stimulus'
     # 
     # - normalized d / 9 => range 0 to 111
     # - normalized s / 3 => range 0 to 112
-        
+
     '''
 
     def read_file(self):
@@ -136,3 +136,52 @@ class Coder:
                     test_epoch.append(self.channel_values[channel][i])
 
                 last_value = self.channel_values[channel][i]
+
+    def find_matrix_dimensions(self):
+        for channel in range(len(self.channel_values)):  # length 30*240
+            d = 0
+            s = 0
+            current_epoch = 0
+            last_zero_crossing = self.aOffset
+
+            test_epoch = []
+
+            length = len(self.channel_values[channel])
+            last_value = self.channel_values[channel][0]
+
+            for i in range(1, length):
+                # create array of every epoch
+                if self.channel_values[channel][i] * last_value < 0:  # or i == length-1:  # Zero Crossing -> new Epoch
+
+                    positive = self.channel_values[channel][i] > 0
+                    d = i - last_zero_crossing
+
+                    if positive:
+                        for j in range(len(test_epoch)):
+                            test_epoch[j] = abs(test_epoch[j])
+
+                    series = np.array(test_epoch)
+                    peaks, _ = find_peaks(series)
+                    mins, _ = find_peaks(series * -1)
+                    x = np.linspace(0, 10, len(series))
+                    s = len(mins)
+                    # self.ds_matrix[d][s] += 1
+
+                    if s > self.maxS:
+                        self.maxS = s
+                    if d > self.maxD:
+                        self.maxD = d
+
+                    test_epoch = []
+                    test_epoch.append(self.channel_values[channel][i])
+                    last_zero_crossing = i
+                    current_epoch = current_epoch + 1
+                    d = 0
+                    s = 0
+                else:
+                    test_epoch.append(self.channel_values[channel][i])
+
+                last_value = self.channel_values[channel][i]
+
+        self.ds_matrix = [0 in range(self.maxS + 1) in range(self.maxD + 1)]
+        print('find_matrix_dimensions  maxD: ' + str(self.maxD) + '  maxS: ' + str(self.maxS))
