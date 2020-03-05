@@ -29,7 +29,7 @@ class MetadataReaderBIN:
 
     def extract_event_codes_timestamps(self):
         lines = None
-        self.channel_files = self.metadata.channel_info
+        # self.channel_files = self.metadata.channel_info
         with open(os.path.join(self.path, self.metadata.file_event_timestamps), 'rb') as timestamps_file, \
                 open(os.path.join(self.path, self.metadata.file_event_codes), 'rb') as codes_file:
             # read the code of the trial and it's coresponding timestamp
@@ -43,7 +43,6 @@ class MetadataReaderBIN:
 
             self.event_timestamps = np.frombuffer(timestamps_bytes, dtype=np.int32)
 
-
             # make structured array from the timestamps
             trial_type = [('start', np.int32), ('on', np.int32), ('off', np.int32), ('end', np.int32)]
             # self.trial_timestamps = event_timestamps.view(trial_type)
@@ -54,5 +53,3 @@ class MetadataReaderBIN:
     def print_metadata(self):
         print('Timestamp  ', self.trial_timestamps)
         print('Coresponding code ', self.codes)
-
-
