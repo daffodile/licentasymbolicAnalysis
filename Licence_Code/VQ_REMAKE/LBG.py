@@ -1,4 +1,6 @@
 import os
+import sys
+
 import matplotlib.pyplot as plt
 
 import numpy as np
@@ -97,6 +99,7 @@ class VQ_LGB():
     def __init__(self, k, alpha, t, scale_s, epsilon):
 
         self.dataset = []
+        self.dataset_train = []
         self.k = k
         self.alpha = alpha
         self.t = t
@@ -108,19 +111,73 @@ class VQ_LGB():
         self.codebook = []
         # resulting cluster corresponding to an input of dataset
         self.dataset_clusters = []
-        # mai am dimS, dimD din set_dataset
         self.dimD = None
         self.dimS = None
 
     def set_dataset(self, input_matrix):
+
+        self.input_matrix = input_matrix
         self.dimD = len(input_matrix)
         self.dimS = len(input_matrix[0])
 
-        for d in range(len(input_matrix)):
-            for s in range(len(input_matrix[0])):
+        # put all the input matrices entries in an array
+        for d in range(self.dimD):
+            for s in range(self.dimS):
                 self.dataset.append([d, s, input_matrix[d][s]])
 
+        # every entry in the input matrix will have a label
         self.dataset_clusters = [0 for i in range(len(self.dataset))]
+
+        # use for training the clusters that part of the input matrix where 0.99 of the info is
+        take_d, take_s = self.get_pool(input_matrix, 0.99)
+        for d in range(take_d):
+            for s in range(take_s):
+                self.dataset_train.append([d, s, input_matrix[d][s]])
+
+    def get_pool(self, freq_matrix, percent):
+        if percent < 0 or percent > 1:
+            sys.exit('Wrong percent value, introduce a value in [0, 1]')
+
+        else:
+            maxD = len(freq_matrix)
+            maxS = len(freq_matrix[0])
+
+            print(maxD)
+            print(maxS)
+            s = 0
+            d = 0
+            per = 0
+
+            total = freq_matrix.sum()
+            print(total)
+
+            normalized_matrix = np.divide(freq_matrix, total)
+            # print(normalized_matrix)
+            changeS = True
+            changeD = True
+
+            while per < percent:
+                if changeS:
+                    for i in range(d):
+                        per += normalized_matrix[i][s]
+
+                if changeD:
+                    for j in range(s):
+                        per += normalized_matrix[d][j]
+                if s < maxS - 1:
+                    s += 1
+                else:
+                    changedS = False
+                if d < maxD - 1:
+                    d += 1
+                else:
+                    changeD = False
+                per += normalized_matrix[d][s]
+                print(per)
+
+            print('d: ' + str(d) + '  s: ' + str(s))
+
+            return d, s
 
     def first_cluster(self):
         sum_d = 0
@@ -132,17 +189,6 @@ class VQ_LGB():
             sum_freq += pattern[2]
 
         self.clusters.append(CLUSTER([sum_d / sum_freq, sum_s / sum_freq]))
-
-        # self.allocate_closest_cluster()
-
-    # def set_codebook(self):
-    #
-    #     for index in range(len(self.clusters)):
-    #         self.codebook.append(self.clusters[index].centroid)
-    #
-    # def get_codebook(self):
-    #
-    #     return np.asarray(self.codebook)
 
     def clean_clusters(self):
 
@@ -186,19 +232,17 @@ class VQ_LGB():
                     lowest_distance = distance
                     lowest_index = index
 
-            self.clusters[lowest_index].add_pattern(pattern)
-            if pattern[2] == 0:
-                self.dataset_clusters[idx] = -1
-            else:
-                self.dataset_clusters[idx] = lowest_index
+            if pattern in self.dataset_train:
+                self.clusters[lowest_index].add_pattern(pattern)
+
+            #     update labels for all input matrix entries
+            self.dataset_clusters[idx] = lowest_index
 
     def update_centroids(self):
-
         for index in range(len(self.clusters)):
             self.clusters[index].update_centroid()
 
     def set_distortion(self):
-
         distortion = 0
 
         for index in range(len(self.clusters)):
@@ -212,13 +256,9 @@ class VQ_LGB():
         self.new_distortion = distortion
 
     def get_distortion_flag(self):
-
         return abs(self.old_distortion - self.new_distortion) / self.new_distortion
 
     def plot_dataset_clusters(self, current_k, title):
-
-        # print('in plot_dataset_clusters\n')
-
         # figure
         fig, ax1 = plt.subplots()
         fig.set_size_inches(13, 10)
@@ -231,11 +271,6 @@ class VQ_LGB():
         d_axis = []
         s_axis = []
         clusters = []
-
-        # for patterns in self.dataset:
-        #     d_axis.append(patterns[0])
-        #     s_axis.append(patterns[1])
-        # norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis, 'cluster_values': self.dataset_clusters})
 
         for patterns in self.dataset:
             if patterns[2] > 0:
@@ -274,11 +309,10 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
 
-        plt.savefig('{} window s5.png'.format(current_k))
+        plt.savefig('{} test refactor.png'.format(current_k))
         fig.show()
 
     def run(self):
-
         # start with 1 cluster representing the average of th dataset
         self.first_cluster()
 
@@ -325,7 +359,7 @@ class VQ_LGB():
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k, 'cutoff 1 clusters s3 window')
+                self.plot_dataset_clusters(current_k, 'cutoff 3 test refactor')
 
             # self.plot_dataset_clusters(current_k)
 
@@ -362,15 +396,6 @@ class VQ_LGB():
                 self.set_distortion()
 
             else:
-                # path = os.getcwd()
-                # fileName = path + "/symbols_cutoff3_s5_unsorted_fdw.txt"
-                # f = open(fileName, "w")
-                # for d in range(self.dimD):
-                #     for s in range(self.dimS):
-                #         f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
-                #     f.write("\n")
-                # f.close()
-
                 #     sort clusters by D and S
 
                 # clean patterns array, only keep centroids
@@ -388,9 +413,9 @@ class VQ_LGB():
                 # re-distribute the symbols
                 self.allocate_closest_cluster()
 
-                self.plot_dataset_clusters(current_k, 'cutoff1 clusters s5 sorted')
+                self.plot_dataset_clusters(current_k, 'test refactor sorted')
                 path = os.getcwd()
-                fileName = path + "/symbols_cutoff1_s5_sorted_fdw.txt"
+                fileName = path + "/alphabet.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
