@@ -43,9 +43,19 @@ from DataSet.CreateDOA import CreateDOA
 #         newarr.append(arr[i])
 # arr = newarr
 # print(arr)
-
+from TESPAR.Coder import Coder
+from utils import Utils
 
 initialization = InitDataSet()
+
+# doa = initialization.get_dataset_as_doas()[0]
+
+# floats_Array = Utils.obtain_floats_from_DOA(doa)
+
+coder = Coder(initialization.get_dataset_as_doas())
+print(len(coder))
+
+
 
 # initialization.serialize_doas('test.json')
 # data = initialization.deserialize_doas('test.json')
