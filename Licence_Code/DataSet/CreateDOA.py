@@ -23,7 +23,7 @@ class CreateDOA:
         self.codes_timestamps_reader = MetadataReaderBIN(data_dir, file_epd)
         self.doa = None
 
-    def run(self):
+    def create(self):
         self.doa = DOA(self.level)
         self.amplitude_array = []
         self.timestamp_array = self.codes_timestamps_reader.event_timestamps
@@ -49,9 +49,9 @@ class CreateDOA:
             # print(self.reader_epd.channel_info[i])
             self.amplitude = np.frombuffer(values_of_channel, dtype=np.float32)
             # print(self.timestamp_array)
-            a1 = self.amplitude[self.timestamp_array[0] - 1]
-            a2 = self.amplitude[0]
-            a3 = self.amplitude[self.timestamp_array[0] + 1]
+            # a1 = self.amplitude[self.timestamp_array[0] - 1]
+            # a2 = self.amplitude[0]
+            # a3 = self.amplitude[self.timestamp_array[0] + 1]
             self.amplitude_array = self.amplitude[self.timestamp_array[0]:]
 
             # print('channel' + str(i) + str(self.amplitude_array))

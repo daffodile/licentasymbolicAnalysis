@@ -46,3 +46,7 @@ from DataSet.CreateDOA import CreateDOA
 
 
 initialization = InitDataSet()
+
+# initialization.serialize_doas('test.json')
+# data = initialization.deserialize_doas('test.json')
+# print(data)

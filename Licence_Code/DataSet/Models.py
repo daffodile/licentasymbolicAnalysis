@@ -1,16 +1,25 @@
-class DOA:
+import json
+
+
+class JsonEncoder:
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
+
+
+class DOA(JsonEncoder):
     def __init__(self, level):
         self.level = level
         self.channels = []
 
 
-class Channel:
+class Channel(JsonEncoder):
     def __init__(self, number):
         self.number = number
         self.trials = []
 
 
-class Trial:
+class Trial(JsonEncoder):
     def __init__(self, trial_number, condition, contrast, direction, duration_us, duration_f):
         self.trial_number = trial_number
         self.condition = condition
@@ -32,7 +41,7 @@ class Trial:
         self.poststimulus = segment
 
 
-class Segment:
+class Segment(JsonEncoder):
     def __init__(self, start_time, end_time, start_code, end_code):
         self.start_time = start_time
         self.end_time = end_time
