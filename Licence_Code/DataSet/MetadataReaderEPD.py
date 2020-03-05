@@ -8,6 +8,7 @@ import os
 no_units_ofs = 5
 metadata_window = 3
 
+
 class MetadataReaderEPD:
     '''
     parameters: - path_epd: - path to the folder where the epd file is located
@@ -16,7 +17,8 @@ class MetadataReaderEPD:
 
     def __init__(self, path_epd, file_epd):
         if file_epd[-3:] != 'epd':
-            print('[{0}.{1}] {2} not a .epd file'.format(self.__class__.__name__, sys._getframe().f_code.co_name, path_epd))
+            print('[{0}.{1}] {2} not a .epd file'.format(self.__class__.__name__, sys._getframe().f_code.co_name,
+                                                         path_epd))
             self.valid = False
         else:
             self.dataset_path = path_epd
@@ -27,6 +29,7 @@ class MetadataReaderEPD:
     '''
     Description: Reads all the information in the epd file
     '''
+
     def read_epd_metadata(self):
         lines = None
         with open(os.path.join(self.dataset_path, self.epd_file), 'r') as f:
@@ -48,7 +51,7 @@ class MetadataReaderEPD:
         current_ofs += metadata_window
         self.channel_info = []
         for i in range(0, self.no_channels):
-            self.channel_info.append(lines[current_ofs+i].rstrip())
+            self.channel_info.append(lines[current_ofs + i].rstrip())
 
         current_ofs += self.no_channels - 1
         # read name File holding event timestamps
@@ -63,9 +66,12 @@ class MetadataReaderEPD:
         current_ofs += metadata_window
         self.no_events = int(lines[current_ofs])
 
+        # # read the bad channels
+        current_ofs += metadata_window + self.no_channels + 3 * metadata_window - 2
+        self.bad_channels_arr = []
+        self.bad_channels_arr = list(map(int,lines[current_ofs].split(',')))
 
         print('[{0}.{1}] COMPLETE'.format(self.__class__.__name__, sys._getframe().f_code.co_name))
-
 
     def print_metadata(self):
         print('Number of EEG channels ', self.no_channels)
@@ -74,8 +80,4 @@ class MetadataReaderEPD:
         print('File holding event timestamps for the units, ', self.file_event_timestamps)
         print('File holding event codes for the units ', self.file_event_codes)
         print('Number of events ', self.no_events)
-        print(self.channel_info[2])
-
-
-
-
+        print('Bad Channels ', self.bad_channels_arr)
