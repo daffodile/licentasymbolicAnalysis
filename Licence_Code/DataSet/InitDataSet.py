@@ -18,19 +18,20 @@ sys.path.append(data_dir)
 file_epd_deep = 'M014_S001_SRCS3L_25,50,100_0002.epd'
 file_eti_deep = "Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti"
 
-#MEDIUM
+# MEDIUM
 file_epd_medium = 'M014_S001_SRCS3L_25,50,100_0003.epd'
 file_eti_medium = "Results M014_S001_SRCS3L_25,50,100_0003 Variable contrast, all orientations.eti"
 
-#LIGHT
+# LIGHT
 file_epd_light = 'M014_S001_SRCS3L_25,50,100_0004.epd'
 file_eti_light = "Results M014_S001_SRCS3L_25,50,100_0004 Variable contrast, all orientations.eti"
+
 
 class InitDataSet:
     def __init__(self):
         self.doas = []
         self.run()
-        print(self.doas)
+        # print(self.doas)
 
     def run(self):
         create_deep = CreateDOA(data_dir, file_epd_deep, file_eti_deep, 'deep')
@@ -42,9 +43,10 @@ class InitDataSet:
         create_light = CreateDOA(data_dir, file_epd_light, file_eti_light, 'light')
         self.doas.append(create_light.run())
 
+    def get_dataset_as_doas(self):
+        return self.doas
+
     # def seialize_doas(self, doas_file_name):
     #     with open('dataset.json', 'w') as write_file:
     #         json.dump(obj=self.doas.__dict__, fp=write_file, )
     #     json_data = json.dumps(self.doas.__dict__, lambda o: o.__dict__, indent=4)
-
-
