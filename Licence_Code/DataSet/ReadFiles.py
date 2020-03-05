@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import argrelextrema
 
-from DataSet.HighPassFilterPreProcessing import HighPassFilterPreProcessing
+# from DataSet.HighPassFilterPreProcessing import HighPassFilterPreProcessing
 from TESPAR.Coder import Coder
 
 project_path = os.path.join('', '..')

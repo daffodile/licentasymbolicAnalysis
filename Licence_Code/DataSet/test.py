@@ -3,25 +3,26 @@ import sys
 
 import numpy as np
 
+from DataSet.InitDataSet import InitDataSet
 from DataSet.MetadataReaderEPD import MetadataReaderEPD
 from DataSet.MetadataReaderETI import MetadataReaderETI
 from DataSet.CreateDOA import CreateDOA
 
-line = '1,2,3'
-# print(line.split(','))
-project_path = os.path.join('', '..')
-data_dir = os.path.join(project_path, 'Data', '')
-sys.path.append(project_path)
-ssd_file_deep = 'M014_S001_SRCS3L_25,50,100_0002.epd'
-eti_file_deep = 'Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti'
-# reader = MetadataReaderEPD(data_dir,ssd_file_deep)
-reader = MetadataReaderETI(data_dir, eti_file_deep)
-reader.print_description()
-print(reader.trials_description)
-#
-creation = CreateDOA(data_dir, ssd_file_deep, eti_file_deep, 'medium')
-creation.run()
-print(creation.doa)
+# line = '1,2,3'
+# # print(line.split(','))
+# project_path = os.path.join('', '..')
+# data_dir = os.path.join(project_path, 'Data', '')
+# sys.path.append(project_path)
+# ssd_file_deep = 'M014_S001_SRCS3L_25,50,100_0002.epd'
+# eti_file_deep = 'Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti'
+# # reader = MetadataReaderEPD(data_dir,ssd_file_deep)
+# reader = MetadataReaderETI(data_dir, eti_file_deep)
+# reader.print_description()
+# print(reader.trials_description)
+# #
+# creation = CreateDOA(data_dir, ssd_file_deep, eti_file_deep, 'medium')
+# creation.run()
+# print(creation.doa)
 #
 # line = '4,18, 25, 225,4174577,250.00,'
 # current_line = line.rstrip()
@@ -42,3 +43,6 @@ print(creation.doa)
 #         newarr.append(arr[i])
 # arr = newarr
 # print(arr)
+
+
+initialization = InitDataSet()
