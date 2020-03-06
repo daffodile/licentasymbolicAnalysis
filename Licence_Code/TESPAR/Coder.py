@@ -111,7 +111,7 @@ class Coder:
 
         print('se scrie DS matrix in fisier')
         path = os.getcwd()
-        fileName = path + "/alphabet_1hz.txt"
+        fileName = path + "/ds_3hz_doas.txt"
         f = open(fileName, "w")
         for d in range(self.maxD):
             for s in range(self.maxS):
