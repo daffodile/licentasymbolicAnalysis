@@ -4,8 +4,7 @@ import sys
 import numpy as np
 
 from DataSet.InitDataSet import InitDataSet
-from DataSet.MetadataReaderEPD import MetadataReaderEPD
-from DataSet.MetadataReaderETI import MetadataReaderETI
+
 from DataSet.CreateDOA import CreateDOA
 
 # line = '1,2,3'
@@ -44,19 +43,35 @@ from DataSet.CreateDOA import CreateDOA
 # arr = newarr
 # print(arr)
 from TESPAR.Coder import Coder
-from utils import Utils
+# from utils import Utils
+#
+# initialization = InitDataSet()
+#
+# doas = initialization.get_dataset_as_doas()
+#
+# floats_Array = []
+# print('Obtain the floats array from DOA-s')
+#
+# for doa in doas:
+#     doa_floats_list = Utils.obtain_floats_from_DOA(doa)
+#     floats_Array.extend(doa_floats_list)
+#
+# print('numa de break point hehehhe')
+# np.savetxt("all_floats_array.txt", floats_Array, fmt="%s")
+# #
 
-initialization = InitDataSet()
-
-# doa = initialization.get_dataset_as_doas()[0]
-
-# floats_Array = Utils.obtain_floats_from_DOA(doa)
-
-coder = Coder(initialization.get_dataset_as_doas())
-print(len(coder))
+coder = Coder()
+# print(coder.ds_matrix)
 
 
 
+######    serialize JSON hereee
 # initialization.serialize_doas('test.json')
 # data = initialization.deserialize_doas('test.json')
 # print(data)
+# trial_counter=0
+# for i in range(trial_counter, trial_counter +4 ):
+#     print(i)
+# trial_counter +=4
+# for i in range(trial_counter, trial_counter + 4):
+#     print(i)

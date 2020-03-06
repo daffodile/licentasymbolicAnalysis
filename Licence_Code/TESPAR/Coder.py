@@ -1,4 +1,8 @@
+import os
+import sys
+
 import numpy as np
+import matplotlib.pyplot as plt
 
 from scipy.signal import find_peaks
 
@@ -13,48 +17,57 @@ maxS_Allocate = 106
 # maxD_allocate = 222
 # maxS_Allocate = 48
 
+
 class Coder:
     '''
-    parameters:  - file_epd: - name of the file with extension .epd
+    parameters:  - doas: - array of doas containing the whole dataset
     '''
 
-    def __init__(self, doas):
+    def __init__(self):
 
-        # self.ds_matrix = [[0 for i in range(maxS_Allocate)] for j in range(maxD_allocate)]
         self.ds_matrix = None
 
         self.channel_values = []
+
         self.maxD = -1
         self.maxS = -1
 
         self.aOffset = 0
         self.symbolic_array = []
-        self.test_epoch = []
 
-        # self.read_file()
-        for doa in doas:
-            doa_floats_list = Utils.obtain_floats_from_DOA(doa)
-            self.channel_values.extend(doa_floats_list)
+        # print('Obtain the floats array from DOA-s')
+        # # for doa in doas:
+        # #     doa_floats_list = Utils.obtain_floats_from_DOA(doa)
+        # #     self.channel_values.extend(doa_floats_list)
+        #
+        # self.channel_values = Utils.obtain_floats_from_DOA(doas[0])[0:100]
+        #
+        # print('Floats are set')
+        # # self.ds_matrix = [[0 in range(48)] in range(222)]
+
+        self.read_file()
 
         self.set_matrix_dimensions()
+
+        print('create matrix now: ')
         self.create_matrix()
 
-    # def read_file(self):
-    #     project_path = os.path.join('', '..')
-    #     data_dir = os.path.join(project_path, self.filePath, '')
-    #     sys.path.append(project_path)
-    #
-    #     for i in range(30):
-    #         line = None
-    #         file_name = "channel" + str(i) + ".txt"
-    #         with open(os.path.join(data_dir, file_name), 'r') as f:
-    #             line = f.readline()
-    #             while line:
-    #                 line = line.replace("[", "")
-    #                 line = line.replace("]", "")
-    #                 new_array = np.fromstring(line, dtype=np.float, sep=', ')
-    #                 self.channel_values.append(new_array)
-    #                 line = f.readline()
+    def read_file(self):
+        project_path = os.path.join('', '..')
+        data_dir = os.path.join(project_path, 'DataSet', '')
+        sys.path.append(project_path)
+
+        line = None
+        file_name = "all_floats_array.txt"
+        with open(os.path.join(data_dir, file_name), 'r') as f:
+            line = f.readline()
+            while line:
+                line = line.replace("[", "")
+                line = line.replace("]", "")
+                new_array = np.fromstring(line, dtype=np.float32, sep=', ')
+                self.channel_values.append(new_array)
+                line = f.readline()
+        print('read_file: length of list of arrays of floats:  ' + str(len(self.channel_values)))
 
     def create_matrix(self):
         for channel in range(len(self.channel_values)):  # length 30*240
@@ -64,26 +77,15 @@ class Coder:
             last_zero_crossing = self.aOffset
 
             test_epoch = []
-            markers_on = []
 
             length = len(self.channel_values[channel])
-            # print("length = " + str(length))
             last_value = self.channel_values[channel][0]
 
             for i in range(1, length):
-                # create array of every epoch
-
-                if self.channel_values[channel][i] * last_value < 0:  # or i == length-1:  # Zero Crossing -> new Epoch
+                if self.channel_values[channel][i] * last_value < 0:  # Zero Crossing -> new Epoch
 
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
-
-                    # print("the epoch")
-                    # print(test_epoch)
-
-                    # if i == length-1 and len(test_epoch) > 1:
-                    #     test_epoch.append(self.channel_values[channel][i])
-                    #     positive = not positive
 
                     if positive:
                         for j in range(len(test_epoch)):
@@ -92,27 +94,9 @@ class Coder:
                     series = np.array(test_epoch)
                     peaks, _ = find_peaks(series)
                     mins, _ = find_peaks(series * -1)
-                    x = np.linspace(0, 10, len(series))
-                    # plt.plot(x, series, color='black');
-                    # plt.plot(x[mins], series[mins], 'x', label='mins')
-                    # plt.plot(x[peaks], series[peaks], '*', label='peaks')
-                    # plt.legend()
-                    # plt.ylim(-20, 20)
-                    # plt.show()
 
                     s = len(mins)
                     self.ds_matrix[d][s] += 1
-
-                    # if s > self.maxS:
-                    #     self.maxS = s
-                    # if d > self.maxD:
-                    #     self.maxD = d
-                    # print(s)
-                    # print(d)
-                    # plotul cu toate epocile
-
-                    for j in range(len(mins)):
-                        markers_on.append(mins[j] + last_zero_crossing)
 
                     test_epoch = []
                     test_epoch.append(self.channel_values[channel][i])
@@ -125,8 +109,18 @@ class Coder:
 
                 last_value = self.channel_values[channel][i]
 
+        print('se scrie DS matrix in fisier')
+        path = os.getcwd()
+        fileName = path + "/alphabet_1hz.txt"
+        f = open(fileName, "w")
+        for d in range(self.maxD):
+            for s in range(self.maxS):
+                f.write(str(self.ds_matrix[d][s]) + " ")
+            f.write("\n")
+        f.close()
+
     def set_matrix_dimensions(self):
-        for channel in range(len(self.channel_values)):  # length 30*240
+        for channel in range(len(self.channel_values)):
             d = 0
             s = 0
             current_epoch = 0
@@ -138,8 +132,7 @@ class Coder:
             last_value = self.channel_values[channel][0]
 
             for i in range(1, length):
-                # create array of every epoch
-                if self.channel_values[channel][i] * last_value < 0:  # or i == length-1:  # Zero Crossing -> new Epoch
+                if self.channel_values[channel][i] * last_value < 0:  # Zero Crossing -> new Epoch
 
                     positive = self.channel_values[channel][i] > 0
                     d = i - last_zero_crossing
@@ -151,16 +144,16 @@ class Coder:
                     series = np.array(test_epoch)
                     peaks, _ = find_peaks(series)
                     mins, _ = find_peaks(series * -1)
-                    x = np.linspace(0, 10, len(series))
+
                     s = len(mins)
-                    # self.ds_matrix[d][s] += 1
 
                     if s > self.maxS:
                         self.maxS = s
-                        print('update s: ' + str(s))
+                        print('higher s: ' + str(s))
+
                     if d > self.maxD:
                         self.maxD = d
-                        print('update d: ' + str(d))
+                        print('higher d: ' + str(d))
 
                     test_epoch = []
                     test_epoch.append(self.channel_values[channel][i])
@@ -173,6 +166,8 @@ class Coder:
 
                 last_value = self.channel_values[channel][i]
 
-        self.ds_matrix = [0 in range(self.maxS + 1) in range(self.maxD + 1)]
-        print('find_matrix_dimensions  maxD: ' + str(self.maxD) + '  maxS: ' + str(self.maxS))
-        # find_matrix_dimensions  maxD: 170  maxS: 28    // de ce printeaza astaaa  ?????
+        self.maxD += 1
+        self.maxS += 1
+
+        self.ds_matrix = [[0 in range(self.maxS)] in range(self.maxD)]
+        print('find_matrix_dimensions  maxD +1: ' + str(self.maxD) + '  maxS +1: ' + str(self.maxS))
