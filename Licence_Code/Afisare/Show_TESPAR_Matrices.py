@@ -1,6 +1,5 @@
 import numpy as np
 
-from TESPAR.Encoding import Encoding
 import os
 import sys
 import matplotlib.pyplot as plt
@@ -14,7 +13,7 @@ class Show_TESPAR_Matrices:
 
     def plot_matrix_S(self, DOA, segment, channel_nr, filter_freq):
 
-        file_path = './DataSet/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
+        file_path = './input_reader/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
             # + '\channel' + str(channel_nr) + '.txt'
         project_path = os.path.join('', '..')
         file_dir = os.path.join(project_path, file_path, '')
@@ -49,7 +48,7 @@ class Show_TESPAR_Matrices:
 
     def plot_matrix_A(self, DOA, segment, channel_nr, filter_freq, lag):
 
-        file_path = './DataSet/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
+        file_path = './input_reader/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
             # + '\channel' + str(channel_nr) + '.txt'
         project_path = os.path.join('', '..')
         file_dir = os.path.join(project_path, file_path, '')
@@ -81,7 +80,7 @@ class Show_TESPAR_Matrices:
 
     def plot_symbols(self, DOA, segment, channel_nr, trial_nr, filter_freq):
 
-        file_path = './DataSet/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
+        file_path = './input_reader/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
             # + '\channel' + str(channel_nr) + '.txt'
         project_path = os.path.join('', '..')
         file_dir = os.path.join(project_path, file_path, '')
@@ -126,12 +125,12 @@ def compare_cannel(self, file_name1, file_name2, ch_number):
     symbols1 = self.encoding.symbols_array(lines1[5])
     symbols2 = self.encoding.symbols_array(lines2[5])
 
-# en = Encoding('./../VQ_REMAKE/symbols_cutoff3_s10.txt')
+# en = Encoding('./../VQ/symbols_cutoff3_s10.txt')
 #
 # array_27 = []
 # array_29 = []
 #
-# file_deep_stimulus = './DataSet/cutoff1hz/deep/poststimulus'
+# file_deep_stimulus = './input_reader/cutoff1hz/deep/poststimulus'
 # project_path = os.path.join('', '..')
 # data_dir = os.path.join(project_path, file_deep_stimulus, '')
 # sys.path.append(project_path)
@@ -203,7 +202,7 @@ def compare_cannel(self, file_name1, file_name2, ch_number):
 # plt.ylabel("Symbols")
 # plt.show()
 #
-# file_light_stimulus = './DataSet/cutoff1hz/light/poststimulus'
+# file_light_stimulus = './input_reader/cutoff1hz/light/poststimulus'
 # project_path = os.path.join('', '..')
 # data_dir = os.path.join(project_path, file_light_stimulus, '')
 # sys.path.append(project_path)

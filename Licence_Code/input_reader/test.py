@@ -1,16 +1,7 @@
-import os
-import sys
-
-import numpy as np
-
-from DataSet.InitDataSet import InitDataSet
-
-from DataSet.CreateDOA import CreateDOA
-
 # line = '1,2,3'
 # # print(line.split(','))
 # project_path = os.path.join('', '..')
-# data_dir = os.path.join(project_path, 'Data', '')
+# data_dir = os.path.join(project_path, 'data', '')
 # sys.path.append(project_path)
 # ssd_file_deep = 'M014_S001_SRCS3L_25,50,100_0002.epd'
 # eti_file_deep = 'Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti'
@@ -42,7 +33,7 @@ from DataSet.CreateDOA import CreateDOA
 #         newarr.append(arr[i])
 # arr = newarr
 # print(arr)
-from TESPAR.Coder import Coder
+from feature_extraction.TESPAR.Coder import Coder
 # from utils import Utils
 #
 # initialization = InitDataSet()

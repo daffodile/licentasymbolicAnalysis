@@ -1,6 +1,6 @@
 '''
 
-here a function to obtain a float aarray from a doa
+here a function to obtain a float array from a doa
 
 '''
 

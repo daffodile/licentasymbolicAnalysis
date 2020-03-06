@@ -1,17 +1,14 @@
-# Steps
-# epd si eti - instantiation
-# epd -> read bin files
 import os
 
 import numpy as np
 
-from DataSet.MedataReaderBIN import MetadataReaderBIN
-from DataSet.MetadataReaderEPD import MetadataReaderEPD
-from DataSet.MetadataReaderETI import MetadataReaderETI
-from DataSet.Models import DOA
-from DataSet.Models import Channel
-from DataSet.Models import Trial
-from DataSet.Models import Segment
+from input_reader.MedataReaderBIN import MetadataReaderBIN
+from input_reader.MetadataReaderEPD import MetadataReaderEPD
+from input_reader.MetadataReaderETI import MetadataReaderETI
+from input_reader.Models import DOA
+from input_reader.Models import Channel
+from input_reader.Models import Trial
+from input_reader.Models import Segment
 
 
 class CreateDOA:
@@ -46,15 +43,8 @@ class CreateDOA:
                       'rb') as channel_info:
                 values_of_channel = channel_info.read()
 
-            # print(self.reader_epd.channel_info[i])
             self.amplitude = np.frombuffer(values_of_channel, dtype=np.float32)
-            # print(self.timestamp_array)
-            # a1 = self.amplitude[self.timestamp_array[0] - 1]
-            # a2 = self.amplitude[0]
-            # a3 = self.amplitude[self.timestamp_array[0] + 1]
             self.amplitude_array = self.amplitude[self.timestamp_array[0]:]
-
-            # print('channel' + str(i) + str(self.amplitude_array))
 
             channel = Channel(i + 1)
 
@@ -107,7 +97,7 @@ class CreateDOA:
                                   self.reader_eti.trials_description['Direction'][j],
                                   self.reader_eti.trials_description['Duration_us'][j],
                                   self.reader_eti.trials_description['Duration_f'][j])
-
+                    ###
                     timestamp_spontaneous = self.timestamp_array[4 * j]
                     code_spontaneous = self.codes_array[4 * j]
 
@@ -119,22 +109,18 @@ class CreateDOA:
 
                     timestamp_end_poststimulus = self.timestamp_array[4 * j + 3]
                     code_end_poststimulus = self.codes_array[4 * j + 3]
-
+                    ###
                     seg_spontaneous = Segment(timestamp_spontaneous, timestamp_stimulus,
                                               code_spontaneous, code_stimulus)
-                    # seg_spontaneous.set_values(self.amplitude[timestamp_spontaneous:timestamp_stimulus])
                     ind = timestamp_spontaneous
                     temp_amplitudes = []
                     while ind < timestamp_stimulus:
                         temp_amplitudes.append(self.amplitude[ind])
                         ind += 1
                     seg_spontaneous.set_values(temp_amplitudes)
-
                     trial.set_spontaneous(seg_spontaneous)
-
+                    ###
                     seg_stimulus = Segment(timestamp_stimulus, timestamp_poststimulus, code_stimulus, code_poststimulus)
-                    # seg_stimulus.set_values(self.amplitude[timestamp_stimulus:timestamp_poststimulus])
-
                     ind = timestamp_stimulus
                     temp_amplitudes = []
                     while ind < timestamp_poststimulus:
@@ -142,10 +128,9 @@ class CreateDOA:
                         ind += 1
                     seg_stimulus.set_values(temp_amplitudes)
                     trial.set_stimulus(seg_stimulus)
-
+                    ###
                     seg_poststimulus = Segment(timestamp_poststimulus, timestamp_end_poststimulus,
                                                code_poststimulus, code_end_poststimulus)
-                    # seg_poststimulus.set_values(self.amplitude[timestamp_poststimulus:timestamp_end_poststimulus])
                     ind = timestamp_poststimulus
                     temp_amplitudes = []
                     while ind < timestamp_end_poststimulus:

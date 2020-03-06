@@ -1,21 +1,8 @@
 import os
 import sys
-
 import numpy as np
-import matplotlib.pyplot as plt
 
 from scipy.signal import find_peaks
-
-from utils import Utils
-
-# cutoff 1
-maxD_allocate = 536
-maxS_Allocate = 106
-
-
-# cutoff 3
-# maxD_allocate = 222
-# maxS_Allocate = 48
 
 
 class Coder:
@@ -54,7 +41,7 @@ class Coder:
 
     def read_file(self):
         project_path = os.path.join('', '..')
-        data_dir = os.path.join(project_path, 'DataSet', '')
+        data_dir = os.path.join(project_path, 'input_reader', '')
         sys.path.append(project_path)
 
         line = None

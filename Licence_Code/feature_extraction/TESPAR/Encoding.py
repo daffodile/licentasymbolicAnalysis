@@ -84,45 +84,19 @@ class Encoding:
         return self.symbols_array
 
     def get_s(self):
-
         self.s_matrix = [0 for i in range(32)]
-
         for i in range(len(self.symbols_array)):
             self.s_matrix[self.symbols_array[i]] += 1
-
-        # plt.hist(self.s_matrix, bins='auto')
-        # plt.title("Tespar S", fontdict=None)
-        # plt.xlabel("No of app")
-        # plt.ylabel("Symbol")
-        # plt.show()
 
         return self.s_matrix
 
     def get_a(self, l):
         lag = l
         a_matrix1 = [[0 for i in range(32)] for j in range(32)]
-        a_matrix2 = [[0 for i in range(32)] for j in range(32)]
-        # var 1 Narci
         for i in range(len(self.symbols_array) - l - 1):
             current = self.symbols_array[i]
             current_pair = self.symbols_array[i + 1 + l]
             a_matrix1[current][current_pair] += 1
-        # var 2 Andreea
-        for i in range(len(self.symbols_array) - 1):
-            current = self.symbols_array[i]
-            next = self.symbols_array[i + 1]
-            if current + lag == next or next + lag == current:
-                a_matrix2[current][next] += 1
-
         self.a_matrix = a_matrix1
-        # print(a_matrix1)
-        # print(a_matrix2)
-        # plot heatmap
-        # ax = sns.heatmap(self.a_matrix, cmap="YlGnBu", vmin=0, vmax=8)
-        # ax.invert_yaxis()
-        # plt.xlabel("Symbols")
-        # plt.title("A Matrix lag 1")
-        # plt.ylabel("Symbols")
-        # plt.show()
 
         return self.a_matrix
