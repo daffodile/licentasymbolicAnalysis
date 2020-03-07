@@ -43,6 +43,7 @@ from DataSet.CreateDOA import CreateDOA
 # arr = newarr
 # print(arr)
 from TESPAR.Coder import Coder
+
 # from utils import Utils
 #
 # initialization = InitDataSet()
@@ -60,9 +61,8 @@ from TESPAR.Coder import Coder
 # np.savetxt("all_floats_array.txt", floats_Array, fmt="%s")
 # #
 
-coder = Coder()
+coder = Coder('../TESPAR/ds_matrix_doas.txt')
 # print(coder.ds_matrix)
-
 
 
 ######    serialize JSON hereee
