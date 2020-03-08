@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 import os
 
-from TESPAR.Coder import Coder
+from feature_extraction.TESPAR.Coder import Coder
 
 # cutoff 1
 maxD_allocate = 536
@@ -13,17 +13,17 @@ maxS_Allocate = 106
 # maxD_allocate = 222
 # maxS_Allocate = 48
 
-file_deep_stimulus = 'DataSet/cutoff1hz/deep/stimulus'
-file_deep_spontaneous = 'DataSet/cutoff1hz/deep/spontaneous'
-file_deep_post = 'DataSet/cutoff1hz/deep/poststimulus'
+file_deep_stimulus = 'input_reader/cutoff1hz/deep/stimulus'
+file_deep_spontaneous = 'input_reader/cutoff1hz/deep/spontaneous'
+file_deep_post = 'input_reader/cutoff1hz/deep/poststimulus'
 
-file_medium_stimulus = 'DataSet/cutoff1hz/medium/stimulus'
-file_medium_spontaneous = 'DataSet/cutoff1hz/medium/spontaneous'
-file_medium_poststimulus = 'DataSet/cutoff1hz/medium/poststimulus'
+file_medium_stimulus = 'input_reader/cutoff1hz/medium/stimulus'
+file_medium_spontaneous = 'input_reader/cutoff1hz/medium/spontaneous'
+file_medium_poststimulus = 'input_reader/cutoff1hz/medium/poststimulus'
 
-file_light_stimulus = 'DataSet/cutoff1hz/light/stimulus'
-file_light_spontaneous = 'DataSet/cutoff1hz/light/spontaneous'
-file_light_poststimulus = 'DataSet/cutoff1hz/light/poststimulus'
+file_light_stimulus = 'input_reader/cutoff1hz/light/stimulus'
+file_light_spontaneous = 'input_reader/cutoff1hz/light/spontaneous'
+file_light_poststimulus = 'input_reader/cutoff1hz/light/poststimulus'
 
 filesToOpen = [file_light_stimulus, file_light_spontaneous, file_light_poststimulus,
                file_medium_stimulus, file_medium_spontaneous, file_medium_poststimulus,

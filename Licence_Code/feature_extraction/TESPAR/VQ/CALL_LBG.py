@@ -10,7 +10,7 @@
 
 import numpy as np
 
-from VQ_REMAKE.LBG import VQ_LGB
+from feature_extraction.TESPAR.VQ.LBG import VQ_LGB
 
 # citeste o matrice din orice fisier
 input_matrix = np.loadtxt(fname='./../TESPAR/ds_matrix_doas.txt', dtype='i')

@@ -1,14 +1,8 @@
 import os
 import sys
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.signal import argrelextrema
-
-from TESPAR.Coder import Coder
 
 project_path = os.path.join('', '..')
-data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
+data_dir = os.path.join(project_path, 'input_reader/light/stimulus', '')
 sys.path.append(project_path)
 light_stimulus_0 = 'channel0.txt'
 

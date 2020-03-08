@@ -5,10 +5,10 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from DataSet.TrialExtractorEPD import TrialExtractorEPD
+from Tests.DataSet.TrialExtractorEPD import TrialExtractorEPD
 
 project_path = os.path.join('', '..')
-data_dir = os.path.join(project_path, 'Data', '')
+data_dir = os.path.join(project_path, 'data', '')
 sys.path.append(project_path)
 ssd_file_deep = 'M014_S001_SRCS3L_25,50,100_0002.epd'
 ssd_file_medium = 'M014_S001_SRCS3L_25,50,100_0003.epd'
