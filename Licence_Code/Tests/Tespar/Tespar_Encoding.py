@@ -2,7 +2,6 @@ import os
 import sys
 import numpy as np
 
-
 import matplotlib.pyplot as plt
 
 from Tests.DataSet.TrialExtractorEPD import TrialExtractorEPD

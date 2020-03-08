@@ -3,9 +3,9 @@ import sys
 
 import numpy as np
 
-from DataSet.CreateDOA import CreateDOA
+from input_reader.CreateDOA import CreateDOA
 # write the results here
-from TESPAR.Encoding import Encoding
+from feature_extraction.TESPAR.Encoding import Encoding
 
 path = os.getcwd()
 fileName = path + "/results_3hz.txt"

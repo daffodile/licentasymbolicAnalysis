@@ -1,7 +1,7 @@
 import numpy as np
 
-from DataSet.InitDataSet import InitDataSet
-from DataSet.Models import DOA
+from input_reader.InitDataSet import InitDataSet
+from input_reader.Models import DOA
 
 
 def differences_A(doas, ch_nr, trial_nr):

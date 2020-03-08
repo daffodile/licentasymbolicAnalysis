@@ -2,13 +2,13 @@ import os
 
 import numpy as np
 
-from DataSet.MedataReaderBIN import MetadataReaderBIN
-from DataSet.MetadataReaderEPD import MetadataReaderEPD
-from DataSet.MetadataReaderETI import MetadataReaderETI
-from DataSet.Models import DOA
-from DataSet.Models import Channel
-from DataSet.Models import Trial
-from DataSet.Models import Segment
+from input_reader.MedataReaderBIN import MetadataReaderBIN
+from input_reader.MetadataReaderEPD import MetadataReaderEPD
+from input_reader.MetadataReaderETI import MetadataReaderETI
+from input_reader.Models import DOA
+from input_reader.Models import Channel
+from input_reader.Models import Trial
+from input_reader.Models import Segment
 
 
 class CreateDOA:

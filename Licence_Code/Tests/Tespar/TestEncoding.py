@@ -21,4 +21,3 @@ with open(os.path.join(data_dir, file_name), 'r') as f:
 
 en.get_symbols(array)
 en.get_s()
-

@@ -4,7 +4,7 @@ import numpy as np
 
 # creating the directories tree and saving the data in here
 
-from DataSet.TrialExtractorEPD import TrialExtractorEPD
+from input_reader.TrialExtractorEPD import TrialExtractorEPD
 
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, 'Data/cutoff1hz', '')

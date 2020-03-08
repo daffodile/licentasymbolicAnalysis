@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-from DataSet.CreateDOA import CreateDOA
+from input_reader.CreateDOA import CreateDOA
 
 data_dir = os.path.join('', '..')
 data_dir = os.path.join(data_dir, 'Data/cutoff3hz', '')

@@ -2,11 +2,7 @@ import os
 import sys
 
 import numpy as np
-import matplotlib.pyplot as plt
-
 from scipy.signal import find_peaks
-
-from utils import Utils
 
 
 class Coder:
