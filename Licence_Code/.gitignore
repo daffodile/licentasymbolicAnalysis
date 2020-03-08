@@ -1,13 +1,9 @@
-/data/
-/input_reader/cutoff3hz/
-/input_reader/cutoff1hz/
-/feature_extraction/TESPAR/Amatrix_test.py
-/feature_extraction/TESPAR/ReadingChannel.py
-/feature_extraction/TESPAR/ReadingChannelTest.py
+/Data/
+/DataSet/
 /Afisare/A/
 /Afisare/log/
 /Afisare/S/
 /Afisare/symbols/
 /.idea/
 /.idea
-/input_reader/trials_as_floats.txt
+/data_to_be_saved

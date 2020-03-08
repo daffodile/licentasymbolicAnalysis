@@ -2,13 +2,13 @@ import os
 
 import numpy as np
 
-from input_reader.MedataReaderBIN import MetadataReaderBIN
-from input_reader.MetadataReaderEPD import MetadataReaderEPD
-from input_reader.MetadataReaderETI import MetadataReaderETI
-from input_reader.Models import DOA
-from input_reader.Models import Channel
-from input_reader.Models import Trial
-from input_reader.Models import Segment
+from DataSet.MedataReaderBIN import MetadataReaderBIN
+from DataSet.MetadataReaderEPD import MetadataReaderEPD
+from DataSet.MetadataReaderETI import MetadataReaderETI
+from DataSet.Models import DOA
+from DataSet.Models import Channel
+from DataSet.Models import Trial
+from DataSet.Models import Segment
 
 
 class CreateDOA:
@@ -43,50 +43,12 @@ class CreateDOA:
                       'rb') as channel_info:
                 values_of_channel = channel_info.read()
 
+            # print(self.reader_epd.channel_info[i])
             self.amplitude = np.frombuffer(values_of_channel, dtype=np.float32)
+
             self.amplitude_array = self.amplitude[self.timestamp_array[0]:]
 
             channel = Channel(i + 1)
-
-            # trial_counter = 0
-            # contor = 0
-
-            # for j in range(self.reader_eti.no_trials):
-            #     if self.reader_eti.trials_description['Error'][j] != 1:
-            #         trial = Trial(self.reader_eti.trials_description['Trial'][j],
-            #                       self.reader_eti.trials_description['Condition'][j],
-            #                       self.reader_eti.trials_description['Contrast'][j],
-            #                       self.reader_eti.trials_description['Direction'][j],
-            #                       self.reader_eti.trials_description['Duration_us'][j],
-            #                       self.reader_eti.trials_description['Duration_f'][j])
-            #
-            #         for i in range(trial_counter, trial_counter + 4):
-            #             start_timestamp = self.timestamp_array[i]
-            #             end_timestamp = self.timestamp_array[i + 1]
-            #             start_code = self.codes_array[i]
-            #             end_code = self.codes_array[i + 1]
-            #             temp_amplitudes = []
-            #             j = start_timestamp
-            #
-            #             segment = Segment(start_timestamp, end_timestamp, start_code, end_code)
-            #
-            #             while j < end_timestamp:
-            #                 temp_amplitudes.append(self.amplitude_array[contor])
-            #                 j = j + 1
-            #                 contor = contor + 1
-            #
-            #             segment.set_values(temp_amplitudes)
-            #             if start_code == 128:
-            #                 trial.set_spontaneous(segment)
-            #
-            #             if start_code == 129:
-            #                 trial.set_stimulus(segment)
-            #
-            #             if start_code == 150:
-            #                 trial.set_poststimulus(segment)
-            #         if (trial_counter < 956):
-            #             trial_counter += 4
-            #         channel.trials.append(trial)
 
             # for de 240 de iteratii
             for j in range(self.reader_eti.no_trials):
@@ -97,7 +59,7 @@ class CreateDOA:
                                   self.reader_eti.trials_description['Direction'][j],
                                   self.reader_eti.trials_description['Duration_us'][j],
                                   self.reader_eti.trials_description['Duration_f'][j])
-                    ###
+
                     timestamp_spontaneous = self.timestamp_array[4 * j]
                     code_spontaneous = self.codes_array[4 * j]
 
@@ -109,18 +71,22 @@ class CreateDOA:
 
                     timestamp_end_poststimulus = self.timestamp_array[4 * j + 3]
                     code_end_poststimulus = self.codes_array[4 * j + 3]
-                    ###
+
                     seg_spontaneous = Segment(timestamp_spontaneous, timestamp_stimulus,
                                               code_spontaneous, code_stimulus)
+                    # seg_spontaneous.set_values(self.amplitude[timestamp_spontaneous:timestamp_stimulus])
                     ind = timestamp_spontaneous
                     temp_amplitudes = []
                     while ind < timestamp_stimulus:
                         temp_amplitudes.append(self.amplitude[ind])
                         ind += 1
                     seg_spontaneous.set_values(temp_amplitudes)
+
                     trial.set_spontaneous(seg_spontaneous)
-                    ###
+
                     seg_stimulus = Segment(timestamp_stimulus, timestamp_poststimulus, code_stimulus, code_poststimulus)
+                    # seg_stimulus.set_values(self.amplitude[timestamp_stimulus:timestamp_poststimulus])
+
                     ind = timestamp_stimulus
                     temp_amplitudes = []
                     while ind < timestamp_poststimulus:
@@ -128,7 +94,7 @@ class CreateDOA:
                         ind += 1
                     seg_stimulus.set_values(temp_amplitudes)
                     trial.set_stimulus(seg_stimulus)
-                    ###
+
                     seg_poststimulus = Segment(timestamp_poststimulus, timestamp_end_poststimulus,
                                                code_poststimulus, code_end_poststimulus)
                     ind = timestamp_poststimulus
@@ -138,33 +104,6 @@ class CreateDOA:
                         ind += 1
                     seg_poststimulus.set_values(temp_amplitudes)
                     trial.set_poststimulus(seg_poststimulus)
-
-                    # for i in range(trial_counter, trial_counter + 4):
-                    #     start_timestamp = self.timestamp_array[i]
-                    #     end_timestamp = self.timestamp_array[i + 1]
-                    #     start_code = self.codes_array[i]
-                    #     end_code = self.codes_array[i + 1]
-                    #     temp_amplitudes = []
-                    #     j = start_timestamp
-                    #
-                    #     segment = Segment(start_timestamp, end_timestamp, start_code, end_code)
-                    #
-                    #     while j < end_timestamp:
-                    #         temp_amplitudes.append(self.amplitude_array[contor])
-                    #         j = j + 1
-                    #         contor = contor + 1
-                    #
-                    #     segment.set_values(temp_amplitudes)
-                    #     if start_code == 128:
-                    #         trial.set_spontaneous(segment)
-                    #
-                    #     if start_code == 129:
-                    #         trial.set_stimulus(segment)
-                    #
-                    #     if start_code == 150:
-                    #         trial.set_poststimulus(segment)
-                    # if (trial_counter < 956):
-                    #     trial_counter += 4
 
                     channel.trials.append(trial)
 

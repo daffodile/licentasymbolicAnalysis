@@ -79,24 +79,27 @@ class Encoding:
 
             last_value = trial_array[i]
 
-        print(self.symbols_array)
-
         return self.symbols_array
 
-    def get_s(self):
-        self.s_matrix = [0 for i in range(32)]
-        for i in range(len(self.symbols_array)):
-            self.s_matrix[self.symbols_array[i]] += 1
+    def get_s(self, trial):
 
-        return self.s_matrix
+        symbols_array = self.get_symbols(trial)
 
-    def get_a(self, l):
-        lag = l
+        s_matrix = [0 for i in range(32)]
+
+        for i in range(len(symbols_array)):
+            s_matrix[symbols_array[i]] += 1
+
+        return s_matrix
+
+    def get_a(self, trial, l):
+
+        symbols_array = self.get_symbols(trial)
+
         a_matrix1 = [[0 for i in range(32)] for j in range(32)]
-        for i in range(len(self.symbols_array) - l - 1):
-            current = self.symbols_array[i]
-            current_pair = self.symbols_array[i + 1 + l]
+        for i in range(len(symbols_array) - l - 1):
+            current = symbols_array[i]
+            current_pair = symbols_array[i + 1 + l]
             a_matrix1[current][current_pair] += 1
-        self.a_matrix = a_matrix1
 
-        return self.a_matrix
+        return a_matrix1

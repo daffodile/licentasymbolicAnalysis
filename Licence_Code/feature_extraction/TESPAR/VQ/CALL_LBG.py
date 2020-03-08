@@ -13,7 +13,7 @@ import numpy as np
 from feature_extraction.TESPAR.VQ.LBG import VQ_LGB
 
 # citeste o matrice din orice fisier
-input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_cutoff3hz.txt', dtype='i')
+input_matrix = np.loadtxt(fname='./../TESPAR/ds_matrix_doas.txt', dtype='i')
 
 # # check the read matrix
 # for i in range(len(input_matrix)):

@@ -1,8 +1,12 @@
 import os
 import sys
+
 import numpy as np
+import matplotlib.pyplot as plt
 
 from scipy.signal import find_peaks
+
+from utils import Utils
 
 
 class Coder:
@@ -10,14 +14,11 @@ class Coder:
     parameters:  - doas: - array of doas containing the whole dataset
     '''
 
-    def __init__(self):
+    def __init__(self, path_save_file):
 
-        self.ds_matrix = None
+        self.path_to_save_file = path_save_file
 
         self.channel_values = []
-
-        self.maxD = -1
-        self.maxS = -1
 
         self.aOffset = 0
         self.symbolic_array = []
@@ -34,18 +35,21 @@ class Coder:
 
         self.read_file()
 
-        self.set_matrix_dimensions()
+        max_d, max_s = self.set_matrix_dimensions()
+
+        self.maxD = max_d
+        self.maxS = max_s
 
         print('create matrix now: ')
         self.create_matrix()
 
     def read_file(self):
         project_path = os.path.join('', '..')
-        data_dir = os.path.join(project_path, 'input_reader', '')
+        data_dir = os.path.join(project_path, 'DataSet', '')
         sys.path.append(project_path)
 
         line = None
-        file_name = "all_floats_array.txt"
+        file_name = "trials_as_floats.txt"
         with open(os.path.join(data_dir, file_name), 'r') as f:
             line = f.readline()
             while line:
@@ -57,6 +61,9 @@ class Coder:
         print('read_file: length of list of arrays of floats:  ' + str(len(self.channel_values)))
 
     def create_matrix(self):
+        # self.ds_matrix = [[0 in range(self.maxS)] in range(self.maxD)]
+        self.ds_matrix = np.zeros((self.maxD, self.maxS), dtype='i')
+
         for channel in range(len(self.channel_values)):  # length 30*240
             d = 0
             s = 0
@@ -83,6 +90,7 @@ class Coder:
                     mins, _ = find_peaks(series * -1)
 
                     s = len(mins)
+
                     self.ds_matrix[d][s] += 1
 
                     test_epoch = []
@@ -97,9 +105,9 @@ class Coder:
                 last_value = self.channel_values[channel][i]
 
         print('se scrie DS matrix in fisier')
-        path = os.getcwd()
-        fileName = path + "/ds_3hz_doas.txt"
-        f = open(fileName, "w")
+        # path = os.getcwd()
+        # fileName = path + self.path_to_save_file
+        f = open(self.path_to_save_file, "w")
         for d in range(self.maxD):
             for s in range(self.maxS):
                 f.write(str(self.ds_matrix[d][s]) + " ")
@@ -107,6 +115,9 @@ class Coder:
         f.close()
 
     def set_matrix_dimensions(self):
+
+        maxD = 0
+        maxS = 0
         for channel in range(len(self.channel_values)):
             d = 0
             s = 0
@@ -134,12 +145,12 @@ class Coder:
 
                     s = len(mins)
 
-                    if s > self.maxS:
-                        self.maxS = s
+                    if s > maxS:
+                        maxS = s
                         print('higher s: ' + str(s))
 
-                    if d > self.maxD:
-                        self.maxD = d
+                    if d > maxD:
+                        maxD = d
                         print('higher d: ' + str(d))
 
                     test_epoch = []
@@ -153,8 +164,8 @@ class Coder:
 
                 last_value = self.channel_values[channel][i]
 
-        self.maxD += 1
-        self.maxS += 1
+        maxD += 1
+        maxS += 1
+        print('find_matrix_dimensions  maxD +1: ' + str(maxD) + '  maxS +1: ' + str(maxS))
 
-        self.ds_matrix = [[0 in range(self.maxS)] in range(self.maxD)]
-        print('find_matrix_dimensions  maxD +1: ' + str(self.maxD) + '  maxS +1: ' + str(self.maxS))
+        return maxD, maxS
