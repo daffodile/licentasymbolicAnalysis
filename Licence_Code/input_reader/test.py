@@ -1,3 +1,5 @@
+import os
+
 # line = '1,2,3'
 # # print(line.split(','))
 # project_path = os.path.join('', '..')
@@ -13,7 +15,7 @@
 # creation = CreateDOA(data_dir, ssd_file_deep, eti_file_deep, 'medium')
 # creation.run()
 # print(creation.doa)
-#
+
 # line = '4,18, 25, 225,4174577,250.00,'
 # current_line = line.rstrip()
 # attributes = current_line.split(',')
@@ -33,12 +35,20 @@
 #         newarr.append(arr[i])
 # arr = newarr
 # print(arr)
-from feature_extraction.TESPAR.Coder import Coder
+# from feature_extraction.TESPAR.Coder import Coder
 # from utils import Utils
 #
-# initialization = InitDataSet()
-#
-# doas = initialization.get_dataset_as_doas()
+import numpy as np
+
+from input_reader.InitDataSet import InitDataSet
+
+initialization = InitDataSet()
+
+doas = initialization.get_dataset_as_doas()
+doa_light = np.extract(condition=(lambda x: x.level == "light"), arr=doas)[0]
+
+print(len(doa_light.channels))
+
 #
 # floats_Array = []
 # print('Obtain the floats array from DOA-s')
@@ -51,9 +61,8 @@ from feature_extraction.TESPAR.Coder import Coder
 # np.savetxt("all_floats_array.txt", floats_Array, fmt="%s")
 # #
 
-coder = Coder()
+# coder = Coder()
 # print(coder.ds_matrix)
-
 
 
 ######    serialize JSON hereee
