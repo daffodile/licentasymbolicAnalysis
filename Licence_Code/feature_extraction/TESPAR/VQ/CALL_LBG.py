@@ -10,7 +10,7 @@
 
 import numpy as np
 
-from VQ_REMAKE.LBG import VQ_LGB
+from feature_extraction.TESPAR.VQ.LBG import VQ_LGB
 
 # citeste o matrice din orice fisier
 input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_cutoff3hz.txt', dtype='i')
@@ -22,10 +22,16 @@ input_matrix = np.loadtxt(fname='./../TESPAR/global_DS_matrix_cutoff3hz.txt', dt
 #         print(str(input_matrix[i][j]) + ' ')
 
 # apply alg
-lbg = VQ_LGB(k=32, alpha=0.000005, t=10000, scale_s=3, epsilon=0.1)
+lbg = VQ_LGB(k=32, alpha=0.000005, t=10000, scale_s=5, epsilon=0.1)
 # lbg = VQ_LGB(k=32, alpha=0.0005, t=100, scale_s=1, epsilon=0.1)
 
 # after creating it,  set the dataset
 # lbg.set_dataset(input_matrix[0:150, 0:80])
-lbg.set_dataset(input_matrix[0:120, 0:40])
+
+# fdw = FDW()
+# maxd, maxs = fdw.get_pool(input_matrix, 0.99)
+# lbg.set_dataset(input_matrix[0:maxd, 0:maxs])
+# lbg.run()
+
+lbg.set_dataset(input_matrix)
 lbg.run()

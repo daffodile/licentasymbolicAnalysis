@@ -2,7 +2,7 @@ import os
 import sys
 import numpy as np
 
-from DataSet.MedataReaderBIN import MetadataReaderBIN
+from input_reader.MedataReaderBIN import MetadataReaderBIN
 
 
 class TrialExtractorEPD:

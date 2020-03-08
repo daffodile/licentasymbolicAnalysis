@@ -1,7 +1,7 @@
 from Afisare.Show_TESPAR_Matrices import Show_TESPAR_Matrices
-from TESPAR.Encoding import Encoding
+from feature_extraction.TESPAR.Encoding import Encoding
 
-en = Encoding('./../VQ_REMAKE/symbols_cutoff3_s10_sorted.txt')
+en = Encoding('./../VQ/symbols_cutoff3_s10_sorted.txt')
 stm = Show_TESPAR_Matrices(en)
 
 # channel 27
