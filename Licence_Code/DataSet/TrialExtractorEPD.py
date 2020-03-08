@@ -21,9 +21,9 @@ class TrialExtractorEPD:
         self.codes_array = self.codes_timestamps_reader.event_codes
 
         self.storage = {128: [], 129: [], 150: []}
-        for i in range(len(self.codes_timestamps_reader.channel_files)):
+        for i in range(len(self.codes_timestamps_reader.channel_info)):
             if i != 0 and i != 21 and i != 32:
-                with open(os.path.join(self.path, self.codes_timestamps_reader.channel_files[i].rstrip()),
+                with open(os.path.join(self.path, self.codes_timestamps_reader.channel_info[i].rstrip()),
                           'rb') as channel_info:
                     values_of_channel = channel_info.read()
                 self.amplitude = np.frombuffer(values_of_channel, dtype=np.float32)

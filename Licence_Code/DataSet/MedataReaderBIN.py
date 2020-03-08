@@ -29,7 +29,7 @@ class MetadataReaderBIN:
 
     def extract_event_codes_timestamps(self):
         lines = None
-        # self.channel_files = self.metadata.channel_info
+        self.channel_info = self.metadata.channel_info
         with open(os.path.join(self.path, self.metadata.file_event_timestamps), 'rb') as timestamps_file, \
                 open(os.path.join(self.path, self.metadata.file_event_codes), 'rb') as codes_file:
             # read the code of the trial and it's coresponding timestamp

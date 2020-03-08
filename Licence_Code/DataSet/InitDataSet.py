@@ -5,7 +5,7 @@ import sys
 from DataSet.CreateDOA import CreateDOA
 
 data_dir = os.path.join('', '..')
-data_dir = os.path.join(data_dir, 'Data', '')
+data_dir = os.path.join(data_dir, 'Data/cutoff3hz', '')
 sys.path.append(data_dir)
 
 doa_info = {
@@ -22,6 +22,25 @@ doa_info = {
         'eti': 'Results M014_S001_SRCS3L_25,50,100_0004 Variable contrast, all orientations.eti'
     }
 }
+
+# data_dir = os.path.join('', '..')
+# data_dir = os.path.join(data_dir, 'Data/cutoff1hz', '')
+# sys.path.append(data_dir)
+#
+# doa_info = {
+#     'deep': {
+#         'epd': 'M014_S001_SRCS3L_25,50,100_0002.epd',
+#         'eti': 'Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti'
+#     },
+#     'medium': {
+#         'epd': 'M014_S001_SRCS3L_25,50,100_0003.epd',
+#         'eti': 'Results M014_S001_SRCS3L_25,50,100_0003 Variable contrast, all orientations.eti'
+#     },
+#     'light': {
+#         'epd': 'M014_S001_SRCS3L_25,50,100_0004.epd',
+#         'eti': 'Results M014_S001_SRCS3L_25,50,100_0004 Variable contrast, all orientations.eti'
+#     }
+# }
 
 
 class InitDataSet:

@@ -45,11 +45,11 @@ from DataSet.CreateDOA import CreateDOA
 from TESPAR.Coder import Coder
 
 # from utils import Utils
-#
-# initialization = InitDataSet()
-#
-# doas = initialization.get_dataset_as_doas()
-#
+
+initialization = InitDataSet()
+
+doas = initialization.get_dataset_as_doas()
+
 # floats_Array = []
 # print('Obtain the floats array from DOA-s')
 #
@@ -57,11 +57,11 @@ from TESPAR.Coder import Coder
 #     doa_floats_list = Utils.obtain_floats_from_DOA(doa)
 #     floats_Array.extend(doa_floats_list)
 #
-# print('numa de break point hehehhe')
+print('numa de break point hehehhe')
 # np.savetxt("all_floats_array.txt", floats_Array, fmt="%s")
 # #
 
-coder = Coder('../TESPAR/ds_matrix_doas.txt')
+# coder = Coder('../TESPAR/ds_matrix_doas.txt')
 # print(coder.ds_matrix)
 
 
