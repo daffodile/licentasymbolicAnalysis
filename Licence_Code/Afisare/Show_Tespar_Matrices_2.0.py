@@ -6,38 +6,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-class Show_TESPAR_Matrices:
+class Show_TESPAR_Matrices_2:
 
     def __init__(self, encoding):
         self.encoding = encoding
 
-    def plot_matrix_S(self, DOA, segment, channel_nr, filter_freq):
-
-        file_path = './input_reader/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
-            # + '\channel' + str(channel_nr) + '.txt'
-        project_path = os.path.join('', '..')
-        file_dir = os.path.join(project_path, file_path, '')
-        sys.path.append(project_path)
-        file_name = "channel" + str(channel_nr) + ".txt"
-
-        channel_values = []
-
-        with open(os.path.join(file_dir, file_name), 'r') as f:
-            line = f.readline()
-            while line:
-                line = line.replace("[", "")
-                line = line.replace("]", "")
-                new_array = np.fromstring(line, dtype=np.float, sep=', ')
-                channel_values.extend(new_array)
-                line = f.readline()
-
-        channel_symbols = self.encoding.get_symbols(channel_values)
-        counts, bins = np.histogram(a=channel_symbols, bins=32)
-        # print('get_s ' + str(self.encoding.get_s()))
-        # print('bins  ' + str(bins[:1]))
-        # print('counts  ' + str(counts))
-
-        plt.hist(x=channel_symbols, bins=32)
+    def plot_matrix_S(self, trial_values, DOA, segment, channel_nr):
+        trial_symbols = self.encoding.get_symbols(trial_values)
+        plt.hist(x=trial_symbols, bins=32)
         plt.yscale('log', nonposy='clip')
         plt.title("S Matrix " + DOA + " " + segment + " ch: " + str(channel_nr))
         plt.xlabel("Symbol")
@@ -46,27 +22,8 @@ class Show_TESPAR_Matrices:
         plt.savefig(plot_name)
         plt.show()
 
-    def plot_matrix_A(self, DOA, segment, channel_nr, filter_freq, lag):
-
-        file_path = './input_reader/cutoff' + str(filter_freq) + 'hz/' + str(DOA) + '/' + str(segment) \
-            # + '\channel' + str(channel_nr) + '.txt'
-        project_path = os.path.join('', '..')
-        file_dir = os.path.join(project_path, file_path, '')
-        sys.path.append(project_path)
-        file_name = "channel" + str(channel_nr) + ".txt"
-
-        channel_values = []
-
-        with open(os.path.join(file_dir, file_name), 'r') as f:
-            line = f.readline()
-            while line:
-                line = line.replace("[", "")
-                line = line.replace("]", "")
-                new_array = np.fromstring(line, dtype=np.float, sep=', ')
-                channel_values.extend(new_array)
-                line = f.readline()
-
-        self.encoding.get_symbols(channel_values)
+    def plot_matrix_A(self, trial_values, DOA, segment, channel_nr, lag):
+        self.encoding.get_symbols(trial_values)
         a_matrix = self.encoding.get_a(lag)
         ax = sns.heatmap(np.log10([[v + 1 for v in r] for r in a_matrix]), cmap="YlGnBu", vmin=0, vmax=1)
         # ax = sns.heatmap(a_matrix, cmap="YlGnBu", vmin=0, vmax=8)

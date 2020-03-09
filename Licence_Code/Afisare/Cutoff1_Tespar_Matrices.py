@@ -1,17 +1,17 @@
 import numpy as np
 
-from TESPAR.Encoding import Encoding
+from feature_extraction.TESPAR.Encoding import Encoding
 import os
 import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-en = Encoding('./../VQ_REMAKE/symbols_cutoff1_s10_sorted.txt')
+en = Encoding('./../VQ/symbols_cutoff1_s10_sorted.txt')
 
 array_27 = []
 array_29 = []
 
-file_deep_stimulus = './DataSet/cutoff1hz/deep/poststimulus'
+file_deep_stimulus = './input_reader/cutoff1hz/deep/poststimulus'
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, file_deep_stimulus, '')
 sys.path.append(project_path)
@@ -48,7 +48,7 @@ plt.title("A Matrix deep/poststimulus/29")
 plt.ylabel("Symbols")
 plt.show()
 
-file_light_stimulus = './DataSet/cutoff1hz/light/poststimulus'
+file_light_stimulus = './input_reader/cutoff1hz/light/poststimulus'
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, file_light_stimulus, '')
 sys.path.append(project_path)

@@ -1,14 +1,9 @@
 /Data/
-/DataSet/cutoff3hz/
-/DataSet/cutoff1hz/
-/TESPAR/Amatrix_test.py
-/TESPAR/ReadingChannel.py
-/TESPAR/ReadingChannelTest.py
-/VQ_REMAKE/symbols_cutoff3_s10_unsorted.txt
-/VQ_REMAKE/symbols_cutoff3_s100_unsorted.txt
-/VQ_REMAKE/symbols_cutoff1_s10_unsorted.txt
+/DataSet/
 /Afisare/A/
 /Afisare/log/
 /Afisare/S/
 /Afisare/symbols/
+/.idea/
 /.idea
+/data_to_be_saved

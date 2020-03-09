@@ -1,13 +1,13 @@
 import numpy as np
 
-from TESPAR.Encoding import Encoding
+from feature_extraction.TESPAR.Encoding import Encoding
 import os
 import sys
 
 en = Encoding('./symbols_3_s10.txt')
 array = []
 
-file_deep_stimulus = 'DataSet/cutoff1hz/deep/stimulus'
+file_deep_stimulus = 'input_reader/cutoff1hz/deep/stimulus'
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, file_deep_stimulus, '')
 sys.path.append(project_path)
@@ -21,4 +21,3 @@ with open(os.path.join(data_dir, file_name), 'r') as f:
 
 en.get_symbols(array)
 en.get_s()
-

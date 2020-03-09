@@ -79,50 +79,27 @@ class Encoding:
 
             last_value = trial_array[i]
 
-        print(self.symbols_array)
-
         return self.symbols_array
 
-    def get_s(self):
+    def get_s(self, trial):
 
-        self.s_matrix = [0 for i in range(32)]
+        symbols_array = self.get_symbols(trial)
 
-        for i in range(len(self.symbols_array)):
-            self.s_matrix[self.symbols_array[i]] += 1
+        s_matrix = [0 for i in range(32)]
 
-        # plt.hist(self.s_matrix, bins='auto')
-        # plt.title("Tespar S", fontdict=None)
-        # plt.xlabel("No of app")
-        # plt.ylabel("Symbol")
-        # plt.show()
+        for i in range(len(symbols_array)):
+            s_matrix[symbols_array[i]] += 1
 
-        return self.s_matrix
+        return s_matrix
 
-    def get_a(self, l):
-        lag = l
+    def get_a(self, trial, l):
+
+        symbols_array = self.get_symbols(trial)
+
         a_matrix1 = [[0 for i in range(32)] for j in range(32)]
-        a_matrix2 = [[0 for i in range(32)] for j in range(32)]
-        # var 1 Narci
-        for i in range(len(self.symbols_array) - l - 1):
-            current = self.symbols_array[i]
-            current_pair = self.symbols_array[i + 1 + l]
+        for i in range(len(symbols_array) - l - 1):
+            current = symbols_array[i]
+            current_pair = symbols_array[i + 1 + l]
             a_matrix1[current][current_pair] += 1
-        # var 2 Andreea
-        for i in range(len(self.symbols_array) - 1):
-            current = self.symbols_array[i]
-            next = self.symbols_array[i + 1]
-            if current + lag == next or next + lag == current:
-                a_matrix2[current][next] += 1
 
-        self.a_matrix = a_matrix1
-        # print(a_matrix1)
-        # print(a_matrix2)
-        # plot heatmap
-        # ax = sns.heatmap(self.a_matrix, cmap="YlGnBu", vmin=0, vmax=8)
-        # ax.invert_yaxis()
-        # plt.xlabel("Symbols")
-        # plt.title("A Matrix lag 1")
-        # plt.ylabel("Symbols")
-        # plt.show()
-
-        return self.a_matrix
+        return a_matrix1

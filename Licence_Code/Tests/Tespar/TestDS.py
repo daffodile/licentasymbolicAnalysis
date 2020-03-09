@@ -8,9 +8,8 @@ import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.signal import argrelextrema, find_peaks
 
-
 project_path = os.path.join('', '..')
-data_dir = os.path.join(project_path, 'DataSet/light/stimulus', '')
+data_dir = os.path.join(project_path, 'input_reader/light/stimulus', '')
 sys.path.append(project_path)
 file_name = "channel10.txt"
 channel_values = []

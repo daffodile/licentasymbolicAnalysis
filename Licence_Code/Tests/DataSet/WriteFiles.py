@@ -4,10 +4,10 @@ import numpy as np
 
 # creating the directories tree and saving the data in here
 
-from DataSet.TrialExtractorEPD import TrialExtractorEPD
+from input_reader.TrialExtractorEPD import TrialExtractorEPD
 
 project_path = os.path.join('', '..')
-data_dir = os.path.join(project_path, 'Data', '')
+data_dir = os.path.join(project_path, 'Data/cutoff1hz', '')
 sys.path.append(project_path)
 ssd_file_deep = 'M014_S001_SRCS3L_25,50,100_0002.epd'
 ssd_file_medium = 'M014_S001_SRCS3L_25,50,100_0003.epd'
