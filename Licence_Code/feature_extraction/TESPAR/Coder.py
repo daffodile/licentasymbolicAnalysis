@@ -40,12 +40,12 @@ class Coder:
         self.create_matrix()
 
     def read_file(self):
-        project_path = os.path.join('', '..')
-        data_dir = os.path.join(project_path, 'DataSet', '')
+        project_path = os.path.join('.', '..')
+        data_dir = os.path.join(project_path, 'input_reader', '')
         sys.path.append(project_path)
 
         line = None
-        file_name = "trials_as_floats.txt"
+        file_name = "trials_as_floats_1hz.txt"
         with open(os.path.join(data_dir, file_name), 'r') as f:
             line = f.readline()
             while line:
