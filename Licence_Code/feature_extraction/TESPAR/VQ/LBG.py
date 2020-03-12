@@ -68,23 +68,23 @@ class CLUSTER:
 
         return self.new_error
 
-    def print_cluster(self, f):
-
-        # print("-----CENTROID-------")
-
-        # print(self.centroid)
-        np.savetxt(f, self.centroid, fmt="%s", newline=" ")
-        f.write("\n")
-
-        # print("-------PATTERNS-----")
-        f.write("-------PATTERNS-----\n")
-
-        # print(self.patterns)
-        np.savetxt(f, self.patterns, fmt="%s", newline=" ")
-        f.write("\n")
-
-        # print("------------")
-        f.write("------------")
+    # def print_cluster(self, f):
+    #
+    #     # print("-----CENTROID-------")
+    #
+    #     # print(self.centroid)
+    #     np.savetxt(f, self.centroid, fmt="%s", newline=" ")
+    #     f.write("\n")
+    #
+    #     # print("-------PATTERNS-----")
+    #     f.write("-------PATTERNS-----\n")
+    #
+    #     # print(self.patterns)
+    #     np.savetxt(f, self.patterns, fmt="%s", newline=" ")
+    #     f.write("\n")
+    #
+    #     # print("------------")
+    #     f.write("------------")
 
 
 class VQ_LGB():
@@ -167,7 +167,7 @@ class VQ_LGB():
                 if s < maxS - 1:
                     s += 1
                 else:
-                    changedS = False
+                    changeS = False
                 if d < maxD - 1:
                     d += 1
                 else:
@@ -175,7 +175,7 @@ class VQ_LGB():
                 per += normalized_matrix[d][s]
                 print(per)
 
-            print('d: ' + str(d) + '  s: ' + str(s))
+            print('VQ_LBG:get_pool method: d: ' + str(d) + ',  s: ' + str(s))
 
             return d, s
 
@@ -309,7 +309,7 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
 
-        plt.savefig('{} test refactor.png'.format(current_k))
+        plt.savefig('{}  cutoff1 full alphabet.png'.format(current_k))
         fig.show()
 
     def run(self):
@@ -359,7 +359,7 @@ class VQ_LGB():
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k, 'cutoff 3 test refactor')
+                self.plot_dataset_clusters(current_k, 'cutoff 1 full')
 
             # self.plot_dataset_clusters(current_k)
 
@@ -415,12 +415,13 @@ class VQ_LGB():
 
                 self.plot_dataset_clusters(current_k, 'test refactor sorted')
                 path = os.getcwd()
-                fileName = path + "/alphabet.txt"
+                fileName = path + "/alphabet_1hz.txt"
                 f = open(fileName, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
                         f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
                     f.write("\n")
                 f.close()
+                print('alphabet_1hzz is written\n')
 
             current_k += 1

@@ -41,25 +41,27 @@ import os
 import numpy as np
 
 from input_reader.InitDataSet import InitDataSet
+from utils import Utils
 
 initialization = InitDataSet()
 
 doas = initialization.get_dataset_as_doas()
-doa_light = np.extract(condition=(lambda x: x.level == "light"), arr=doas)[0]
 
-print(len(doa_light.channels))
+# doa_light = np.extract(condition=(lambda x: x.level == "light"), arr=doas)[0]
+#
+# print(len(doa_light.channels))
 
+
+floats_Array = []
+print('Obtain the floats array from DOA-s')
+
+for doa in doas:
+    doa_floats_list = Utils.obtain_floats_from_DOA(doa)
+    floats_Array.extend(doa_floats_list)
+
+print('numa de break point hehehhe')
+np.savetxt("all_floats_array.txt", floats_Array, fmt="%s")
 #
-# floats_Array = []
-# print('Obtain the floats array from DOA-s')
-#
-# for doa in doas:
-#     doa_floats_list = Utils.obtain_floats_from_DOA(doa)
-#     floats_Array.extend(doa_floats_list)
-#
-# print('numa de break point hehehhe')
-# np.savetxt("all_floats_array.txt", floats_Array, fmt="%s")
-# #
 
 # coder = Coder()
 # print(coder.ds_matrix)
