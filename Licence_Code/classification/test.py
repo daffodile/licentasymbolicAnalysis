@@ -1,0 +1,21 @@
+import numpy as np
+
+from classification.RandomForest import RandomForest
+from input_reader.InitDataSet import InitDataSet
+
+initialization = InitDataSet()
+doas = initialization.get_dataset_as_doas()
+
+
+
+#what are you classifying?
+
+randomFClassifier = RandomForest(doas, 'deep/light', 'stimulus', 'none')
+
+
+doa_light = np.extract(condition=(lambda x: x.level == "light"), arr=doas)[0]
+doa_deep = np.extract(condition=(lambda x: x.level == "deep"), arr=doas)[1]
+doa_medium = np.extract(condition=(lambda x: x.level == "deep"), arr=doas)[2]
+
+
+random_forest = RandomForest(init_data.get_dataset_as_doas(), )
