@@ -69,7 +69,7 @@ class MetadataReaderEPD:
         # # read the bad channels
         current_ofs += metadata_window + self.no_channels + 3 * metadata_window - 2
         self.bad_channels_arr = []
-        self.bad_channels_arr = list(map(int,lines[current_ofs].split(',')))
+        self.bad_channels_arr = list(map(int, lines[current_ofs].split(',')))
 
         print('[{0}.{1}] COMPLETE'.format(self.__class__.__name__, sys._getframe().f_code.co_name))
 
