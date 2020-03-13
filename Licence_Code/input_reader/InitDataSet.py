@@ -5,7 +5,7 @@ import sys
 from input_reader.CreateDOA import CreateDOA
 
 #   DATASET for filtered 3 hz
-data_dir = os.path.join('', '..')
+data_dir = os.path.join('..', '..')
 data_dir = os.path.join(data_dir, 'data/cutoff3hz', '')
 sys.path.append(data_dir)
 doa_info = {

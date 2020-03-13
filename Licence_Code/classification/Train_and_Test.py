@@ -23,8 +23,9 @@ from sklearn.model_selection import train_test_split
 
 
 class TrainTestSplitting:
-    def __init__(self, inputData):
+    def __init__(self, inputData, encoding):
         self.inputData = inputData
+        self.encoding = encoding
 
     def splitData(self, testPercentage):
         X_train = []
@@ -37,7 +38,9 @@ class TrainTestSplitting:
             Y = []
             for j in range(len(self.inputData.result.arrays[i].array)):
                 # call encoding as param
-                X.append(self.inputData.result.arrays[i].array[j])
+
+                # X.append(self.inputData.result.arrays[i].array[j])
+                X.append(np.asarray(self.encoding.get_a(self.inputData.result.arrays[i].array[j], 1)).ravel())
                 Y.append(self.inputData.result.arrays[i].name)
 
             # REMAINS TO BE SEEN
