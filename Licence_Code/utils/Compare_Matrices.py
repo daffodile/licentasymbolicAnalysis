@@ -8,19 +8,19 @@ from input_reader.CreateDOA import CreateDOA
 from feature_extraction.TESPAR.Encoding import Encoding
 
 path = os.getcwd()
-fileName = path + "/results_1hz.txt"
+fileName = path + "/results_3hz.txt"
 results_file = open(fileName, "w")
 
 # lags value to be tested
 lags_values = [0, 1, 3, 5]
 
 # encoder used
-encoder = Encoding('../data_to_be_saved/alphabet_1hz.txt')
+encoder = Encoding('../data_to_be_saved/alphabet_3hz.txt')
 a_size = (len(encoder.a_matrix), len(encoder.a_matrix[0]))
 
 #  read input doas
 data_dir = os.path.join('', '..')
-data_dir = os.path.join(data_dir, 'Data/cutoff1hz', '')
+data_dir = os.path.join(data_dir, 'Data/cutoff3hz', '')
 sys.path.append(data_dir)
 
 doa_info = {

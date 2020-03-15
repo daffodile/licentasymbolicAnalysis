@@ -52,9 +52,5 @@ class SplitData:
                 array_final = NewData(j, array)
                 self.result.arrays.append(array_final)
 
-        print(self.result)
+        # print(self.result)
         return self.result
-
-
-
-

@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GridSearchCV
+from sklearn import preprocessing
 
 X_train = []
 y_train = []
@@ -38,27 +39,33 @@ print('loaded input')
 
 model = SVC()
 
-# X_train = X_train.reshape(-1,1)
-model.fit(X_train, y_train)
 
-predictions = model.predict(X_test)
-
-print(confusion_matrix(y_test, predictions))
-print('\n')
-print(classification_report(y_test, predictions))
-
-# param_grid = {'C': [0.1, 1, 10, 100, 1000], 'gamma': [1, 0.1, 0.01, 0.001, 0.0001]}
-# grid = GridSearchCV(SVC(), param_grid=param_grid, verbose=3)
-# grid.fit(X_train, y_train)
+# ########## bew scaling hereee#################
+# scaler = preprocessing.StandardScaler().fit(X_train)
+# scaler.transform(X_train)
+# model.fit(X_train, y_train)
 #
-# print(grid.best_params_)
+# # ###### apply same scaler on test data
+# # scaler.transform(X_test)
+# predictions = model.predict(X_test)
 #
-# print(grid.best_estimator_)
-#
-# grid_predictions = grid.predict(X_test)
-#
-# print(confusion_matrix(y_test, grid_predictions))
+# print(confusion_matrix(y_test, predictions))
 # print('\n')
-# print(classification_report(y_test, grid_predictions))
-#
-# print('br')
+# print(classification_report(y_test, predictions))
+
+param_grid = {'C': [0.1, 1, 10, 100, 1000], 'gamma': [1, 0.1, 0.01, 0.001, 0.0001, 0.0001]}
+grid = GridSearchCV(SVC(), param_grid=param_grid, verbose=3)
+grid.fit(X_train, y_train)
+
+print(grid.best_params_)
+
+print(grid.best_estimator_)
+
+grid_predictions = grid.predict(X_test)
+
+print(confusion_matrix(y_test, grid_predictions))
+print('\n')
+print(classification_report(y_test, grid_predictions))
+
+print('br')
+
