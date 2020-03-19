@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
 from classification.SplitData import SplitData
-from classification.Train_and_Test import TrainTestSplitting
+from classification.random_forest.TrainTest import TrainTestSplitting
 from feature_extraction.TESPAR.Encoding import Encoding
 
 test_percentage = 0.2
