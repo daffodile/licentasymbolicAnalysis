@@ -1,11 +1,7 @@
-import numpy as np
-from numpy.random.mtrand import permutation
-
-from classification.RandomForest import RandomForest
 from classification.SplitData import SplitData
 from input_reader.InitDataSet import InitDataSet
 from classification.Train_and_Test import TrainTestSplitting
-from classification.DecisionTreeClassificator import DecisionTreeClassificator
+from Tests.Classifiers.decision_tree.DecisionTreeClassificator import DecisionTreeClassificator
 
 # A = [[[1, 2],
 #       [3, 4]],

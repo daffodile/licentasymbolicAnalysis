@@ -15,7 +15,7 @@ results_file = open(fileName, "w")
 lags_values = [0, 1, 3, 5]
 
 # encoder used
-encoder = Encoding('../VQ_REMAKE/alphabet.txt')
+encoder = Encoding('../data_to_be_saved/alphabet_3hz.txt')
 a_size = (len(encoder.a_matrix), len(encoder.a_matrix[0]))
 
 #  read input doas

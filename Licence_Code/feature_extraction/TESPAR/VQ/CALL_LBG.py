@@ -12,26 +12,13 @@ import numpy as np
 
 from feature_extraction.TESPAR.VQ.LBG import VQ_LGB
 
-# citeste o matrice din orice fisier
-input_matrix = np.loadtxt(fname='./../TESPAR/ds_matrix_doas.txt', dtype='i')
-
-# # check the read matrix
-# for i in range(len(input_matrix)):
-#     print('\n')
-#     for j in range(len(input_matrix[0])):
-#         print(str(input_matrix[i][j]) + ' ')
+####  read the DS freq matrix for this filtering cutoff  ###
+# input_matrix = np.loadtxt(fname='./../../../data_to_be_saved/ds_matrix_doas_1hz.txt', dtype='i')
+input_matrix = np.loadtxt(fname='./../../../data_to_be_saved/ds_matrix_doas_3hz.txt', dtype='i')
 
 # apply alg
 lbg = VQ_LGB(k=32, alpha=0.000005, t=10000, scale_s=5, epsilon=0.1)
 # lbg = VQ_LGB(k=32, alpha=0.0005, t=100, scale_s=1, epsilon=0.1)
-
-# after creating it,  set the dataset
-# lbg.set_dataset(input_matrix[0:150, 0:80])
-
-# fdw = FDW()
-# maxd, maxs = fdw.get_pool(input_matrix, 0.99)
-# lbg.set_dataset(input_matrix[0:maxd, 0:maxs])
-# lbg.run()
 
 lbg.set_dataset(input_matrix)
 lbg.run()
