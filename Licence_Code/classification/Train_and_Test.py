@@ -3,7 +3,6 @@ import pandas as pd
 from numpy.random.mtrand import permutation
 from sklearn.model_selection import train_test_split
 
-
 # try to use train and test splitting on this example
 # Y = [1, 0, 1, 1, 0, 1, 1, 0, 0, 0]  # 1 is for odds and 0 for evens
 # X = [[1, 3, 5, 7], [2, 4, 6, 8], [11, 13, 15, 17], [21, 23, 25, 27], [12, 14, 16, 18], [31, 33, 35, 37],
@@ -20,11 +19,14 @@ from sklearn.model_selection import train_test_split
 # print(y_test.shape)
 
 # next we use X_train and y_train
+from feature_extraction.TESPAR.Encoding import Encoding
 
 
 class TrainTestSplitting:
-    def __init__(self, inputData):
+    def __init__(self, inputData, alphabet_path, lag):
         self.inputData = inputData
+        self.en = Encoding('./../data_to_be_saved/' + alphabet_path + '.txt')
+        self.lag = lag
 
     def splitData(self, testPercentage):
         X_train = []
@@ -37,7 +39,7 @@ class TrainTestSplitting:
             Y = []
             for j in range(len(self.inputData.result.arrays[i].array)):
                 # call encoding as param
-                X.append(self.inputData.result.arrays[i].array[j])
+                X.append(np.asarray(self.en.get_a(self.inputData.result.arrays[i].array[j], self.lag)).ravel())
                 Y.append(self.inputData.result.arrays[i].name)
 
             # REMAINS TO BE SEEN
