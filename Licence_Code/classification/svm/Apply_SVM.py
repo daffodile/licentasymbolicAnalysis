@@ -4,7 +4,6 @@ import numpy as np
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GridSearchCV
-from sklearn import preprocessing
 
 X_train = []
 y_train = []
