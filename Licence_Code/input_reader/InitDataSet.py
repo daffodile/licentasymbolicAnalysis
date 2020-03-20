@@ -5,9 +5,19 @@ import sys
 from input_reader.CreateDOA import CreateDOA
 
 # #   DATASET for filtered 3 hz
+# data_dir = os.path.join('..', '..')
+# data_dir = os.path.join(data_dir, 'data/cutoff3hz', '')
+# sys.path.append(data_dir)
+# #   DATASET for filtered 1 hz
+# data_dir = os.path.join('..', '..')
+# data_dir = os.path.join(data_dir, 'data/cutoff1hz', '')
+# sys.path.append(data_dir)
+
+#   DATASET for filtered 1 hz
 data_dir = os.path.join('..', '..')
-data_dir = os.path.join(data_dir, 'data/cutoff3hz', '')
+data_dir = os.path.join(data_dir, 'data/cutoff1_150', '')
 sys.path.append(data_dir)
+
 doa_info = {
     'deep': {
         'epd': 'M014_S001_SRCS3L_25,50,100_0002.epd',

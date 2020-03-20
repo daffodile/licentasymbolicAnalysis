@@ -46,6 +46,7 @@ for i in range(run_nr):
 df.to_csv("svm_report.csv", mode='a', header=False)
 print('count after filling  ' + str(df.count()))
 df = df.iloc[0:0]
+
 print('coun after iloc' + str(df.count()))
 
 df = df.append({'channel': '', 'segment': '', 'run': 'mean', 'accuracy': np.mean(np.array(accuracies)),
