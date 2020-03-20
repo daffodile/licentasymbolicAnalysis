@@ -23,9 +23,9 @@ from feature_extraction.TESPAR.Encoding import Encoding
 
 
 class TrainTestSplitting:
-    def __init__(self, inputData, alphabet_path, lag):
+    def __init__(self, inputData, encoding, lag):
         self.inputData = inputData
-        self.en = Encoding('./../data_to_be_saved/' + alphabet_path + '.txt')
+        self.en = encoding
         self.lag = lag
 
     def splitData(self, testPercentage):

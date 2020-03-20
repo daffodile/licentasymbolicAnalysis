@@ -1,3 +1,4 @@
+from pandas import DataFrame
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.svm import SVC
 
@@ -9,6 +10,14 @@ from input_reader.InitDataSet import InitDataSet
 # # once per filter hereee
 channels_range = 31
 segments = ['spontaneous', 'stimulus', 'poststimulus']
+
+# how many models to train a for a channel-segment pair
+run_nr = 10
+
+# create the DataFrame that will be added to .csv file
+column_names = ['channel', 'segment', 'run', 'accuracy', 'f1-score']
+df = DataFrame(columns=column_names)
+df.to_csv("svm_report.csv", mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
