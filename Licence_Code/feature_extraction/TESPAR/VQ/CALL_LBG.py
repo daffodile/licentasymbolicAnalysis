@@ -14,7 +14,8 @@ from feature_extraction.TESPAR.VQ.LBG import VQ_LGB
 
 ####  read the DS freq matrix for this filtering cutoff  ###
 # input_matrix = np.loadtxt(fname='./../../../data_to_be_saved/ds_matrix_doas_1hz.txt', dtype='i')
-input_matrix = np.loadtxt(fname='./../../../data_to_be_saved/ds_matrix_doas_3hz.txt', dtype='i')
+# input_matrix = np.loadtxt(fname='./../../../data_to_be_saved/ds_matrix_doas_3hz.txt', dtype='i')
+input_matrix = np.loadtxt(fname='./../../../data_to_be_saved/ds_matrix_doas_1_150hz.txt', dtype='i')
 
 # apply alg
 lbg = VQ_LGB(k=32, alpha=0.000005, t=10000, scale_s=5, epsilon=0.1)
