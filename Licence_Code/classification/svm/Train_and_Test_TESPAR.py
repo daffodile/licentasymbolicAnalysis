@@ -17,11 +17,12 @@ def splitData(inputData, encoding, testPercentage):
 
     x_train, x_test, y_train, y_test = train_test_split(df_x, y, test_size=testPercentage,
                                                         shuffle=True, stratify=y, random_state=None)
-    df_ytrain = pd.DataFrame(y_train)
-    df_ytest = pd.DataFrame(y_test)
-
-    # print("with stratify and shuffle of data")
-    # print(df_ytrain[0].value_counts())
-    # print(df_ytest[0].value_counts())
+    #  to verify the right count from each class
+    # df_ytrain = pd.DataFrame(y_train)
+    # df_ytest = pd.DataFrame(y_test)
+    #
+    # # print("with stratify and shuffle of data")
+    # # print(df_ytrain[0].value_counts())
+    # # print(df_ytest[0].value_counts())
 
     return x_train, x_test, y_train, y_test

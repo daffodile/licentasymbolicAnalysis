@@ -8,21 +8,24 @@ from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
+csv_file = "svm_30.csv"
 # # once per filter hereee
-channels_range = 31
-segments = ['spontaneous', 'stimulus', 'poststimulus']
+# channels_range = 31
+channels_range = 11
+# segments = ['spontaneous', 'stimulus', 'poststimulus']
+segments = ['spontaneous', 'stimulus']
 
 # how many models to train a for a channel-segment pair
-run_nr = 10
+run_nr = 30
 
 # create the DataFrame that will be added to .csv file
 column_names = ['channel', 'segment', 'run', 'accuracy', 'f1-score']
 df = DataFrame(columns=column_names)
-df.to_csv("svm_report.csv", mode='a', header=True)
+df.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
 for segment in segments:
     for channel in range(1, channels_range):
@@ -60,6 +63,7 @@ for segment in segments:
         # calculate and write the standard deviation of the average and f1-score
         df = df.append({'channel': '', 'segment': '', 'run': 'std_dev', 'accuracy': np.std(np.array(accuracies)),
                         'f1-score': np.std(np.array(f1scores))}, ignore_index=True)
-        df.to_csv("svm_report.csv", mode='a', header=False)
+        df.to_csv(csv_file, mode='a', header=False)
 
         # print('debug')
+
