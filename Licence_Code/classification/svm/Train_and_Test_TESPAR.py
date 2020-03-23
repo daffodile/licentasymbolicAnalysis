@@ -26,3 +26,15 @@ def splitData(inputData, encoding, testPercentage):
     # # print(df_ytest[0].value_counts())
 
     return x_train, x_test, y_train, y_test
+
+
+def obtain_features_labels(inputData, encoding):
+    X = []
+    Y = []
+
+    for i in range(len(inputData.result.arrays)):
+        for j in range(len(inputData.result.arrays[i].array)):
+            X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array[j], 1)).ravel())
+            Y.append(inputData.result.arrays[i].name)
+
+    return X, Y
