@@ -77,3 +77,61 @@ class TrainTestSplitting:
         # save this to folders files
 
         return X_train, X_test, Y_train, Y_test
+
+    def splitData_concatenate_segment(self, testPercentage):
+        X_train = []
+        Y_train = []
+        X_test = []
+        Y_test = []
+
+        for i in range(len(self.inputData.result.arrays)):
+            X = []
+            Y = []
+            count = len(self.inputData.result.arrays[i].array) / 2
+            for j in range(int(count)):
+                # call encoding as param
+                array1 = []
+                array2 = []
+                print(self.en.get_a(self.inputData.result.arrays[i].array[j], self.lag))
+                array1 = np.asarray(self.en.get_a(self.inputData.result.arrays[i].array[j], self.lag))   .ravel()
+                array2 = np.asarray(self.en.get_a(self.inputData.result.arrays[i].array[j+int(count)], self.lag)).ravel()
+                # array1.extend(array2)
+                # np.append(array1, array2)
+                X.append(np.append(array1, array2))
+                Y.append(self.inputData.result.arrays[i].name)
+
+            # REMAINS TO BE SEEN
+            # shuffle trials
+            # X = np.asarray(X)
+            # Y = np.asarray(Y)
+            # perm = permutation(len(X))
+            # X = X[perm]
+            # Y = Y[perm]
+
+            df = pd.DataFrame(X)
+            y = np.array(Y)
+            temp_X_train, temp_X_test, temp_y_train, temp_y_test = train_test_split(df, y, test_size=testPercentage,
+                                                                                    shuffle=False)
+            X_train.extend(temp_X_train.to_numpy())
+            Y_train.extend(temp_y_train)
+            X_test.extend(temp_X_test.to_numpy())
+            Y_test.extend(temp_y_test)
+
+        # shuffle output
+        X_train = np.asarray(X_train)
+        Y_train = np.asarray(Y_train)
+        perm = permutation(len(X_train))
+        X_train = X_train[perm]
+        Y_train = Y_train[perm]
+
+        X_test = np.asarray(X_test)
+        Y_test = np.asarray(Y_test)
+        perm = permutation(len(X_test))
+        X_test = X_test[perm]
+        Y_test = Y_test[perm]
+
+        # save train deep light
+        # save test deep light
+        # save this to folders files
+
+        return X_train, X_test, Y_train, Y_test

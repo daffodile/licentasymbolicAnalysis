@@ -22,7 +22,7 @@ for segment in segments:
         split_data = SplitData(doas, [channel], ['light', 'deep'], [segment], ['all'])
 
         # encoding = Encoding('./../../data_to_be_saved/alphabet_3hz.txt')
-        trainTestSplit = TrainTestSplitting(split_data, 'alphabet_3hz', 1)
+        trainTestSplit = TrainTestSplitting(split_data, 'alphabet_1_150hz', 1)
 
         X_train, x_test, y_train, y_test = trainTestSplit.splitData(0.2)
         print("am train test split")

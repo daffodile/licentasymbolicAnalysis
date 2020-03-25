@@ -49,7 +49,7 @@ class SplitData:
                                     if segment == 'poststimulus':
                                         array.append(trial.poststimulus.values)
 
-                array_final = NewData(j, array)
+                array_final = NewData(self.doas[j].level, array)
                 self.result.arrays.append(array_final)
 
         # print(self.result)
