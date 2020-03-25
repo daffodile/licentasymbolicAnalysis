@@ -21,7 +21,7 @@ run_nr = 10
 column_names = ['channel', 'segment', 'run', 'accuracy', 'acc avr', 'acc std_dev', 'f1-score',
                 'f1-sc avr', 'f1-sc std_dev']
 df = DataFrame(columns=column_names)
-df.to_csv(csv_file, mode='a', header=True)
+# df.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
