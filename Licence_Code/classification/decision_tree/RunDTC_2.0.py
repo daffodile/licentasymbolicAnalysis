@@ -1,6 +1,6 @@
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
 from classification.SplitData import SplitData
@@ -8,20 +8,19 @@ from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
-csv_file = "dtc_report.csv"
+csv_file = "dtc_30.csv"
+
 # # once per filter hereee
 channels_range = 31
 segments = ['spontaneous', 'stimulus', 'poststimulus']
-# segments = ['spontaneous', 'stimulus']
 
 # how many models to train a for a channel-segment pair
-run_nr = 10
+run_nr = 30
 
 # create the DataFrame that will be added to .csv file
-column_names = ['channel', 'segment', 'run', 'accuracy', 'acc avr', 'acc std_dev', 'f1-score',
+column_names = ['channel', 'segment', 'accuracy', 'acc avr', 'acc std_dev', 'f1-score',
                 'f1-sc avr', 'f1-sc std_dev']
 df = DataFrame(columns=column_names)
-df.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
@@ -49,21 +48,17 @@ for segment in segments:
             report = classification_report(y_test, predictions, output_dict=True)
             acc = report['accuracy']
             f1sc = report['weighted avg']['f1-score']
-            df = df.append({'channel': channel, 'segment': segment, 'run': run, 'accuracy': acc, 'acc avr': '',
-                            'acc std_dev': '', 'f1-score': f1sc, 'f1-sc avr': '', 'f1-sc std_dev': ''},
-                           ignore_index=True)
-
             accuracies.append(acc)
             f1scores.append(f1sc)
 
         # calculate and write the mean  and std_dev of the average & f1-score
-        df = df.append({'channel train': '', 'channel test': '', 'segment': '', 'run': '', 'accuracy': '',
+        df = df.append({'channel': channel, 'segment': segment, 'accuracy': '',
                         'acc avr': np.mean(np.array(accuracies)), 'acc std_dev': np.std(np.array(accuracies)),
                         'f1-score': '', 'f1-sc avr': np.mean(np.array(f1scores)),
                         'f1-sc std_dev': np.std(np.array(f1scores))},
                        ignore_index=True)
 
-        df.to_csv(csv_file, mode='a', header=False)
-        # empty DataFrame to prepare it for this run
-        df = df.iloc[0:0]
+        # df.to_csv(csv_file, mode='a', header=False)
         # print('debug')
+
+df.to_csv(csv_file, mode='a', header=True)

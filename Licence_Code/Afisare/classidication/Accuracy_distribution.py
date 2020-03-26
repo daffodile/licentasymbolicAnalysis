@@ -39,9 +39,12 @@ def plot_distr(arr, mean, std_dev, title):
     plt.savefig(title + '.png')
     pl.show()
 
-file_name = '../../classification/results/svm_report_1_150.csv'
+
+file_name = '../../classification/results/dtc_report.csv'
 
 331
+strong_ch = [1, 3, 5, 8, 14]
+weak_ch = [16, 19, 20, 26, 29]
 
 with open(file_name) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -53,22 +56,23 @@ with open(file_name) as csv_file:
     for row in csv_reader:
         if line_count == 0:
             print(f'Column names are {", ".join(row)}')
-            line_count += 1
         else:
-            if line_count > 330:
+            # if line_count > 330:
                 # print(f'\t{row[0]}, {row[1]}, {row[2]}, {row[3]} acc is {row[4]}, f1-score is  {row[7]}.')
-                if row[0] == '10':
+            if row[0] == '10':
+                if ch in weak_ch:
                     print(f'\tavr acc is {row[5]} and std_dev is {row[6]}')
                     # if float(row[5]) > 0.7:
                     print(f'add to plot {row[5]}')
-                    plot_distr(acc, float(row[5]), float(row[6]), f'Ch {ch} seg {seg} ')
+                    plot_distr(acc, float(row[5]), float(row[6]), f'SVM {seg} ch {ch} ')
                     print('debug')
-                    acc = []
-                else:
-                    acc.append(float(row[4]))
-                    ch = int(row[1])
-                    seg = row[2]
-            line_count += 1
+                acc = []
+            else:
+                acc.append(float(row[4]))
+                ch = int(row[1])
+                seg = row[2]
+
+        line_count += 1
     print(f'Processed {line_count} lines.')
 
 # file_name = '../../classification/results/svm_30.csv'

@@ -1,7 +1,7 @@
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.svm import SVC
+from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
 
 from classification.SplitData import SplitData
 from classification.svm.Train_and_Test_TESPAR import splitData
@@ -41,7 +41,7 @@ for segment in segments:
             # divide the input into train-test random slides
             X_train, x_test, y_train, y_test = splitData(split_data, encoding, 0.2)
 
-            model = SVC()
+            model = RandomForestClassifier(n_estimators=100)
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
