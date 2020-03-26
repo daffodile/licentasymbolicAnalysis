@@ -8,7 +8,7 @@ from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
-csv_file = "svm_30.csv"
+csv_file = "rf_30.csv"
 # # once per filter hereee
 channels_range = 31
 segments = ['spontaneous', 'stimulus', 'poststimulus']
