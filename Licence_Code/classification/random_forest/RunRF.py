@@ -1,14 +1,14 @@
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.svm import SVC
+from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
 
 from classification.SplitData import SplitData
 from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
-csv_file = "svm_30.csv"
+csv_file = "rf_30.csv"
 # # once per filter hereee
 channels_range = 31
 segments = ['spontaneous', 'stimulus', 'poststimulus']
@@ -41,7 +41,7 @@ for segment in segments:
             # divide the input into train-test random slides
             X_train, x_test, y_train, y_test = splitData(split_data, encoding, 0.2)
 
-            model = SVC()
+            model = RandomForestClassifier(n_estimators=100)
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
