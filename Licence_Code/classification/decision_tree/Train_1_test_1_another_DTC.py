@@ -1,137 +1,132 @@
+from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import classification_report
 
 from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData, obtain_features_labels
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from utils.DataSpliting import train_test_doa, obtain_features_labels
 
-csv_file = "dtc_inter_channel.csv"
+csv_results = "dtc_inter_channels.csv"
 
-# use these channels to train and to test the models
-train_channels = [1, 3, 5, 8, 14]
+# data frame that keeps avr and std of the runs
+columns = ['ch train', 'ch test', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
+df_results = DataFrame(columns=columns)
+df_results.to_csv(csv_results, mode='a', header=True)
 
-test_channels = [19, 20, 21, 26, 27]
+indexes_file = "dtc_inter_ch_test_indexes.txt"
+write_file = open(indexes_file, "w")
 
-# how many models to train for a pair
-run_nr = 10
+train_channels = [1, 5]  # channels with acc > 0,74    Spontaneous
+test_channels = [16, 19]  # channels with acc < 0.68
 
-# create the DataFrame that will be added to .csv file-
-column_names = ['channel train', 'channel test', 'segment', 'run', 'accuracy', 'acc avr', 'acc std_dev', 'f1-score',
-                'f1-sc avr', 'f1-sc std_dev']
-
-df = DataFrame(columns=column_names)
-df.to_csv(csv_file, mode='a', header=True)
+segment = 'stimulus'
+# how many models to train a for a channel-segment pair
+run_nr = 3
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
-# empty line in .csv
-df = df.append({'channel train': 'again', 'channel test': '', 'segment': '', 'run': '',
-                'accuracy': '', 'acc avr': '', 'acc std_dev': '', 'f1-score': '', 'f1-sc avr': '',
-                'f1-sc std_dev': ''}, ignore_index=True)
+############################## train on good channel, test on good chnannel ###############################3
+accuracies = [[[] for i in range(len(train_channels))] for j in range(len(train_channels))]
+f1scores = [[[] for i in range(len(train_channels))] for j in range(len(train_channels))]
 
-# good channels and also test on good channels
-for ch_train in train_channels:
-    for ch_test in train_channels:
-        print("start running for channels " + str(ch_train) + ' and ' + str(ch_test) + '\n')
+write_file.write("good-good spliting \n")
+for run in range(run_nr):
+    # firstly split the input into train test
+    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
+    write_file.write('\n')
 
-        # SplitData(self, doas, channels, levels, segment, orientation):
-        train_data = SplitData(doas, [ch_train], ['light', 'deep'], ["stimulus"], ['all'])
-        test_data = SplitData(doas, [ch_test], ['light', 'deep'], ["stimulus"], ['all'])
+    for ind_train, ch_train in enumerate(train_channels):
+        for ind_test, ch_test in enumerate(train_channels):
+            print("start running for channel " + str(ch_train) + ' and ' + str(ch_test) + ' ' + segment + '\n')
 
-        # save the accuracy and f1-score for all the run
-        accuracies = []
-        f1scores = []
+            # SplitData(self, doas, channels, levels, segment, orientation):
+            train_data = SplitData(doas_train, [ch_train], ['light', 'deep'], [segment], ['all'])
+            test_data = SplitData(doas_test, [ch_test], ['light', 'deep'], [segment], ['all'])
 
-        for run in range(run_nr):
-            # train channel data
-            X_train_1, x_test_1, y_train_1, y_test_1 = splitData(train_data, encoding, 0.2)
-            # test channel data
-            x_train_2, x_test_2, y_train_2, y_test_2 = splitData(test_data, encoding, 0.2)
+            X_train, y_train = obtain_features_labels(train_data, encoding)
+            x_test, y_test = obtain_features_labels(test_data, encoding)
 
             model = DecisionTreeClassifier()
+            model.fit(X_train, y_train)
+            predictions = model.predict(x_test)
 
-            model.fit(X_train_1, y_train_1)
-
-            if (ch_train == ch_test):
-                predictions = model.predict(x_test_1)
-                report = classification_report(y_test_1, predictions, output_dict=True)
-            else:
-                predictions = model.predict(x_test_2)
-                report = classification_report(y_test_2, predictions, output_dict=True)
+            report = classification_report(y_test, predictions, output_dict=True)
 
             acc = report['accuracy']
             f1sc = report['weighted avg']['f1-score']
+            accuracies[ind_train][ind_test].append(acc)
+            f1scores[ind_train][ind_test].append(f1sc)
 
-            df = df.append({'channel train': ch_train, 'channel test': ch_test, 'segment': 'stimulus', 'run': run,
-                            'accuracy': acc, 'acc avr': '', 'acc std_dev': '', 'f1-score': f1sc, 'f1-sc avr': '',
-                            'f1-sc std_dev': ''}, ignore_index=True)
-            accuracies.append(acc)
-            f1scores.append(f1sc)
-        # calculate and write the mean  and std_dev of the average & f1-score
-        df = df.append({'channel train': '', 'channel test': '', 'segment': 'stimulus', 'run': '', 'accuracy': '',
-                        'acc avr': np.mean(np.array(accuracies)), 'acc std_dev': np.std(np.array(accuracies)),
-                        'f1-score': '', 'f1-sc avr': np.mean(np.array(f1scores)),
-                        'f1-sc std_dev': np.std(np.array(f1scores))},
-                       ignore_index=True)
-        df.to_csv(csv_file, mode='a', header=False)
-        # empty DataFrame to prepare it for this run
-        df = df.iloc[0:0]
+for ind_train, ch_train in enumerate(train_channels):
+    for ind_test, ch_test in enumerate(train_channels):
+        acc_avr = np.mean(np.array(accuracies[ind_train][ind_test]))
+        acc_std = np.std(np.array(accuracies[ind_train][ind_test]))
 
-# good channels to train, bad to test
-# empty line in .csv
-df = df.append({'channel train': '', 'channel test': '', 'segment': '', 'run': '',
-                'accuracy': '', 'acc avr': '', 'acc std_dev': '', 'f1-score': '', 'f1-sc avr': '',
-                'f1-sc std_dev': ''}, ignore_index=True)
+        f1_avr = np.mean(np.array(f1scores[ind_train][ind_test]))
+        f1_std = np.std(np.array(f1scores[ind_train][ind_test]))
+        df_results = df_results.append(
+            {'ch train': ch_train, 'ch test': ch_test, 'segment': segment, 'acc avr': acc_avr,
+             'acc std_dev': acc_std, 'f1-sc avr': f1_avr, 'f1-sc std_dev': f1_std},
+            ignore_index=True)
 
-for ch_train in train_channels:
-    for ch_test in test_channels:
-        print("start running for channels " + str(ch_train) + ' and ' + str(ch_test) + '\n')
+df_results.to_csv(csv_results, mode='a', header=False)
 
-        # SplitData(self, doas, channels, levels, segment, orientation):
-        train_data = SplitData(doas, [ch_train], ['light', 'deep'], ["stimulus"], ['all'])
-        test_data = SplitData(doas, [ch_test], ['light', 'deep'], ["stimulus"], ['all'])
+# empty DataFrame to prepare it for next run
+df_results = df_results.iloc[0:0]
 
-        # save the accuracy and f1-score for all the run
-        accuracies = []
-        f1scores = []
+############################## train on good channel, test on good chnannel ###############################3
+accuracies = [[[] for i in range(len(test_channels))] for j in range(len(train_channels))]
+f1scores = [[[] for i in range(len(test_channels))] for j in range(len(train_channels))]
 
-        for run in range(run_nr):
-            # train channel data
-            X_train_1, x_test_1, y_train_1, y_test_1 = splitData(train_data, encoding, 0.2)
-            # test channel data
-            x_train_2, x_test_2, y_train_2, y_test_2 = splitData(test_data, encoding, 0.2)
+write_file.write("good-bad spliting \n")
+for run in range(run_nr):
+    # firstly split the input into train test
+    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
+    write_file.write('\n')
+
+    for ch_train in train_channels:
+        for ch_test in test_channels:
+            print("start running for channel " + str(ch_train) + ' and ' + str(ch_test) + ' ' + segment + '\n')
+
+            # SplitData(self, doas, channels, levels, segment, orientation):
+            train_data = SplitData(doas_train, [ch_train], ['light', 'deep'], [segment], ['all'])
+            test_data = SplitData(doas_test, [ch_test], ['light', 'deep'], [segment], ['all'])
+
+            X_train, y_train = obtain_features_labels(train_data, encoding)
+            x_test, y_test = obtain_features_labels(test_data, encoding)
 
             model = DecisionTreeClassifier()
+            model.fit(X_train, y_train)
+            predictions = model.predict(x_test)
 
-            model.fit(X_train_1, y_train_1)
-
-            predictions = model.predict(x_test_2)
-            report = classification_report(y_test_2, predictions, output_dict=True)
+            report = classification_report(y_test, predictions, output_dict=True)
 
             acc = report['accuracy']
             f1sc = report['weighted avg']['f1-score']
+            accuracies[ch_train - 1][ch_test - 1].append(acc)
+            f1scores[ch_train - 1][ch_test - 1].append(f1sc)
 
-            df = df.append({'channel train': ch_train, 'channel test': ch_test, 'segment': 'stimulus', 'run': run,
-                            'accuracy': acc, 'acc avr': '', 'acc std_dev': '', 'f1-score': f1sc, 'f1-sc avr': '',
-                            'f1-sc std_dev': ''}, ignore_index=True)
+for ind_train, ch_train in enumerate(train_channels):
+    for ind_test, ch_test in enumerate(test_channels):
+        acc_avr = np.mean(np.array(accuracies[ind_train][ind_test]))
+        acc_std = np.std(np.array(accuracies[ind_train][ind_test]))
 
-            accuracies.append(acc)
-            f1scores.append(f1sc)
+        f1_avr = np.mean(np.array(f1scores[ind_train][ind_test]))
+        f1_std = np.std(np.array(f1scores[ind_train][ind_test]))
+        df_results = df_results.append(
+            {'ch train': ch_train, 'ch test': ch_test, 'segment': segment, 'acc avr': acc_avr,
+             'acc std_dev': acc_std, 'f1-sc avr': f1_avr, 'f1-sc std_dev': f1_std},
+            ignore_index=True)
 
-        # calculate and write the mean  and std_dev of the average & f1-score
-        df = df.append({'channel train': '', 'channel test': '', 'segment': 'stimulus', 'run': '', 'accuracy': '',
-                        'acc avr': np.mean(np.array(accuracies)), 'acc std_dev': np.std(np.array(accuracies)),
-                        'f1-score': '', 'f1-sc avr': np.mean(np.array(f1scores)),
-                        'f1-sc std_dev': np.std(np.array(f1scores))},
-                       ignore_index=True)
+df_results.to_csv(csv_results, mode='a', header=False)
 
-        df.to_csv(csv_file, mode='a', header=False)
-        # empty DataFrame to prepare it for this run
-        df = df.iloc[0:0]
+# empty DataFrame to prepare it for next run
+df_results = df_results.iloc[0:0]
 
-        # print('debug')
+write_file.close()
