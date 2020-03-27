@@ -9,6 +9,7 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
 
+####### to change for each  classifier this 3 files #################################
 csv_file = "svm_30_all.csv"
 csv_results = "svm_30_averages.csv"
 # open file to write the indices of  each splitting
@@ -22,6 +23,7 @@ run_nr = 30
 channels_range = 31
 
 segments = ['spontaneous', 'stimulus', 'poststimulus']
+# segments = ['spontaneous', 'stimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
 column_names = ['channel', 'segment', 'accuracy', 'f1-score']
@@ -32,12 +34,21 @@ initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
+'''
+for calculating the average acc or af1-score
+we need
+dictionary to keep array of 30 values for 3 segments for 30 channels
+'''
+accuracies = [[[] for i in range(channels_range - 1)] for j in range(len(segments))]
+f1scores = [[[] for i in range(channels_range - 1)] for j in range(len(segments))]
+
 for run in range(run_nr):
     # firstly split the input into train test
     doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
-    np.savetxt(indexes_file, np.array(ind_test), fmt="%s", newline=' ')
+    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
+    write_file.write('\n')
 
-    for segment in segments:
+    for ind_segment, segment in enumerate(segments):
         for channel in range(1, channels_range):
             print("start running for channel " + str(channel) + ' ' + segment + '\n')
 
@@ -45,43 +56,44 @@ for run in range(run_nr):
             train_data = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
             test_data = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
 
-            x_train, y_train = obtain_features_labels(train_data, encoding)
+            X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            ...
-            to
-            be
-            continued
-            ....
+            model = SVC()
+            model.fit(X_train, y_train)
+            predictions = model.predict(x_test)
 
-            # save the accuracy and f1-score for all the run
-            accuracies = []
-            f1scores = []
+            report = classification_report(y_test, predictions, output_dict=True)
 
-            for run in range(run_nr):
-                # divide the input into train-test random slides
-                X_train, x_test, y_train, y_test = splitData(split_data, encoding, 0.2)
-
-                model = SVC()
-                model.fit(X_train, y_train)
-                predictions = model.predict(x_test)
-
-                report = classification_report(y_test, predictions, output_dict=True)
-                acc = report['accuracy']
-                f1sc = report['weighted avg']['f1-score']
-                accuracies.append(acc)
-                f1scores.append(f1sc)
+            acc = report['accuracy']
+            f1sc = report['weighted avg']['f1-score']
+            accuracies[ind_segment][channel - 1].append(acc)
+            f1scores[ind_segment][channel - 1].append(f1sc)
 
             # calculate and write the mean  and std_dev of the average & f1-score
-            df = df.append({'channel': channel, 'segment': segment, 'accuracy': '',
-                            'acc avr': np.mean(np.array(accuracies)), 'acc std_dev': np.std(np.array(accuracies)),
-                            'f1-score': '', 'f1-sc avr': np.mean(np.array(f1scores)),
-                            'f1-sc std_dev': np.std(np.array(f1scores))},
-                           ignore_index=True)
+            df_all = df_all.append({'channel': channel, 'segment': segment, 'accuracy': acc, 'f1-score': f1sc},
+                                   ignore_index=True)
 
-            # df.to_csv(csv_file, mode='a', header=False)
             # print('debug')
-
-    df.to_csv(csv_file, mode='a', header=True)
+    df_all.to_csv(csv_file, mode='a', header=False)
+    df_all = df_all.iloc[0:0]
 
 write_file.close()
+
+# data frame that keeps avr and std of the runs
+columns = ['channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
+df_results = DataFrame(columns=columns)
+df_results.to_csv(csv_results, mode='a', header=True)
+
+for ind_segment, segment in enumerate(segments):
+    for channel in range(1, channels_range):
+        acc_avr = np.mean(np.array(accuracies[ind_segment][channel - 1]))
+        acc_std = np.std(np.array(accuracies[ind_segment][channel - 1]))
+
+        f1_avr = np.mean(np.array(f1scores[ind_segment][channel - 1]))
+        f1_std = np.std(np.array(f1scores[ind_segment][channel - 1]))
+        df_results = df_results.append({'channel': channel, 'segment': segment, 'acc avr': acc_avr,
+                                        'acc std_dev': acc_std, 'f1-sc avr': f1_avr, 'f1-sc std_dev': f1_std},
+                                       ignore_index=True)
+
+df_results.to_csv(csv_results, mode='a', header=False)
