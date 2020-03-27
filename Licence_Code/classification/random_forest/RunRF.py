@@ -4,11 +4,12 @@ from sklearn.metrics import classification_report
 from sklearn.ensemble import RandomForestClassifier
 
 from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData
+from classification.svm.Train_and_Test_TESPAR import splitData, obtain_features_labels
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from utils.DataSpliting import train_test_doa
 
-csv_file = "rf_30.csv"
+csv_file = "rf_30_bun.csv"
 # # once per filter hereee
 channels_range = 31
 segments = ['spontaneous', 'stimulus', 'poststimulus']
@@ -26,24 +27,27 @@ initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
+doas_train , doas_test = train_test_doa(doas, 20)
 for segment in segments:
     for channel in range(1, channels_range):
         print("start running for channel " + str(channel) + ' ' + segment + '\n')
 
         # SplitData(self, doas, channels, levels, segment, orientation):
-        split_data = SplitData(doas, [channel], ['light', 'deep'], [segment], ['all'])
-
+        split_data_train = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
+        split_data_test = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
         # save the accuracy and f1-score for all the run
         accuracies = []
         f1scores = []
 
         for run in range(run_nr):
             # divide the input into train-test random slides
-            X_train, x_test, y_train, y_test = splitData(split_data, encoding, 0.2)
+            # X_train, x_test, y_train, y_test = splitData(split_data, encoding, 0.2)
+            X_train, y_train = obtain_features_labels(doas_train, encoding)
+            X_test, y_test = obtain_features_labels(doas_test, encoding)
 
             model = RandomForestClassifier(n_estimators=100)
             model.fit(X_train, y_train)
-            predictions = model.predict(x_test)
+            predictions = model.predict(X_test)
 
             report = classification_report(y_test, predictions, output_dict=True)
             acc = report['accuracy']
