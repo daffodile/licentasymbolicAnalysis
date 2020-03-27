@@ -9,5 +9,6 @@
 /data_to_be_saved
 /classification/results/
 /Afisare/svm/
-/classification/decision_tree/dtc_report.csv
+/classification/results/dtc_report.csv
 /Afisare/compare_channels/
+/classification/results/dtc_30.csv
