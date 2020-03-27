@@ -1,31 +1,41 @@
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
 from classification.SplitData import SplitData
 from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from utils.DataSpliting import train_test_doa
 
-csv_file = "svm_30.csv"
-# # once per filter hereee
-channels_range = 31
-segments = ['spontaneous', 'stimulus', 'poststimulus']
-# segments = ['spontaneous', 'stimulus']
+csv_file = "svm_30_all.csv"
+csv_results = "svm_30_averages.csv"
+# open file to write the indices of  each splitting
+indexes_file ="svm_30_test_indexes.txt"
+write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
 run_nr = 30
 
-# create the DataFrame that will be added to .csv file
-column_names = ['channel', 'segment', 'accuracy', 'acc avr', 'acc std_dev', 'f1-score',
-                'f1-sc avr', 'f1-sc std_dev']
-df = DataFrame(columns=column_names)
+# # once per filter hereee
+channels_range = 30
+
+segments = ['spontaneous', 'stimulus', 'poststimulus']
+
+# data frame that keeps all runs for all channels, that will be added to .csv file
+column_names = ['channel', 'segment', 'accuracy', 'f1-score']
+df_all = DataFrame(columns=column_names)
+df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
+for run in range(run_nr):
+    # firstly split the input into train test
+    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    write_file.write(ind_test)
 for segment in segments:
     for channel in range(1, channels_range):
         print("start running for channel " + str(channel) + ' ' + segment + '\n')
@@ -62,3 +72,6 @@ for segment in segments:
         # print('debug')
 
 df.to_csv(csv_file, mode='a', header=True)
+
+
+write_file.close()
