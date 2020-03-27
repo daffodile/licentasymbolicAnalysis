@@ -1,7 +1,21 @@
 import random
+import numpy as np
+import pandas as pd
 
 from input_reader.InitDataSet import InitDataSet
 from input_reader.Models import *
+
+
+def obtain_features_labels(inputData, encoding):
+    X = []
+    Y = []
+
+    for i in range(len(inputData.result.arrays)):
+        for j in range(len(inputData.result.arrays[i].array)):
+            X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array[j], 1)).ravel())
+            Y.append(inputData.result.arrays[i].name)
+
+    return pd.DataFrame(X), Y
 
 
 def train_test_doa(doas, percent):
