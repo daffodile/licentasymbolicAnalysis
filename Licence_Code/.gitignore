@@ -9,4 +9,12 @@
 /data_to_be_saved
 /classification/results/
 /Afisare/svm/
-/Afisare/compare_channels/
+/feature_extraction/TESPAR/compare_channels/
+/classification/decision_tree/dtc_30_good_bad.csv
+/classification/decision_tree/dtc_30_good_bad_averages.csv
+/classification/decision_tree/dtc_30_good_bad_test_indexex_log.txt
+/classification/decision_tree/dtc_30_good_bad_averages_log.csv
+/classification/decision_tree/dtc_30_good_bad_test_indexes.txt
+/classification/decision_tree/dtc_30_good_bad_log.csv
+/classification/decision_tree/good_bad_30runs_fit/
+/feature_extraction/TESPAR/compare_channels/

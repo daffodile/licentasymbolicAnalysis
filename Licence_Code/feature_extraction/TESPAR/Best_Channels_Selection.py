@@ -13,7 +13,7 @@ def compute_zscores(file_name):
             if line_count == 0:
                 print(file_name + ' was processed')
             else:
-                accuracies.append(float(row[4]))
+                accuracies.append(float(row[3]))
             line_count += 1
         zscores = []
 
@@ -45,27 +45,69 @@ def get_good_bad_channels(avg_array):
     print('Bad Channels' + str(bad_channels))
 
 
-dtc_file = '../../classification/results/dtc_30.csv'
+dtc_file = '../../classification/results/dtc_30_averages.csv'
 zscores_dtc = compute_zscores(dtc_file)
 
-rfc_file = '../../classification/results/rf_30.csv'
+rfc_file = '../../classification/results/rf_30_averages.csv'
 zscores_rfc = compute_zscores(rfc_file)
 
-svm_file = '../../classification/results/svm_30.csv'
+svm_file = '../../classification/results/svm_30_averages.csv'
 zscores_svm = compute_zscores(svm_file)
 
-avg_spontaneous = np.mean([zscores_dtc[0], zscores_rfc[0], zscores_svm[0]], axis=0)
-avg_stimulus = np.mean([zscores_dtc[1], zscores_rfc[1], zscores_svm[1]], axis=0)
-avg_poststimulus = np.mean([zscores_dtc[2], zscores_rfc[2], zscores_svm[2]], axis=0)
+# avg_spontaneous = np.mean([zscores_dtc[0], zscores_rfc[0], zscores_svm[0]], axis=0)
+# avg_stimulus = np.mean([zscores_dtc[1], zscores_rfc[1], zscores_svm[1]], axis=0)
+# avg_poststimulus = np.mean([zscores_dtc[2], zscores_rfc[2], zscores_svm[2]], axis=0)
+#
+# # SPONTANEOUS
+# print("SPONTANEOUS")
+# get_good_bad_channels(avg_spontaneous)
+#
+# # STIMULUS
+# print("STIMULUS")
+# get_good_bad_channels(avg_stimulus)
+#
+# # POSTSTIMULUS
+# print("POSTSTIMULUS")
+# get_good_bad_channels(avg_poststimulus)
 
+# DTC
 # SPONTANEOUS
+print("DTC")
 print("SPONTANEOUS")
-get_good_bad_channels(avg_spontaneous)
+get_good_bad_channels(zscores_dtc[0])
 
 # STIMULUS
 print("STIMULUS")
-get_good_bad_channels(avg_stimulus)
+get_good_bad_channels(zscores_dtc[1])
 
 # POSTSTIMULUS
 print("POSTSTIMULUS")
-get_good_bad_channels(avg_poststimulus)
+get_good_bad_channels(zscores_dtc[2])
+
+# RFC
+# SPONTANEOUS
+print("RFC")
+print("SPONTANEOUS")
+get_good_bad_channels(zscores_rfc[0])
+
+# STIMULUS
+print("STIMULUS")
+get_good_bad_channels(zscores_rfc[1])
+
+# POSTSTIMULUS
+print("POSTSTIMULUS")
+get_good_bad_channels(zscores_rfc[2])
+
+# SVM
+# SPONTANEOUS
+print("SVM")
+print("SPONTANEOUS")
+get_good_bad_channels(zscores_svm[0])
+
+# STIMULUS
+print("STIMULUS")
+get_good_bad_channels(zscores_svm[1])
+
+# POSTSTIMULUS
+print("POSTSTIMULUS")
+get_good_bad_channels(zscores_svm[2])
