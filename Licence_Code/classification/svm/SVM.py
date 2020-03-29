@@ -8,22 +8,21 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
 
-csv_results = "svm_inter_channels.csv"
+# csv_results = "svm_inter_channels.csv"
 
 # data frame that keeps avr and std of the runs
-columns = ['ch train', 'ch test', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
-df_results = DataFrame(columns=columns)
-df_results.to_csv(csv_results, mode='a', header=True)
+# columns = ['ch train', 'ch test', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
+# df_results = DataFrame(columns=columns)
+# df_results.to_csv(csv_results, mode='a', header=True)
 
-indexes_file = "svm_inter_ch_test_indexes.txt"
+indexes_file = "svm_100.txt"
 write_file = open(indexes_file, "w")
 
-train_channels = [1, 5]  # channels with acc > 0,74    Spontaneous
-test_channels = [16, 19]  # channels with acc < 0.68
+channel = 4
+segment = 'spontaneous'
 
-segment = 'stimulus'
 # how many models to train a for a channel-segment pair
-run_nr = 3
+run_nr = 10
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
@@ -51,7 +50,7 @@ for run in range(run_nr):
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            model = SVC()
+            model = SVC(gamma="auto")
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
@@ -90,8 +89,8 @@ for run in range(run_nr):
     np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
     write_file.write('\n')
 
-    for ch_train in train_channels:
-        for ch_test in test_channels:
+    for ind_train, ch_train in enumerate(train_channels):
+        for ind_test, ch_test in enumerate(train_channels):
             print("start running for channel " + str(ch_train) + ' and ' + str(ch_test) + ' ' + segment + '\n')
 
             # SplitData(self, doas, channels, levels, segment, orientation):
@@ -101,7 +100,8 @@ for run in range(run_nr):
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            model = SVC()
+            model = SVC(gamma="auto")
+
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
@@ -109,8 +109,8 @@ for run in range(run_nr):
 
             acc = report['accuracy']
             f1sc = report['weighted avg']['f1-score']
-            accuracies[ch_train - 1][ch_test - 1].append(acc)
-            f1scores[ch_train - 1][ch_test - 1].append(f1sc)
+            accuracies[ind_train][ind_test].append(acc)
+            f1scores[ind_train][ind_test].append(f1sc)
 
 for ind_train, ch_train in enumerate(train_channels):
     for ind_test, ch_test in enumerate(test_channels):

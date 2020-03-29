@@ -1,6 +1,21 @@
-from sklearn.tree import DecisionTreeClassifier
+'''
+    script for running the inter channel classification
+
+    select the classifier
+
+    select the csv where results will be saved
+
+    set the train and test channels
+'''
+
+# csv_results = "rf_inter_channels.csv"
+
 import numpy as np
 from pandas import DataFrame
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+
 from sklearn.metrics import classification_report
 
 from classification.SplitData import SplitData
@@ -8,22 +23,18 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
 
-csv_results = "dtc_inter_channels.csv"
-
 # data frame that keeps avr and std of the runs
 columns = ['ch train', 'ch test', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
 df_results = DataFrame(columns=columns)
 df_results.to_csv(csv_results, mode='a', header=True)
 
-indexes_file = "dtc_inter_ch_test_indexes.txt"
-write_file = open(indexes_file, "w")
+train_channels = [1, 5, 7, 12, 14]  # good over all
+test_channels = [16, 19, 20, 27, 29]  # bad over all
 
-train_channels = [1, 5]  # channels with acc > 0,74    Spontaneous
-test_channels = [16, 19]  # channels with acc < 0.68
+segment = 'spontaneous'
 
-segment = 'stimulus'
 # how many models to train a for a channel-segment pair
-run_nr = 3
+run_nr = 10
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
@@ -33,12 +44,9 @@ encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 accuracies = [[[] for i in range(len(train_channels))] for j in range(len(train_channels))]
 f1scores = [[[] for i in range(len(train_channels))] for j in range(len(train_channels))]
 
-write_file.write("good-good spliting \n")
 for run in range(run_nr):
     # firstly split the input into train test
     doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
-    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
-    write_file.write('\n')
 
     for ind_train, ch_train in enumerate(train_channels):
         for ind_test, ch_test in enumerate(train_channels):
@@ -51,7 +59,10 @@ for run in range(run_nr):
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            model = DecisionTreeClassifier()
+            # model = SVC(gamma="auto")
+            # model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
+            # model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
+
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
@@ -83,15 +94,13 @@ df_results = df_results.iloc[0:0]
 accuracies = [[[] for i in range(len(test_channels))] for j in range(len(train_channels))]
 f1scores = [[[] for i in range(len(test_channels))] for j in range(len(train_channels))]
 
-write_file.write("good-bad spliting \n")
 for run in range(run_nr):
+    print('run  ' + str(run))
     # firstly split the input into train test
     doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
-    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
-    write_file.write('\n')
 
-    for ch_train in train_channels:
-        for ch_test in test_channels:
+    for ind_train, ch_train in enumerate(train_channels):
+        for ind_test, ch_test in enumerate(test_channels):
             print("start running for channel " + str(ch_train) + ' and ' + str(ch_test) + ' ' + segment + '\n')
 
             # SplitData(self, doas, channels, levels, segment, orientation):
@@ -101,7 +110,10 @@ for run in range(run_nr):
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            model = DecisionTreeClassifier()
+            # model = SVC(gamma="auto")
+            # model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
+            # model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
+
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
@@ -109,8 +121,8 @@ for run in range(run_nr):
 
             acc = report['accuracy']
             f1sc = report['weighted avg']['f1-score']
-            accuracies[ch_train - 1][ch_test - 1].append(acc)
-            f1scores[ch_train - 1][ch_test - 1].append(f1sc)
+            accuracies[ind_train][ind_test].append(acc)
+            f1scores[ind_train][ind_test].append(f1sc)
 
 for ind_train, ch_train in enumerate(train_channels):
     for ind_test, ch_test in enumerate(test_channels):
@@ -125,8 +137,3 @@ for ind_train, ch_train in enumerate(train_channels):
             ignore_index=True)
 
 df_results.to_csv(csv_results, mode='a', header=False)
-
-# empty DataFrame to prepare it for next run
-df_results = df_results.iloc[0:0]
-
-write_file.close()

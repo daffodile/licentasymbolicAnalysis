@@ -1,108 +1,97 @@
-import pandas as pd
-import csv
-import matplotlib.pyplot as plt
-
 import numpy as np
-import scipy.stats as stats
-import pylab as pl
+import plotly
+from plotly.subplots import make_subplots
+import plotly.figure_factory as ff
+import pandas as pd
+import plotly.graph_objs as go
+
+COLOR_LIST_DISTRIBUTION_PLOTS = [
+    'blueviolet',
+    'coral',
+    'forestgreen',
+    'red',
+    'fuchsia',
+    'pink',
+    'rosybrown',
+]
+
+# generate a distribution based on mean and standard deviation
+def generate_distribution(desired_mean, desired_std_dev, num_samples=1000):
+    # generate a distribution with (approximately) the desired std
+    samples = np.random.normal(loc=0.0, scale=desired_std_dev, size=num_samples)
+
+    # find actual mean
+    actual_mean = np.mean(samples)
+
+    # transform it in a zero mean distribution
+    zero_mean_samples = samples - (actual_mean)
+
+    # compute the std of the zero mean distribution
+    zero_mean_std = np.std(zero_mean_samples)
+
+    # scale the distribution to the actual desired std
+    scaled_samples = zero_mean_samples * (desired_std_dev / zero_mean_std)
+
+    # make the distribution have the desired mean
+    final_samples = scaled_samples + desired_mean
+
+    return final_samples
 
 
-# data = pd.read_csv(csv_file, dtype={'accuracy': float,
-#                                     'acc avr': float,
-#                                     'acc std_dev': float,
-#                                     'f1-score': float,
-#                                     'f1-sc avr': float,
-#                                     'f1-sc std_dev': float, },
-#                    error_bad_lines=False, na_filter=False, na_values=0)
-# # data= pd.read_csv('svm.csv',na_values=['nan'], keep_default_na=False)
-#
-# data.head(10)
-# def plot_distr(arr, mean, std_dev):
-#
-#     plt.plot(arr.sort())
-#     x1 = np.linspace(mean - 3 * std_dev, mean + 3 * std_dev, 100)
-#     plt.plot(x1, stats.norm.pdf(x1, mean, std_dev))
-#     plt.title(f'Accuracy distr, mean {mean} std_dev {std_dev}')
-#     plt.xlabel('Accuracy value')
-#     plt.ylabel('Density')
-#     plt.show()
+def plot_distributions(distr_info, names):
+    distributions = []
 
-def plot_distr(arr, mean, std_dev, title):
-    fit = stats.norm.pdf(np.sort(arr), mean, std_dev)  # this is a fitting indeed
+    for distr in distr_info:
+        # for each pair of mean and std_dev, create a distr an add it to collection
+        distributions.append(generate_distribution(distr[0], distr[1]))
 
-    pl.plot(np.sort(arr), fit, '-o')
+    distribution_plot = ff.create_distplot(distributions, names, show_hist=False)
+    distribution_plot.update_layout(title='Ch 1 spontaneous')
+    figure = go.Figure()
 
-    pl.hist(np.sort(arr), normed=True, color='grey')  # use this to draw histogram of your data
-    pl.title(title + f'Acc mean=' + "{0:.2f}".format(100 * mean) + ' and std_dev=' + "{0:.2f}".format(100 * std_dev))
-    pl.xlabel('Accuracy value')
-    pl.ylabel('Density')
-    plt.savefig(title + '.png')
-    pl.show()
+    for count in range(len(distributions)):
+        figure.add_trace(
+            go.Scatter(
+                distribution_plot['data'][count],
+                name=names[count],
+                mode='lines',
+                line=dict(
+                    color=COLOR_LIST_DISTRIBUTION_PLOTS[count]
+                )
+            )
+        )
+        figure.add_trace(
+            go.Scatter(
+                x=[distr_info[count][0], distr_info[count][0]],
+                y=[0, max(distribution_plot['data'][count].y)],
+                name=f'Means {names[count]} {distr_info[count][0]}',
+                mode='lines',
+                line=dict(
+                    color=COLOR_LIST_DISTRIBUTION_PLOTS[count]
+                )
+            )
+        )
 
+        figure.add_trace(
+            go.Scatter(
+                y=[0, 0],
+                x=[distr_info[count][0] - distr_info[count][1],
+                   distr_info[count][0] + distr_info[count][1]],
+                name=f'IQR {names[count]} {distr_info[count][1]}',
+                mode='lines',
+                line=dict(
+                    color=COLOR_LIST_DISTRIBUTION_PLOTS[count]
+                )
+            )
+        )
 
-file_name = '../../classification/results/dtc_report.csv'
+    figure.show()
 
-331
-strong_ch = [1, 3, 5, 8, 14]
-weak_ch = [16, 19, 20, 26, 29]
+# 0,19,spontaneous,100,0.5691666666666667,0.039322606234977756,0.5343193145719237,0.04684505459505999
+# 0,19,spontaneous,30,0.5625,0.04443901876604489,0.5216767856509679,0.05596886011969591
+# 0,19,spontaneous,10,0.5625,0.0232923747656228,0.520351786937627,0.02879723165667191
 
-with open(file_name) as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
-    acc = []
-    # avr = 0
-    # std = 0
-    ch = 0
-    for row in csv_reader:
-        if line_count == 0:
-            print(f'Column names are {", ".join(row)}')
-        else:
-            # if line_count > 330:
-                # print(f'\t{row[0]}, {row[1]}, {row[2]}, {row[3]} acc is {row[4]}, f1-score is  {row[7]}.')
-            if row[0] == '10':
-                if ch in weak_ch:
-                    print(f'\tavr acc is {row[5]} and std_dev is {row[6]}')
-                    # if float(row[5]) > 0.7:
-                    print(f'add to plot {row[5]}')
-                    plot_distr(acc, float(row[5]), float(row[6]), f'SVM {seg} ch {ch} ')
-                    print('debug')
-                acc = []
-            else:
-                acc.append(float(row[4]))
-                ch = int(row[1])
-                seg = row[2]
+d_i = [[0.5625,0.02329], [0.5625,0.044439],  [0.569166,0.0393226]]
+n = ['10', '30', '100']
 
-        line_count += 1
-    print(f'Processed {line_count} lines.')
-
-# file_name = '../../classification/results/svm_30.csv'
-#
-# with open(file_name) as csv_file:
-#     csv_reader = csv.reader(csv_file, delimiter=',')
-#     acc = []
-#     avr = 0
-#     std = 0
-#     ch = 0
-#     seg = ''
-#     line_count = 0
-#     for row in csv_reader:
-#         if line_count == 0:
-#             print(f'Column names are {", ".join(row)}')
-#             line_count += 1
-#         else:
-#             # print(f'\t{row[0]}, {row[1]}, {row[2]}, {row[3]} acc is {row[4]}, f1-score is  {row[7]}.')
-#             if row[0] == '30':
-#                 avr = float(row[4])
-#             else:
-#                 if row[0] == '31':
-#                     std = float(row[4])
-#                     print(f'\tavr acc is {avr} and {std}')
-#                     plot_distr(acc, avr, std, f'Ch {ch} seg {seg} ')
-#                     print('debug')
-#                     acc = []
-#                 else:
-#                     acc.append(float(row[4]))
-#                     ch = int(row[1])
-#                     seg = row[2]
-#     line_count += 1
-# print(f'Processed {line_count} lines.')
+plot_distributions(d_i, n)
