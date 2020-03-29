@@ -47,7 +47,7 @@ def train_test_doa(doas, percent):
         doas_train.append(doa_train)
         doas_test.append(doa_test)
 
-    print('debug')
+    # print('debug')
     return doas_train, doas_test, ind_test
 
 # initialization = InitDataSet()
