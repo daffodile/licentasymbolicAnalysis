@@ -21,7 +21,7 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self, directory='cutoff1_150'):
+    def __init__(self, directory='dsfinal'):
         self.doas = []
         self.run(directory)
 
