@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.svm import SVC
 
 from classification.SplitData import SplitData
-from classification.Train_and_Test import TrainTestSplitting
+from Tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
