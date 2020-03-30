@@ -17,7 +17,7 @@ run_nr = 10
 channels = [1, 5, 14, 16, 19, 26]
 segment = 'spontaneous'
 
-initialization = InitDataSet()
+initialization = InitDataSet('no_bursts')
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 

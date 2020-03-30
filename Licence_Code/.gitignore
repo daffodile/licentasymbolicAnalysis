@@ -7,6 +7,6 @@
 /.idea/
 /.idea
 /data_to_be_saved
-/classification/results/
-/Afisare/svm/
+/classification/svm/results/
+/classification/decision_tree/results/
 /classification/decision_tree/dtc_report.csv
