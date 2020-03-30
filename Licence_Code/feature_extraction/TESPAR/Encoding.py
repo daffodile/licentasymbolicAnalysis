@@ -10,9 +10,10 @@ class Encoding:
     alphabet - a matrix of DS having the corresponding 'symbol' on each position
     '''
 
-    def __init__(self, alphabet_path):
-        self.s_matrix = [0 for i in range(32)]
-        self.a_matrix = [[0 for i in range(32)] for j in range(32)]
+    def __init__(self, alphabet_path, no_symbols=32):
+        self.no_symbols = no_symbols
+        self.s_matrix = [0 for i in range(no_symbols)]
+        self.a_matrix = [[0 for i in range(no_symbols)] for j in range(no_symbols)]
         self.alphabet_path = alphabet_path
         self.symbols_array = []
         self.alphabet_matrix = None
@@ -92,14 +93,16 @@ class Encoding:
 
         return s_matrix
 
-    def get_a(self, trial, l):
+    def get_a(self, trial, lag=1, selected_symbols=32):
 
         symbols_array = self.get_symbols(trial)
 
-        a_matrix1 = [[0 for i in range(32)] for j in range(32)]
-        for i in range(len(symbols_array) - l - 1):
-            current = symbols_array[i]
-            current_pair = symbols_array[i + 1 + l]
-            a_matrix1[current][current_pair] += 1
+        # a_matrix = [[0 for i in range(self.no_symbols)] for j in range(self.no_symbols)]
+        a_matrix = np.zeros((self.no_symbols, self.no_symbols), dtype=int)
 
-        return a_matrix1
+        for i in range(len(symbols_array) - lag - 1):
+            current = symbols_array[i]
+            current_pair = symbols_array[i + 1 + lag]
+            a_matrix[current][current_pair] += 1
+
+        return a_matrix[:selected_symbols, :selected_symbols]

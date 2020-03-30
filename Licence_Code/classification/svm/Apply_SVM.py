@@ -17,7 +17,7 @@ run_nr = 10
 channels = [1, 5, 14, 16, 19, 26]
 segment = 'spontaneous'
 
-initialization = InitDataSet('no_bursts')
+initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
@@ -54,3 +54,4 @@ for run in range(run_nr):
         print('ch=' + str(channel) + ' seg=' + str(segment) + " accuracy train " + str(acc_train) + ' vs ' + str(
             acc_test) + ' test')
         # print("f1-score train " + str(f1sc_train) + ' vs ' + str(f1sc_test) + ' test')
+
