@@ -6,6 +6,19 @@ from input_reader.InitDataSet import InitDataSet
 from input_reader.Models import *
 
 
+def obtain_features_labels_log(inputData, encoding):
+    X = []
+    Y = []
+
+    for i in range(len(inputData.result.arrays)):
+        for j in range(len(inputData.result.arrays[i].array)):
+            X.append(np.asarray(
+                np.log10([[v + 1 for v in r] for r in encoding.get_a(inputData.result.arrays[i].array[j], 1)])).ravel())
+            Y.append(inputData.result.arrays[i].name)
+
+    return pd.DataFrame(X), Y
+
+
 def obtain_features_labels(inputData, encoding):
     X = []
     Y = []
