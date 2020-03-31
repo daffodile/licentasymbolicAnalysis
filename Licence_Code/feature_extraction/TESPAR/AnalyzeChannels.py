@@ -16,17 +16,17 @@ encoder = Encoding('../../data_to_be_saved/alphabet_1_150hz.txt')
 def plotMatrixA_SingleLog(DOA, segment, channel_number, values):
     fig = plt.figure(figsize=(30, 25))
     ax = fig.add_subplot()
-    cax = ax.matshow(values, cmap=plt.cm.Blues)
+    cax = ax.matshow(values, cmap=plt.cm.jet)
     cbar = fig.colorbar(cax)
     # TODO
-    cbar.mappable.set_clim(0, 3.5)
+    cbar.mappable.set_clim(0, 3)
     cbar.ax.tick_params(labelsize=30)
     ax.tick_params(labelsize=30)
     ax.invert_yaxis()
     ax.xaxis.tick_bottom()
     fig.suptitle("Log A Matrix - " + DOA + " " + segment + " ch: " + str(channel_number), fontsize=35, y=0.99,
                  fontweight='bold')
-    plot_name = 'compare_channels/log/blues/Channel_' + str(
+    plot_name = 'compare_channels/log/jet/Channel_' + str(
         channel_number) + "_" + DOA + "_" + segment + "_Log" + "_A.png"
     plt.show()
     fig.savefig(plot_name)
@@ -73,7 +73,7 @@ def plotMatrixA_Difference(DOA, segment, channel_number, values):
 def get_channel_values(doas, doa_level, channel_number):
     channel_values = []
     for i in range(240):
-        channel_values.extend(doas[doa_level].channels[channel_number].trials[i].stimulus.values)
+        channel_values.extend(doas[doa_level].channels[channel_number].trials[i].poststimulus.values)
     return channel_values
 
 
@@ -91,12 +91,12 @@ for i in range(len(all_channels)):
     # a_matrix_light_normal = np.array(encoder.get_a(channel_values_light, 1))
     a_matrix_light_log = np.array(np.log10([[v + 1 for v in r] for r in encoder.get_a(channel_values_light, 1)]))
 
-    # plotMatrixA_Single("Deep", "Stimulus", all_channels[i], a_matrix_deep_normal)
-    # plotMatrixA_SingleLog("Deep", "Stimulus", all_channels[i], a_matrix_deep_log)
-    # plotMatrixA_Single("Medium", "Stimulus", all_channels[i], a_matrix_medium_normal)
-    # plotMatrixA_SingleLog("Medium", "Stimulus", all_channels[i], a_matrix_medium_log)
-    # plotMatrixA_Single("Light", "Stimulus", all_channels[i], a_matrix_light_normal)
-    plotMatrixA_SingleLog("Light", "Stimulus", all_channels[i], a_matrix_light_log)
+    # plotMatrixA_Single("Deep", "Poststimulus", all_channels[i], a_matrix_deep_normal)
+    # plotMatrixA_SingleLog("Deep", "Poststimulus", all_channels[i], a_matrix_deep_log)
+    # plotMatrixA_Single("Medium", "Poststimulus", all_channels[i], a_matrix_medium_normal)
+    # plotMatrixA_SingleLog("Medium", "Poststimulus", all_channels[i], a_matrix_medium_log)
+    # plotMatrixA_Single("Light", "Poststimulus", all_channels[i], a_matrix_light_normal)
+    plotMatrixA_SingleLog("Light", "Poststimulus", all_channels[i], a_matrix_light_log)
 
 # for i in range(len(all_channels)):
 #     channel_value_deep = get_channel_values(doas, 0, all_channels[i])

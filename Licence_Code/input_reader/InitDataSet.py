@@ -4,18 +4,9 @@ import sys
 
 from input_reader.CreateDOA import CreateDOA
 
-# #   DATASET for filtered 3 hz
-# data_dir = os.path.join('..', '..')
-# data_dir = os.path.join(data_dir, 'data/cutoff3hz', '')
-# sys.path.append(data_dir)
-# #   DATASET for filtered 1 hz
-# data_dir = os.path.join('..', '..')
-# data_dir = os.path.join(data_dir, 'data/cutoff1hz', '')
-# sys.path.append(data_dir)
-
-#   DATASET for filtered 1 hz
+#  DATASET for filtered 1hz (HP), 150hz (LP), 49-51(Notch)
 data_dir = os.path.join('..', '..')
-data_dir = os.path.join(data_dir, 'data/cutoff1_150', '')
+data_dir = os.path.join(data_dir, 'data/cutoff1_150_N', '')
 sys.path.append(data_dir)
 
 doa_info = {
@@ -32,27 +23,6 @@ doa_info = {
         'eti': 'Results M014_S001_SRCS3L_25,50,100_0004 Variable contrast, all orientations.eti'
     }
 }
-
-
-# #   DATASET for filtered 1 hz
-# data_dir = os.path.join('..', '..')
-# data_dir = os.path.join(data_dir, 'data/cutoff1hz', '')
-# sys.path.append(data_dir)
-#
-# doa_info = {
-#     'deep': {
-#         'epd': 'M014_S001_SRCS3L_25,50,100_0002.epd',
-#         'eti': 'Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti'
-#     },
-#     'medium': {
-#         'epd': 'M014_S001_SRCS3L_25,50,100_0003.epd',
-#         'eti': 'Results M014_S001_SRCS3L_25,50,100_0003 Variable contrast, all orientations.eti'
-#     },
-#     'light': {
-#         'epd': 'M014_S001_SRCS3L_25,50,100_0004.epd',
-#         'eti': 'Results M014_S001_SRCS3L_25,50,100_0004 Variable contrast, all orientations.eti'
-#     }
-# }
 
 
 class InitDataSet:

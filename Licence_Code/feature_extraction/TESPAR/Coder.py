@@ -45,7 +45,7 @@ class Coder:
         sys.path.append(project_path)
 
         line = None
-        file_name = "trials_as_floats_1_150hz.txt"
+        file_name = "trials_as_floats_1_150_Nhz.txt"
         with open(os.path.join(data_dir, file_name), 'r') as f:
             line = f.readline()
             while line:
