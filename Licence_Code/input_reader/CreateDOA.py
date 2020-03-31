@@ -20,7 +20,7 @@ class CreateDOA:
         self.codes_timestamps_reader = MetadataReaderBIN(data_dir, file_epd)
         self.doa = None
 
-    def create(self):
+    def create(self, trials_to_skip):
         self.doa = DOA(self.level)
         self.amplitude_array = []
         self.timestamp_array = self.codes_timestamps_reader.event_timestamps
@@ -52,7 +52,7 @@ class CreateDOA:
 
             # for de 240 de iteratii
             for j in range(self.reader_eti.no_trials):
-                if self.reader_eti.trials_description['Error'][j] != 1:
+                if self.reader_eti.trials_description['Error'][j] not in trials_to_skip:
                     trial = Trial(self.reader_eti.trials_description['Trial'][j],
                                   self.reader_eti.trials_description['Condition'][j],
                                   self.reader_eti.trials_description['Contrast'][j],

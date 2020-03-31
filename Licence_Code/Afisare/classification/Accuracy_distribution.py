@@ -1,9 +1,9 @@
 import numpy as np
-import plotly
-from plotly.subplots import make_subplots
 import plotly.figure_factory as ff
-import pandas as pd
 import plotly.graph_objs as go
+
+import plotly.io as pio
+pio.renderers.default
 
 COLOR_LIST_DISTRIBUTION_PLOTS = [
     'blueviolet',
