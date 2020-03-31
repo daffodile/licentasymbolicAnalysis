@@ -25,19 +25,20 @@ from utils import Utils
 #
 # # 2) DOAS ca floats pusa in fisier corresp
 # print('write trials_as_floats_1hz')
-# np.savetxt("trials_as_floats_1hz.txt", floats_Array, fmt="%s")
+# np.savetxt("trials_as_floats_dsfull.txt", floats_Array, fmt="%s")
 # print('trials_as_floats_1hz is written\n')
 
-# # 3) arrayul de floats data la un Coder scrie o matrice ds
+# 3) arrayul de floats data la un Coder scrie o matrice ds
 # print('coder generates DS freq matrix')
-# coder1hz = Coder("ds_matrix_doas_1hz.txt")
+# # file_name = "trials_as_floats_1_150hz.txt"
+# coder1hz = Coder(path_save_file="ds_matrix_doas_dsfinal.txt", path_floats_file="trials_as_floats_dsfull.txt")
 # print('after coder, ds freq matrix should be written\n')
-#
-# print('load ds freq matrix for vq alg')
-#
-# input_matrix = np.loadtxt(fname='./ds_matrix_doas_1hz.txt', dtype='i')
-# print(' ds freq matrix is loaded, start vq lbg alg\n')
-# lbg = VQ_LGB(k=32, alpha=0.00005, t=1000, scale_s=5, epsilon=0.1)
-# lbg.set_dataset(input_matrix)
-# lbg.run()
-# print('DONE!!!')
+
+print('load ds freq matrix for vq alg')
+
+input_matrix = np.loadtxt(fname='./ds_matrix_doas_dsfinal.txt', dtype='i')
+print(' ds freq matrix is loaded, start vq lbg alg\n')
+lbg = VQ_LGB(k=32, alpha=0.00005, t=1000, scale_s=5, epsilon=0.1)
+lbg.set_dataset(input_matrix)
+lbg.run(file_alphabet='alphabet_dsfinal.txt')
+print('DONE!!!')
