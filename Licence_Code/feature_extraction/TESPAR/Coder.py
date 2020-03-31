@@ -10,24 +10,15 @@ class Coder:
     parameters:  - doas: - array of doas containing the whole dataset
     '''
 
-    def __init__(self, path_save_file):
+    def __init__(self, path_save_file, path_floats_file="trials_as_floats_dsfinal.txt"):
 
         self.path_to_save_file = path_save_file
+        self.path_floats_file = path_floats_file
 
         self.channel_values = []
 
         self.aOffset = 0
         self.symbolic_array = []
-
-        # print('Obtain the floats array from DOA-s')
-        # # for doa in doas:
-        # #     doa_floats_list = Utils.obtain_floats_from_DOA(doa)
-        # #     self.channel_values.extend(doa_floats_list)
-        #
-        # self.channel_values = Utils.obtain_floats_from_DOA(doas[0])[0:100]
-        #
-        # print('Floats are set')
-        # # self.ds_matrix = [[0 in range(48)] in range(222)]
 
         self.read_file()
 
@@ -40,13 +31,13 @@ class Coder:
         self.create_matrix()
 
     def read_file(self):
+
         project_path = os.path.join('.', '..')
         data_dir = os.path.join(project_path, 'input_reader', '')
         sys.path.append(project_path)
 
         line = None
-        file_name = "trials_as_floats_1_150_Nhz.txt"
-        with open(os.path.join(data_dir, file_name), 'r') as f:
+        with open(os.path.join(data_dir, self.path_floats_file), 'r') as f:
             line = f.readline()
             while line:
                 line = line.replace("[", "")

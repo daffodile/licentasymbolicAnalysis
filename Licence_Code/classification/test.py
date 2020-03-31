@@ -2,12 +2,9 @@ from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 
 from classification.SplitData import SplitData
-from classification.random_forest.RandomForest import RandomForest
-from classification.random_forest.Train_and_Test_TESPAR import splitData_concatenate, splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from classification.Train_and_Test import TrainTestSplitting
-from Tests.Classifiers.decision_tree.DecisionTreeClassificator import DecisionTreeClassificator
+from Tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
 
 # A = [[[1, 2],
 #       [3, 4]],

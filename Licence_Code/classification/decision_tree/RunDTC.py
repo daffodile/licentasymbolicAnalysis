@@ -3,7 +3,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.tree import DecisionTreeClassifier
 
 from classification.SplitData import SplitData
-from classification.Train_and_Test import TrainTestSplitting
+from Tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 

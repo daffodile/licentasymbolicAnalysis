@@ -1,94 +1,57 @@
-import numpy as np
-from pandas import DataFrame
+'''
+SCRIPT TO TEST OVERFITTING
+'''
+
+from sklearn.metrics import classification_report
 from sklearn.svm import SVC
-from sklearn.metrics import classification_report, confusion_matrix
 
 from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData, split_2_channels
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from utils.DataSpliting import train_test_doa, obtain_features_labels
 
+# how many models to train a for a channel-segment pair
 run_nr = 10
-#
-# initialization = InitDataSet()
-#
-# doas = initialization.get_dataset_as_doas()
-#
-# ######    SplitData(self, doas, channels, levels, segment, orientation):
-# split_data = SplitData(doas, [10], ['light', 'deep'], ['spontaneous'], ['all'])
-# print("data from channel 13, light deep spontaneous")
-#
-# encoding = Encoding('./../../data_to_be_saved/alphabet_3hz.txt')
-#
-# column_names = ['channel', 'segment', 'run', 'accuracy', 'f1-score']
-# df = DataFrame(columns=column_names)
-# df.to_csv("svm_report.csv", mode='a', header=True)
-#
-#
-# accuracies = []
-# f1scores = []
-#
-# # for i in range(run_nr):
-#
-# X_train_1, x_test_1, y_train_1, y_test_1 = splitData(split_data, encoding, 0.2)
-#
-# model = SVC()
-#
-# model.fit(X_train_1, y_train_1)
-#
-# predictions = model.predict(X_train_1)
-# print('pert train subset')
-# print((classification_report(y_train_1, predictions, output_dict=True)))
-#
-#
-# predictions = model.predict(x_test_1)
-# print('pert test subset')
-# print((classification_report(y_test_1, predictions, output_dict=True)))
 
-
-# report = classification_report(y_test_1, predictions, output_dict=True)
-# acc = report['accuracy']
-# f1sc = report['weighted avg']['f1-score']
-# df = df.append({'channel': 13, 'segment': 'spontaneous', 'run': i, 'accuracy': acc, 'f1-score': f1sc},
-#                ignore_index=True)
-# accuracies.append(acc)
-# f1scores.append(f1sc)
-
-
-# df.to_csv("svm_report.csv", mode='a', header=False)
-# print('count after filling  ' + str(df.count()))
-# df = df.iloc[0:0]
-#
-# print('coun after iloc' + str(df.count()))
-#
-# df = df.append({'channel': '', 'segment': '', 'run': 'mean', 'accuracy': np.mean(np.array(accuracies)),
-#                 'f1-score': np.mean(np.array(f1scores))}, ignore_index=True)
-# df = df.append({'channel': '', 'segment': '', 'run': 'std_dev', 'accuracy': np.std(np.array(accuracies)),
-#                 'f1-score': np.std(np.array(f1scores))}, ignore_index=True)
-# df.to_csv("svm_report.csv", mode='a', header=False)
-# print('coun after means' + str(df.count()))
-
-
-########################## test 2 channels ######################################################
+# channel = 23
+channels = [1, 5, 14, 16, 19, 26]
+segment = 'spontaneous'
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-######    SplitData(self, doas, channels, levels, segment, orientation):
-train_data = SplitData(doas, [5], ['light', 'deep'], ['spontaneous'], ['all'])
-test_data = SplitData(doas, [10], ['light', 'deep'], ['spontaneous'], ['all'])
+encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_3hz.txt')
+print('test for overfitting SVM 0.2 seg=' + str(segment))
+for run in range(run_nr):
 
-column_names = ['channel', 'segment', 'run', 'accuracy', 'f1-score']
-df = DataFrame(columns=column_names)
-df.to_csv("svm_report.csv", mode='a', header=True)
+    # firstly split the input into train test
+    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    #
+    print(run)
 
-for i in range(3):
-    X_train, x_test, y_train, y_test = split_2_channels(train_data, test_data, encoding, 0.2, i)
+    for channel in channels:
+        train_data = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
+        test_data = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
 
-    model = SVC()
+        X_train, y_train = obtain_features_labels(train_data, encoding)
+        x_test, y_test = obtain_features_labels(test_data, encoding)
 
-    model.fit(X_train, y_train)
+        model = SVC(gamma="auto")
 
-    predictions = model.predict(x_test)
-    print((classification_report(y_test, predictions)))
+        model.fit(X_train, y_train)
+        predictions_train = model.predict(X_train)
+        predictions_test = model.predict(x_test)
+
+        report_train = classification_report(y_train, predictions_train, output_dict=True)
+        report_test = classification_report(y_test, predictions_test, output_dict=True)
+
+        acc_train = report_train['accuracy']
+        f1sc_train = report_train['weighted avg']['f1-score']
+
+        acc_test = report_test['accuracy']
+        f1sc_test = report_test['weighted avg']['f1-score']
+
+        print('ch=' + str(channel) + ' seg=' + str(segment) + " accuracy train " + str(acc_train) + ' vs ' + str(
+            acc_test) + ' test')
+        # print("f1-score train " + str(f1sc_train) + ' vs ' + str(f1sc_test) + ' test')
+

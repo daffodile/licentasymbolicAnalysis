@@ -294,25 +294,17 @@ class VQ_LGB():
 
         sns.set()
 
-        # cmap = sns.cubehelix_palette(dark=.8, light=.3, as_cmap=True, n_colors=current_k)
-        # x = sns.dark_palette(n_colors=current_k, color='blue', )
-
         diverge = sns.diverging_palette(h_neg=240, h_pos=10, n=current_k)
-
-        # diverge = sns.color_palette(n_colors=current_k, desat=0.3)
-
         g = sns.scatterplot(data=norm_data, x='d_axis', y='s_axis', hue='cluster_values', edgecolor='none',
                             palette=diverge, legend=False)
 
-        # heatmap_matrix = np.reshape(self.dataset_clusters, (self.dimD, self.dimS))
-        # sns.heatmap(data=heatmap_matrix, cbar=True)
+        plt.scatter(c_x, c_y, color='red', s=0.5)  # centroids here
 
-        plt.scatter(c_x, c_y, color='black', s=0.5)  # centroids here
-
-        plt.savefig('{}  cutoff1 150 full alphabet.png'.format(current_k))
+        if (current_k > 30):
+            plt.savefig('{}_alphabet_dsfinal.png'.format(current_k))
         fig.show()
 
-    def run(self):
+    def run(self, file_alphabet):
         # start with 1 cluster representing the average of th dataset
         self.first_cluster()
 
@@ -359,9 +351,7 @@ class VQ_LGB():
             # print(m)
             if current_k % 5 == 0 or current_k == 32:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k, 'cutoff 1 150 full')
-
-            # self.plot_dataset_clusters(current_k)
+                self.plot_dataset_clusters(current_k, 'ds final')
 
             if current_k < 32:
                 # find the cluster having the highest relative error
@@ -403,8 +393,7 @@ class VQ_LGB():
 
                 # sort the clusters based on centroid which is am array with D and S
                 a = np.array(self.clusters, dtype=CLUSTER)
-                # np.sort(a, order='centroid[0]')
-                # result = sorted(a, key=lambda x: x.centroid[0].fget)
+
                 result = sorted(a, key=lambda x: getattr(x, 'centroid'))
 
                 # replace the clusters with sorted ones
@@ -414,14 +403,14 @@ class VQ_LGB():
                 self.allocate_closest_cluster()
 
                 self.plot_dataset_clusters(current_k, 'test refactor sorted')
-                path = os.getcwd()
-                fileName = path + "/alphabet_1_150hz.txt"
-                f = open(fileName, "w")
+                # path = os.getcwd()
+                # fileName = path + "/alphabet_1_150hz.txt"
+                f = open(file_alphabet, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):
                         f.write(str(self.dataset_clusters[self.dimS * d + s]) + " ")
                     f.write("\n")
                 f.close()
-                print('alphabet_1_150hzz is written\n')
+                print('alphabet_full is written\n')
 
             current_k += 1

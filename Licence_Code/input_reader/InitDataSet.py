@@ -4,11 +4,6 @@ import sys
 
 from input_reader.CreateDOA import CreateDOA
 
-#  DATASET for filtered 1hz (HP), 150hz (LP), 49-51(Notch)
-data_dir = os.path.join('..', '..')
-data_dir = os.path.join(data_dir, 'data/cutoff1_150_N', '')
-sys.path.append(data_dir)
-
 doa_info = {
     'deep': {
         'epd': 'M014_S001_SRCS3L_25,50,100_0002.epd',
@@ -26,11 +21,15 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self):
+    def __init__(self, directory='dsfinal'):
         self.doas = []
-        self.run()
+        self.run(directory)
 
-    def run(self):
+    def run(self, directory):
+        data_dir = os.path.join('.', '..')
+        data_dir = os.path.join(data_dir, 'data/', directory)
+        sys.path.append(data_dir)
+
         for key, value in doa_info.items():
             doa_factory = CreateDOA(data_dir, value['epd'], value['eti'], key)
             doa = doa_factory.create()
