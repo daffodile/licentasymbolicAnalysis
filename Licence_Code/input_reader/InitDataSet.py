@@ -21,12 +21,12 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self, directory='dsfinal'):
+    def __init__(self, directory='filtered'):
         self.doas = []
         self.run(directory)
 
     def run(self, directory):
-        data_dir = os.path.join('.', '..')
+        data_dir = os.path.join('.', '../..')
         data_dir = os.path.join(data_dir, 'data/', directory)
         sys.path.append(data_dir)
 

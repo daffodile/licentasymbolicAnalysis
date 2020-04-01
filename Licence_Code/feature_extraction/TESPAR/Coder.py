@@ -32,8 +32,8 @@ class Coder:
 
     def read_file(self):
 
-        project_path = os.path.join('.', '..')
-        data_dir = os.path.join(project_path, 'input_reader', '')
+        project_path = os.path.join('.', '../..')
+        data_dir = os.path.join(project_path, 'input_reader', 'initialize_TESPAR_alphabet')
         sys.path.append(project_path)
 
         line = None
