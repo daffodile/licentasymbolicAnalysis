@@ -68,24 +68,6 @@ class CLUSTER:
 
         return self.new_error
 
-    # def print_cluster(self, f):
-    #
-    #     # print("-----CENTROID-------")
-    #
-    #     # print(self.centroid)
-    #     np.savetxt(f, self.centroid, fmt="%s", newline=" ")
-    #     f.write("\n")
-    #
-    #     # print("-------PATTERNS-----")
-    #     f.write("-------PATTERNS-----\n")
-    #
-    #     # print(self.patterns)
-    #     np.savetxt(f, self.patterns, fmt="%s", newline=" ")
-    #     f.write("\n")
-    #
-    #     # print("------------")
-    #     f.write("------------")
-
 
 class VQ_LGB():
     '''
@@ -96,7 +78,7 @@ class VQ_LGB():
     epsilon = how much to recenter the clusters
     '''
 
-    def __init__(self, k, alpha, t, scale_s, epsilon):
+    def __init__(self, k, alpha, t, epsilon=0.1, scale_s=1):
 
         self.dataset = []
         self.dataset_train = []
@@ -173,8 +155,8 @@ class VQ_LGB():
                 else:
                     changeD = False
                 per += normalized_matrix[d][s]
-                print(per)
-
+                # print(per)
+            print(per)
             print('VQ_LBG:get_pool method: d: ' + str(d) + ',  s: ' + str(s))
 
             return d, s
@@ -183,7 +165,7 @@ class VQ_LGB():
         sum_d = 0
         sum_s = 0
         sum_freq = 0
-        for pattern in self.dataset:
+        for pattern in self.dataset_train:
             sum_d += pattern[0] * pattern[2]  # suma ponderata data de freq
             sum_s += pattern[1] * pattern[2]
             sum_freq += pattern[2]
@@ -217,8 +199,7 @@ class VQ_LGB():
 
         return highest_error_index
 
-    def allocate_closest_cluster(self):
-
+    def set_all_clusters(self):
         for idx, pattern in enumerate(self.dataset):
 
             lowest_distance = float("inf")
@@ -232,10 +213,26 @@ class VQ_LGB():
                     lowest_distance = distance
                     lowest_index = index
 
-            if pattern in self.dataset_train:
-                self.clusters[lowest_index].add_pattern(pattern)
-
             #     update labels for all input matrix entries
+            self.dataset_clusters[idx] = lowest_index
+
+    # allocate the cluster index for all enterings in data set, nut only add them to patterns if there are in dataset_train
+    def allocate_closest_cluster(self):
+
+        for idx, pattern in enumerate(self.dataset_train):
+
+            lowest_distance = float("inf")
+            lowest_index = -1
+
+            for index in range(len(self.clusters)):
+
+                distance = self.clusters[index].get_distance_centroid(pattern, self.scale_s)
+
+                if distance < lowest_distance:
+                    lowest_distance = distance
+                    lowest_index = index
+
+            self.clusters[lowest_index].add_pattern(pattern)
             self.dataset_clusters[idx] = lowest_index
 
     def update_centroids(self):
@@ -258,7 +255,7 @@ class VQ_LGB():
     def get_distortion_flag(self):
         return abs(self.old_distortion - self.new_distortion) / self.new_distortion
 
-    def plot_dataset_clusters(self, current_k, title):
+    def plot_dataset_clusters(self, title):
         # figure
         fig, ax1 = plt.subplots()
         fig.set_size_inches(13, 10)
@@ -266,7 +263,7 @@ class VQ_LGB():
         # labels
         ax1.set_xlabel('D')
         ax1.set_ylabel('S')
-        ax1.set_title(str(current_k) + ' ' + title)
+        ax1.set_title(str(len(self.clusters)) + ' ' + title)
 
         d_axis = []
         s_axis = []
@@ -279,14 +276,16 @@ class VQ_LGB():
                 clusters.append(self.dataset_clusters[patterns[0] * self.dimS + patterns[1]])
         norm_data = pd.DataFrame({'d_axis': d_axis, 's_axis': s_axis, 'cluster_values': clusters})
 
+        nr_of_colors = len(np.unique(norm_data['cluster_values']))
+        print('nr_of_colors ' + str(nr_of_colors))
         clusters_range = []
         c_x = []
         c_y = []
         c_counts = []
 
-        for c in range(current_k):
+        for c in range(len(self.clusters)):
             if len(self.clusters[c].patterns) == 0:
-                print(str(current_k) + ' e gol \n')
+                print(str(c) + ' e gol \n')
             clusters_range.append(c)
             c_x.append(self.clusters[c].centroid[0])
             c_y.append(self.clusters[c].centroid[1])
@@ -294,14 +293,14 @@ class VQ_LGB():
 
         sns.set()
 
-        diverge = sns.diverging_palette(h_neg=240, h_pos=10, n=current_k)
+        diverge = sns.diverging_palette(h_neg=240, h_pos=10, n=nr_of_colors)
         g = sns.scatterplot(data=norm_data, x='d_axis', y='s_axis', hue='cluster_values', edgecolor='none',
                             palette=diverge, legend=False)
 
         plt.scatter(c_x, c_y, color='red', s=0.5)  # centroids here
 
-        if (current_k > 30):
-            plt.savefig('{}_alphabet_dsfinal.png'.format(current_k))
+        if len(self.clusters) > 31:
+            plt.savefig('{}_alphabet_s1.png'.format(len(self.clusters)))
         fig.show()
 
     def run(self, file_alphabet):
@@ -349,9 +348,9 @@ class VQ_LGB():
             print('k=' + str(current_k) + '\n')
             # m = np.reshape(self.dataset_clusters, (100, 50))
             # print(m)
-            if current_k % 5 == 0 or current_k == 32:
+            if current_k % 5 == 0:
                 print('aici ar trebui sa printez')
-                self.plot_dataset_clusters(current_k, 'ds final')
+                self.plot_dataset_clusters(' clusters s=1')
 
             if current_k < 32:
                 # find the cluster having the highest relative error
@@ -400,11 +399,10 @@ class VQ_LGB():
                 self.clusters = result
 
                 # re-distribute the symbols
-                self.allocate_closest_cluster()
+                self.set_all_clusters()
 
-                self.plot_dataset_clusters(current_k, 'test refactor sorted')
-                # path = os.getcwd()
-                # fileName = path + "/alphabet_1_150hz.txt"
+                self.plot_dataset_clusters(' clusters s=1')
+
                 f = open(file_alphabet, "w")
                 for d in range(self.dimD):
                     for s in range(self.dimS):

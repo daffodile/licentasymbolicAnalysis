@@ -11,15 +11,17 @@ from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
 
 # how many models to train a for a channel-segment pair
-run_nr = 10
+run_nr = 5
 
 # channel = 23
 channel = 1
 segment = 'spontaneous'
 
-initialization = InitDataSet(trials_to_skip=[2])
+encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
+
+initialization = InitDataSet(trials_to_skip=[1,2])
+# initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
 print('test for overfitting SVM 0.2 seg=' + str(segment))
 for run in range(run_nr):
