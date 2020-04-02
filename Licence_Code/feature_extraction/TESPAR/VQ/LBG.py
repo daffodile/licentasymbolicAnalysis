@@ -401,7 +401,7 @@ class VQ_LGB():
                 # re-distribute the symbols
                 self.set_all_clusters()
 
-                self.plot_dataset_clusters(' clusters s=1')
+                self.plot_dataset_clusters(' clusters s={}'.format(self.scale_s))
 
                 f = open(file_alphabet, "w")
                 for d in range(self.dimD):

@@ -4,7 +4,6 @@ from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
 from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
