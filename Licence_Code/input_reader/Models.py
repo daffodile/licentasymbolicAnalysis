@@ -55,5 +55,5 @@ class Segment(JsonEncoder):
         self.values_outsiders = []
 
     def set_values(self, float_arr):
-        self.values = float_arr
+        self.values = np.array(float_arr)
         self.values_outsiders = np.zeros(len(float_arr))
