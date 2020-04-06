@@ -18,7 +18,7 @@ segment = 'stimulus'
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 print('test for overfitting DTC 0.2')
 
