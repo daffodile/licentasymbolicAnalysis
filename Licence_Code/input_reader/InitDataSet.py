@@ -21,19 +21,25 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self, directory='filtered'):
+    def __init__(self, levels=['deep', 'light'], directory='no_bursts', trials_to_skip=None):
+        if trials_to_skip is None:
+            trials_to_skip = []
         self.doas = []
-        self.run(directory)
+        self.levels = levels
+        self.directory = directory
+        self.trials_to_skip = trials_to_skip
+        self.run()
 
-    def run(self, directory):
-        data_dir = os.path.join('.', '../..')
-        data_dir = os.path.join(data_dir, 'data/', directory)
+    def run(self):
+        data_dir = os.path.join('..', '..')
+        data_dir = os.path.join(data_dir, 'data/', self.directory)
         sys.path.append(data_dir)
 
         for key, value in doa_info.items():
-            doa_factory = CreateDOA(data_dir, value['epd'], value['eti'], key)
-            doa = doa_factory.create()
-            self.doas.append(doa)
+            if key in self.levels:
+                doa_factory = CreateDOA(data_dir, value['epd'], value['eti'], key)
+                doa = doa_factory.create(self.trials_to_skip)
+                self.doas.append(doa)
 
     def get_dataset_as_doas(self):
         return self.doas
