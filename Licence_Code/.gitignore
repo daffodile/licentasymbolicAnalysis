@@ -11,4 +11,12 @@
 /classification/decision_tree/dtc_report.csv
 /Tests
 /classification/results/
-/classification/decision_tree/good_bad_30runs_fit/
+/classification/decision_tree/good_bad_10runs/
+/input_reader/initialize_TESPAR_alphabet/alphabet_1_100.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_10_100.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_1_150.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_3_100.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_3_150.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_5_150.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_10_150.png
+/input_reader/initialize_TESPAR_alphabet/alphabet_5_100.png

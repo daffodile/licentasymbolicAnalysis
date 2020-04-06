@@ -3,24 +3,25 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
+from Afisare.classification.Accuracy_distribution import plot_distributions
 from classification.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels, obtain_features_labels_log
 
 ####### to change for each  classifier this 3 files #################################
-csv_file = "svm_30_good_bad_log_fit.csv"
-csv_results = "svm_30_good_bad_averages_log_fit.csv"
+csv_file = "svm_10_good5.csv"
+csv_results = "svm_10_good_averages5.csv"
 # open file to write the indices of  each splitting
-indexes_file = "svm_30_good_bad_test_indexex_log_fit.txt"
+indexes_file = "svm_10_good_test_indexex5.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
 run_nr = 30
 
 # # once per filter hereee
-channels_range = 7
-all_channels = [1, 5, 14, 16, 19, 26]
+channels_range = 4
+all_channels = [1, 5, 14]
 
 segments = ['spontaneous', 'stimulus', 'poststimulus']
 
@@ -31,7 +32,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -56,8 +57,8 @@ for run in range(run_nr):
             train_data = SplitData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
             test_data = SplitData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
 
-            X_train, y_train = obtain_features_labels_log(train_data, encoding)
-            x_test, y_test = obtain_features_labels_log(test_data, encoding)
+            X_train, y_train = obtain_features_labels(train_data, encoding)
+            x_test, y_test = obtain_features_labels(test_data, encoding)
 
             model = SVC(gamma="auto")
             model.fit(X_train, y_train)
@@ -87,6 +88,8 @@ df_results = DataFrame(columns=columns)
 df_results.to_csv(csv_results, mode='a', header=True)
 
 for ind_segment, segment in enumerate(segments):
+    d_i = []
+    n = []
     for channel in range(len(all_channels)):
         acc_avr = np.mean(np.array(accuracies[ind_segment][channel - 1]))
         acc_std = np.std(np.array(accuracies[ind_segment][channel - 1]))
@@ -96,5 +99,8 @@ for ind_segment, segment in enumerate(segments):
         df_results = df_results.append({'channel': all_channels[channel], 'segment': segment, 'acc avr': acc_avr,
                                         'acc std_dev': acc_std, 'f1-sc avr': f1_avr, 'f1-sc std_dev': f1_std},
                                        ignore_index=True)
+        d_i.append([acc_avr, acc_std])
+        n.append(all_channels[channel])
+    plot_distributions(d_i, n, str(segment) + str(5))
 
 df_results.to_csv(csv_results, mode='a', header=False)

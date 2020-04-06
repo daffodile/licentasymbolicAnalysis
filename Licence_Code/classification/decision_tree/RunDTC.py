@@ -12,7 +12,7 @@ segments = ['spontaneous', 'stimulus', 'poststimulus']
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-# encoding = Encoding('./../data_to_be_saved/alphabet_3hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 for segment in segments:
     for channel in range(1, channels_range):
@@ -27,7 +27,7 @@ for segment in segments:
         X_train, x_test, y_train, y_test = trainTestSplit.splitData(0.2)
         print("am train test split")
 
-        model = DecisionTreeClassifier()
+        model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
 
         model.fit(X_train, y_train)
 
@@ -36,4 +36,3 @@ for segment in segments:
         # print(confusion_matrix(y_test, predictions))
         # print('\n')
         print(classification_report(y_test, predictions))
-
