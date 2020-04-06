@@ -1,26 +1,54 @@
 import numpy as np
 
 from input_reader.InitDataSet import InitDataSet
+from scipy.signal import hilbert
 
 
-def mark_outsiders(doas, liberty=2):
+def mark_outsiders(doas, liberty=2, use_hilbert_transform=False):
     for doa in doas:
         print('doa {}', doa.level)
         for channel in doa.channels:
-            all_trials = np.array([])
+            all_trials = []
             for trial in channel.trials:
-                all_trials.extend(trial.spontaneous)
-                all_trials.extend(trial.stimulus)
-                all_trials.extend(trial.poststimulus)
+                all_trials.extend(trial.spontaneous.values)
+                all_trials.extend(trial.stimulus.values)
+                all_trials.extend(trial.poststimulus.values)
 
             channel.mean = np.mean(all_trials)
             channel.std_der = np.std(all_trials)
 
-            print('ch {} mean:{} std_dev {}', channel.number, channel.mean, channel.std_der)
+            print(f'ch {channel.number} mean:{channel.mean} std_dev {channel.std_der}')
+
+            for trial in channel.trials:
+                if (use_hilbert_transform):
+                    analytic_signal_1 = hilbert(trial.spontaneous.values)
+                    values_outsiders = np.where(np.abs(analytic_signal_1) < liberty * channel.std_der, 0, 1)
+                    trial.spontaneous.set_values_outsiders(values_outsiders)
+
+                    analytic_signal_2 = hilbert(trial.stimulus.values)
+                    values_outsiders = np.where(np.abs(analytic_signal_2) < liberty * channel.std_der, 0, 1)
+                    trial.stimulus.set_values_outsiders(values_outsiders)
+
+                    analytic_signal_3 = hilbert(trial.poststimulus.values)
+                    values_outsiders = np.where(np.abs(analytic_signal_3) < liberty * channel.std_der, 0, 1)
+                    trial.poststimulus.set_values_outsiders(values_outsiders)
+
+                else:
+                    values_outsiders = np.where(np.abs(trial.spontaneous.values) < liberty * channel.std_der, 0, 1)
+                    trial.spontaneous.set_values_outsiders(values_outsiders)
+
+                    values_outsiders = np.where(np.abs(trial.stimulus.values) < liberty * channel.std_der, 0, 1)
+                    trial.stimulus.set_values_outsiders(values_outsiders)
+
+                    values_outsiders = np.where(np.abs(trial.poststimulus.values) < liberty * channel.std_der, 0, 1)
+                    trial.poststimulus.set_values_outsiders(values_outsiders)
+            # print("debug")
+
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 
+# mark_outsiders(doas, use_hilbert_transform=True)
 mark_outsiders(doas)
 
 print('debug')

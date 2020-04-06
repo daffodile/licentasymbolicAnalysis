@@ -1,4 +1,5 @@
 import json
+import sys
 
 import numpy as np
 
@@ -57,3 +58,8 @@ class Segment(JsonEncoder):
     def set_values(self, float_arr):
         self.values = float_arr
         self.values_outsiders = np.zeros(len(float_arr))
+
+    def set_values_outsiders(self, values_outsiders):
+        if len(values_outsiders) != len(self.values):
+            sys.exit("The length of values_outsiders does not correspond to the length of values")
+        self.values_outsiders = values_outsiders
