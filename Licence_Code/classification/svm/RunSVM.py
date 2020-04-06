@@ -4,7 +4,6 @@ from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
 from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
@@ -32,7 +31,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 '''
 for calculating the average acc or af1-score
