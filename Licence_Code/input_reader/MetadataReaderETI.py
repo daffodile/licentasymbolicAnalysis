@@ -69,7 +69,7 @@ Trial,Condition,Contrast,Direction,Duration_us (us),Duration_f (frames),Error ti
             if not attributes[self.no_fields]:
                 attributes[self.no_fields] = 0
             else:
-                attributes[self.no_fields] = 1
+                attributes[self.no_fields] = int(attributes[self.no_fields])
             for j in range(self.no_fields + 1):
                 oldValues = self.trials_description[self.header_names[j].split(' ')[0]]
                 oldValues.append(attributes[j])

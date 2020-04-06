@@ -1,9 +1,9 @@
 import numpy as np
-import plotly
-from plotly.subplots import make_subplots
 import plotly.figure_factory as ff
-import pandas as pd
 import plotly.graph_objs as go
+
+import plotly.io as pio
+pio.renderers.default
 
 COLOR_LIST_DISTRIBUTION_PLOTS = [
     'blueviolet',
@@ -38,7 +38,7 @@ def generate_distribution(desired_mean, desired_std_dev, num_samples=1000):
     return final_samples
 
 
-def plot_distributions(distr_info, names):
+def plot_distributions(distr_info, names, figure_title):
     distributions = []
 
     for distr in distr_info:
@@ -46,7 +46,6 @@ def plot_distributions(distr_info, names):
         distributions.append(generate_distribution(distr[0], distr[1]))
 
     distribution_plot = ff.create_distplot(distributions, names, show_hist=False)
-    distribution_plot.update_layout(title='Ch 1 spontaneous')
     figure = go.Figure()
 
     for count in range(len(distributions)):
@@ -85,13 +84,10 @@ def plot_distributions(distr_info, names):
             )
         )
 
+    figure.update_layout(title=figure_title)
     figure.show()
 
-# 0,19,spontaneous,100,0.5691666666666667,0.039322606234977756,0.5343193145719237,0.04684505459505999
-# 0,19,spontaneous,30,0.5625,0.04443901876604489,0.5216767856509679,0.05596886011969591
-# 0,19,spontaneous,10,0.5625,0.0232923747656228,0.520351786937627,0.02879723165667191
-
-d_i = [[0.590972,	0.03979], [0.5625,0.044439],  [0.569166,0.0393226]]
-n = ['10', '30', '100']
+d_i = [[0.65516,0.04155], [0.6612,0.04247],  [0.72826,0.05265]]
+n = ['all trials', 'without bad', 'without maybe&bad']
 
 plot_distributions(d_i, n)

@@ -35,10 +35,14 @@ def train_test_doa(doas, percent):
     doas_train = []
     doas_test = []
 
-    indexes_nr = len(doas[0].channels[0].trials)
-    indexes = [i for i in range(indexes_nr)]
+    minim = 240
+    for doa in doas:
+        if minim > len(doas[0].channels[0].trials):
+            minim = len(doas[0].channels[0].trials)
+
+    indexes = [i for i in range(minim)]
     random.shuffle(indexes)
-    test_size = int(indexes_nr * percent)
+    test_size = int(minim * percent)
     ind_test = indexes[-test_size:]
     # print('debug')
 
@@ -48,7 +52,7 @@ def train_test_doa(doas, percent):
         for channel in doa.channels:
             ch_train = Channel(channel.number)
             ch_test = Channel(channel.number)
-            for index in range(indexes_nr):
+            for index in range(len(channel.trials)):
                 if index in ind_test:
                     # put trials in doa_test
                     ch_test.trials.append(channel.trials[index])
