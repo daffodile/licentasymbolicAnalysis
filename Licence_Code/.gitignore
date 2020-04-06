@@ -10,3 +10,5 @@
 /classification/decision_tree/results/
 /classification/decision_tree/dtc_report.csv
 /Tests
+/classification/results/
+/classification/decision_tree/good_bad_30runs_fit/
