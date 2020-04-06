@@ -6,15 +6,16 @@ from sklearn.svm import SVC
 from classification.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels
+from utils.DataSpliting import train_test_doa, obtain_features_labels, obtain_S_TESPAR_features
 
-csv_results = "svm_runs.csv"
+csv_results = "svm_runs_s_matrix.csv"
 
 # how many models to train a for a channel-segment pair
 run_nr = 10
 # run_nr = 100
 
-channel = 19
+channel = 2 # 4, 6, 12, 2, 14
+
 
 # channels = [4, 11, 15]
 
@@ -37,8 +38,8 @@ for run in range(run_nr):
     train_data = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
     test_data = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
 
-    X_train, y_train = obtain_features_labels(train_data, encoding)
-    x_test, y_test = obtain_features_labels(test_data, encoding)
+    X_train, y_train = obtain_S_TESPAR_features(train_data, encoding)
+    x_test, y_test = obtain_S_TESPAR_features(test_data, encoding)
 
     model = SVC(gamma="auto")
 

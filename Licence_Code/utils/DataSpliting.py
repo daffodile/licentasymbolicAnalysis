@@ -30,6 +30,16 @@ def obtain_features_labels(inputData, encoding):
 
     return pd.DataFrame(X), Y
 
+def obtain_S_TESPAR_features(inputData, encoding):
+    X = []
+    Y = []
+
+    for i in range(len(inputData.result.arrays)):
+        for j in range(len(inputData.result.arrays[i].array)):
+            X.append(np.asarray(encoding.get_s(inputData.result.arrays[i].array[j])))
+            Y.append(inputData.result.arrays[i].name)
+
+    return pd.DataFrame(X), Y
 
 def train_test_doa(doas, percent):
     doas_train = []
