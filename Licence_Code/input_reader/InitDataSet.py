@@ -26,7 +26,7 @@ class InitDataSet:
         self.run(directory)
 
     def run(self, directory):
-        data_dir = os.path.join('.', '..')
+        data_dir = os.path.join('..', '..')
         data_dir = os.path.join(data_dir, 'data/', directory)
         sys.path.append(data_dir)
 
