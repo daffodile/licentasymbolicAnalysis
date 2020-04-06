@@ -97,8 +97,8 @@ class Encoding:
 
     def get_a(self, trial, lag=1, selected_symbols=32):
 
-        if(selected_symbols < 1 or selected_symbols > self.no_symbols):
-            print('selected_symbols has an illegal value. Try a value between o and '+str(self.no_symbols),
+        if (selected_symbols < 1 or selected_symbols > self.no_symbols):
+            print('selected_symbols has an illegal value. Try a value between 0 and ' + str(self.no_symbols),
                   file=sys.stderr)
             sys.exit()
 
