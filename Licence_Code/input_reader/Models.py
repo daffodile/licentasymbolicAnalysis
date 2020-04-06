@@ -1,5 +1,7 @@
 import json
 
+import numpy as np
+
 
 class JsonEncoder:
     def to_json(self):
@@ -16,6 +18,8 @@ class DOA(JsonEncoder):
 class Channel(JsonEncoder):
     def __init__(self, number):
         self.number = number
+        self.mean = None
+        self.std_der = None
         self.trials = []
 
 
@@ -48,6 +52,8 @@ class Segment(JsonEncoder):
         self.start_code = start_code
         self.end_code = end_code
         self.values = []
+        self.values_outsiders = []
 
     def set_values(self, float_arr):
         self.values = float_arr
+        self.values_outsiders = np.zeros(len(float_arr))
