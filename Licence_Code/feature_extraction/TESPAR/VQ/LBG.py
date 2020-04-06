@@ -300,7 +300,7 @@ class VQ_LGB():
         plt.scatter(c_x, c_y, color='red', s=0.5)  # centroids here
 
         if len(self.clusters) > 31:
-            plt.savefig('{}_alphabet_s10.png'.format(len(self.clusters)))
+            plt.savefig('{}_alphabet_s1.png'.format(len(self.clusters)))
         fig.show()
 
     def run(self, file_alphabet):
@@ -401,7 +401,7 @@ class VQ_LGB():
                 # re-distribute the symbols
                 self.set_all_clusters()
 
-                self.plot_dataset_clusters(' clusters s=1')
+                self.plot_dataset_clusters(' clusters s={}'.format(self.scale_s))
 
                 f = open(file_alphabet, "w")
                 for d in range(self.dimD):
