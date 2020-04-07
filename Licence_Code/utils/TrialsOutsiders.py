@@ -3,6 +3,16 @@ from scipy.signal import hilbert
 
 
 def mark_outsiders(doas, liberty=2, use_hilbert_transform=False):
+    """
+    function to mark the values that ore outside interval
+          [ mean - liberty*std_dev,  mean + liberty*std_dev]
+    on each channel in each DOA
+
+    :param doas: array of DOAs to mark
+    :param liberty: coeff for multiplying with std_dev on a channel
+    :param use_hilbert_transform: bool, choose if using hilbert trasnform
+    :return: modify doas in situ, no return type
+    """
     print("START marking outliners for trials")
     for doa in doas:
         print(f'doa {doa.level}')

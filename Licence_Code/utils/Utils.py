@@ -1,57 +1,62 @@
-import numpy as np
-
-'''
-    method to get the sum of all A matrix of a channel, segment
-'''
-
-
-def get_A_matrix__segment_channel(doa, encoding, segment, channel_number):
-    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
-    a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
-    for trial in channel.trials:
-        trial_values = getattr(trial, segment).values
-        a_matrix = encoding.get_a(trial_values)
-        a_matrix_all = np.add(a_matrix_all, a_matrix)
-    return a_matrix_all
-
-
 def get_doa_of_level(doas, level):
+    '''
+    :param doas: array of DOA objects
+    :param level: str 'deep', 'medium', 'light'
+    :return: the DOA having this level
+    '''
     return list(filter(lambda doa: (doa.level == level), doas))[0]
 
 
-'''
-    get the all the values from all the trials of a particular channel
-    in a DOA, in a given segment
-'''
+def get_channel_trials_values(doa, segment, channel_number):
+    """
 
+    :param doa: DOA object
+    :param segment: str 'spontaneous'. 'stimulus' or 'poststimulus'
+    :param channel_number: int value of channel.number we search for
+    :return: array of all values of the given segment in the channel
 
-def get_channel_segment_values(doa, segment, channel_number):
+    example of usage:
+    all_trials_values = get_channel_trials_values(doas[0], 'spontaneous', 2)
+    a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
+    for values in all_trials_values:
+        a_matrix = encoding.get_a(values)
+        a_matrix_all = np.add(a_matrix_all, a_matrix)
+    """
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
-    channel_values = []
+    channel_trials = []
     for trial in channel.trials:
-        channel_values.extend(getattr(trial, segment).values)
-    return channel_values
+        channel_trials.append(getattr(trial, segment).values)
+    return channel_trials
 
 
-'''
-    get the values of a particular trial in a specified channel
-    in a DOA, in a given segment
-'''
+def get_channel_trials_values_and_outsiders(doa, segment, channel_number):
+    """
+    :return: 2 arrays, one containing arrays of all the trials values
+                    the second one containing all the arrays of values_outsiders
+    """
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    channel_trials = []
+    channel_outsiders_trials = []
+    for trial in channel.trials:
+        channel_trials.append(getattr(trial, segment).values)
+        channel_outsiders_trials.append(getattr(trial, segment).values_outsiders)
+    return channel_trials, channel_outsiders_trials
 
 
-def get_channel_segment_values(doa, segment, channel_number, trial_number):
+def get_trial_values(doa, segment, channel_number, trial_number):
+    """
+    :return: the values of the particular trial searched in a doa,
+    given he channel_number and segment
+    """
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
     trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
     return getattr(trial, segment).values
 
 
-'''
-
-obtain all floats values from a DOA object
-'''
-
-
 def obtain_floats_from_DOA(doa):
+    """
+    :return: array of all floats values from all trials and segments of a DOA object
+    """
     resulting_floats = []
     for channel in doa.channels:
         for trial in channel.trials:
