@@ -1,7 +1,53 @@
+import numpy as np
+
+'''
+    method to get the sum of all A matrix of a channel, segment
 '''
 
-here a function to obtain a float array from a doa
 
+def get_A_matrix__segment_channel(doa, encoding, segment, channel_number):
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
+    for trial in channel.trials:
+        trial_values = getattr(trial, segment).values
+        a_matrix = encoding.get_a(trial_values)
+        a_matrix_all = np.add(a_matrix_all, a_matrix)
+    return a_matrix_all
+
+
+def get_doa_of_level(doas, level):
+    return list(filter(lambda doa: (doa.level == level), doas))[0]
+
+
+'''
+    get the all the values from all the trials of a particular channel
+    in a DOA, in a given segment
+'''
+
+
+def get_channel_segment_values(doa, segment, channel_number):
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    channel_values = []
+    for trial in channel.trials:
+        channel_values.extend(getattr(trial, segment).values)
+    return channel_values
+
+
+'''
+    get the values of a particular trial in a specified channel
+    in a DOA, in a given segment
+'''
+
+
+def get_channel_segment_values(doa, segment, channel_number, trial_number):
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
+    return getattr(trial, segment).values
+
+
+'''
+
+obtain all floats values from a DOA object
 '''
 
 
@@ -15,6 +61,8 @@ def obtain_floats_from_DOA(doa):
 
     return resulting_floats
 
+
+#  NOT USED
 # method to obtain an array of reports from a classification_report
 def classification_report_csv(report):
     report_data = []
@@ -31,4 +79,4 @@ def classification_report_csv(report):
         row['support'] = float(row_data[4])
         report_data.append(row)
     dataframe = pd.DataFrame.from_dict(report_data)
-    dataframe.to_csv('classification_report.csv', index = False)
+    dataframe.to_csv('classification_report.csv', index=False)

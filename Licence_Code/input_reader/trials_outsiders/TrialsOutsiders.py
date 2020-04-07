@@ -1,12 +1,11 @@
 import numpy as np
-
-from input_reader.InitDataSet import InitDataSet
 from scipy.signal import hilbert
 
 
 def mark_outsiders(doas, liberty=2, use_hilbert_transform=False):
+    print("START marking outliners for trials")
     for doa in doas:
-        print('doa {}', doa.level)
+        print(f'doa {doa.level}')
         for channel in doa.channels:
             all_trials = []
             for trial in channel.trials:
@@ -16,8 +15,7 @@ def mark_outsiders(doas, liberty=2, use_hilbert_transform=False):
 
             channel.mean = np.mean(all_trials)
             channel.std_der = np.std(all_trials)
-
-            print(f'ch {channel.number} mean:{channel.mean} std_dev {channel.std_der}')
+            # print(f'ch {channel.number} mean:{channel.mean} std_dev {channel.std_der}')
 
             for trial in channel.trials:
                 if (use_hilbert_transform):
@@ -43,12 +41,4 @@ def mark_outsiders(doas, liberty=2, use_hilbert_transform=False):
                     values_outsiders = np.where(np.abs(trial.poststimulus.values) < liberty * channel.std_der, 0, 1)
                     trial.poststimulus.set_values_outsiders(values_outsiders)
             # print("debug")
-
-
-initialization = InitDataSet()
-doas = initialization.get_dataset_as_doas()
-
-# mark_outsiders(doas, use_hilbert_transform=True)
-mark_outsiders(doas)
-
-print('debug')
+    print("COMPLETED marking outliners for trials")
