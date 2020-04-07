@@ -3,6 +3,7 @@ import plotly.figure_factory as ff
 import plotly.graph_objs as go
 
 import plotly.io as pio
+
 pio.renderers.default
 
 COLOR_LIST_DISTRIBUTION_PLOTS = [
@@ -14,6 +15,7 @@ COLOR_LIST_DISTRIBUTION_PLOTS = [
     'pink',
     'rosybrown',
 ]
+
 
 # generate a distribution based on mean and standard deviation
 def generate_distribution(desired_mean, desired_std_dev, num_samples=1000):
@@ -39,6 +41,13 @@ def generate_distribution(desired_mean, desired_std_dev, num_samples=1000):
 
 
 def plot_distributions(distr_info, names, figure_title):
+    """
+
+    :param distr_info:
+    :param names:
+    :param figure_title:
+    :return:
+    """
     distributions = []
 
     for distr in distr_info:
@@ -86,8 +95,3 @@ def plot_distributions(distr_info, names, figure_title):
 
     figure.update_layout(title=figure_title)
     figure.show()
-
-d_i = [[0.65516,0.04155], [0.6612,0.04247],  [0.72826,0.05265]]
-n = ['all trials', 'without bad', 'without maybe&bad']
-
-plot_distributions(d_i, n)

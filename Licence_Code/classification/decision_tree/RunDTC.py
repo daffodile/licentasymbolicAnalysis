@@ -1,9 +1,9 @@
 # # once per filter hereee
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
-from classification.SplitData import SplitData
-from Tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
+from tests.Classifiers.SplitData import SplitData
+from tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 

@@ -2,10 +2,8 @@ import numpy as np
 from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
-from sklearn.svm import SVC
 
-from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels

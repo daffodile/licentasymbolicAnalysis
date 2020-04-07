@@ -24,8 +24,9 @@ def obtain_features_labels(inputData, encoding):
     Y = []
 
     for i in range(len(inputData.result.arrays)):
-        for j in range(len(inputData.result.arrays[i].array)):
-            X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array[j], 1)).ravel())
+        for j in range(len(inputData.result.arrays[i].array_data)):
+            X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array_data[j],
+                                               inputData.result.arrays[i].array_validate[j])).ravel())
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y

@@ -21,7 +21,7 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self, levels=['deep', 'light'], directory='no_bursts', trials_to_skip=None):
+    def __init__(self, levels=['deep', 'medium', 'light'], directory='filtered', trials_to_skip=None):
         if trials_to_skip is None:
             trials_to_skip = []
         self.doas = []

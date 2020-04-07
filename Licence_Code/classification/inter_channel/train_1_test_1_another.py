@@ -13,12 +13,10 @@ csv_results = "rf_inter_channels.csv"
 import numpy as np
 from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
 
 from sklearn.metrics import classification_report
 
-from classification.SplitData import SplitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels

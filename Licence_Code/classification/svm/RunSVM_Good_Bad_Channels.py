@@ -3,11 +3,11 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
-from Afisare.classification.Accuracy_distribution import plot_distributions
-from classification.SplitData import SplitData
+from vizualization.classification.Accuracy_distribution import plot_distributions
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels, obtain_features_labels_log
+from utils.DataSpliting import train_test_doa, obtain_features_labels
 
 ####### to change for each  classifier this 3 files #################################
 csv_file = "svm_10_good5.csv"

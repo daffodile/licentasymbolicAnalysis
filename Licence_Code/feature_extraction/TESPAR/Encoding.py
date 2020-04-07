@@ -1,6 +1,3 @@
-'''
-this file will serve for writing the methods that encode according with an alphabet
-'''
 import sys
 
 import numpy as np
@@ -9,8 +6,8 @@ from scipy.signal import find_peaks
 
 class Encoding:
     '''
-    alphabet - a matrix of DS having the corresponding 'symbol' on each position
-    '''
+       alphabet - a matrix of DS having the corresponding 'symbol' on each position
+       '''
 
     def __init__(self, alphabet_path, no_symbols=32):
         self.no_symbols = no_symbols
@@ -34,20 +31,28 @@ class Encoding:
         self.rows = len(self.alphabet_matrix)
         self.cols = len(self.alphabet_matrix[0])
 
-    def get_symbols(self, trial):
+    def get_symbols(self, trial_array, trial_validate):
 
         self.symbols_array = []
 
-        trial_array = trial
         d = 0
         s = 0
         current_epoch = 0
         last_zero_crossing = 0
 
         test_epoch = []
-
         length = len(trial_array)
+        length_validate = len(trial_validate)
+        if length_validate != length:
+            print('this trial does not have a corresponding valid trial  ' + str(length_validate),
+                  file=sys.stderr)
+            sys.exit()
+
         last_value = trial_array[0]
+        if trial_validate[0] == 0:
+            valid = True
+        else:
+            valid = False
 
         for i in range(1, length):
             if trial_array[i] * last_value < 0 or i == length - 1:  # Zero Crossing -> new Epoch
@@ -68,9 +73,10 @@ class Encoding:
 
                 s = len(mins)
 
-                if d < self.rows and s < self.cols:
+                if d < self.rows and s < self.cols and valid:
                     self.symbols_array.append(self.alphabet_matrix[d][s])
 
+                valid = True
                 test_epoch = []
                 test_epoch.append(trial_array[i])
                 last_zero_crossing = i
@@ -78,15 +84,17 @@ class Encoding:
                 d = 0
                 s = 0
             else:
+                if trial_validate[i] == 1:
+                    valid = False
                 test_epoch.append(trial_array[i])
 
             last_value = trial_array[i]
 
         return self.symbols_array
 
-    def get_s(self, trial):
+    def get_s(self, trial, trial_validate):
 
-        symbols_array = self.get_symbols(trial)
+        symbols_array = self.get_symbols(trial, trial_validate)
 
         s_matrix = [0 for i in range(32)]
 
@@ -95,14 +103,14 @@ class Encoding:
 
         return s_matrix
 
-    def get_a(self, trial, lag=1, selected_symbols=32):
+    def get_a(self, trial, trial_validate, lag=1, selected_symbols=32):
 
         if (selected_symbols < 1 or selected_symbols > self.no_symbols):
             print('selected_symbols has an illegal value. Try a value between 0 and ' + str(self.no_symbols),
                   file=sys.stderr)
             sys.exit()
 
-        symbols_array = self.get_symbols(trial)
+        symbols_array = self.get_symbols(trial, trial_validate)
 
         # a_matrix = [[0 for i in range(self.no_symbols)] for j in range(self.no_symbols)]
         a_matrix = np.zeros((self.no_symbols, self.no_symbols), dtype=int)

@@ -1,12 +1,10 @@
 # # once per filter hereee
-from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.svm import SVC
 
-from classification.SplitData import SplitData
-from Tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
-from feature_extraction.TESPAR.Encoding import Encoding
+from tests.Classifiers.SplitData import SplitData
+from tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
 from input_reader.InitDataSet import InitDataSet
 
 channels_range = 31
