@@ -7,7 +7,7 @@ def get_doa_of_level(doas, level):
     return list(filter(lambda doa: (doa.level == level), doas))[0]
 
 
-def get_channel_trials_values(doa, segment, channel_number):
+def get_channel_trials_values(doas, level, segment, channel_number):
     """
 
     :param doa: DOA object
@@ -22,6 +22,7 @@ def get_channel_trials_values(doa, segment, channel_number):
         a_matrix = encoding.get_a(values)
         a_matrix_all = np.add(a_matrix_all, a_matrix)
     """
+    doa = get_doa_of_level(doas, level)
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
     channel_trials = []
     for trial in channel.trials:
@@ -29,11 +30,12 @@ def get_channel_trials_values(doa, segment, channel_number):
     return channel_trials
 
 
-def get_channel_trials_values_and_outsiders(doa, segment, channel_number):
+def get_channel_trials_values_and_outsiders(doas, level, segment, channel_number):
     """
     :return: 2 arrays, one containing arrays of all the trials values
                     the second one containing all the arrays of values_outsiders
     """
+    doa = get_doa_of_level(doas, level)
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
     channel_trials = []
     channel_outsiders_trials = []
@@ -43,14 +45,26 @@ def get_channel_trials_values_and_outsiders(doa, segment, channel_number):
     return channel_trials, channel_outsiders_trials
 
 
-def get_trial_values(doa, segment, channel_number, trial_number):
+def get_trial_values(doas, level, segment, channel_number, trial_number):
     """
     :return: the values of the particular trial searched in a doa,
     given he channel_number and segment
     """
+    doa = get_doa_of_level(doas, level)
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
     trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
     return getattr(trial, segment).values
+
+
+def get_trial_values_and_outsiders(doas, level, segment, channel_number, trial_number):
+    """
+    :return: the values of the particular trial searched in a doa,
+    given he channel_number and segment
+    """
+    doa = get_doa_of_level(doas, level)
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
+    return getattr(trial, segment).values, getattr(trial, segment).values_outsiders
 
 
 def obtain_floats_from_DOA(doa):
