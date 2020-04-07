@@ -7,7 +7,7 @@ from classification.SplitData import SplitData
 from classification.svm.Train_and_Test_TESPAR import splitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels
+from utils.DataSpliting import train_test_doa, obtain_features_labels, obtain_features_labels_log
 
 ####### to change for each  classifier this 3 files #################################
 csv_file = "dtc_30_all.csv"
@@ -32,7 +32,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -57,10 +57,10 @@ for run in range(run_nr):
             train_data = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
             test_data = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
 
-            X_train, y_train = obtain_features_labels(train_data, encoding)
-            x_test, y_test = obtain_features_labels(test_data, encoding)
+            X_train, y_train = obtain_features_labels_log(train_data, encoding)
+            x_test, y_test = obtain_features_labels_log(test_data, encoding)
 
-            model = DecisionTreeClassifier()
+            model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 

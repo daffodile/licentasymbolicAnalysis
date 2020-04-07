@@ -35,9 +35,9 @@ from utils import Utils
 
 print('load ds freq matrix for vq alg')
 
-input_matrix = np.loadtxt(fname='./ds_freq.txt', dtype='i')
+input_matrix = np.loadtxt(fname='../../data_to_be_saved/ds_freq.txt', dtype='i')
 print(' ds freq matrix is loaded, start vq lbg alg\n')
-lbg = VQ_LGB(k=32, alpha=0.0001, t=200, scale_s=3, epsilon=0.1)
+lbg = VQ_LGB(k=32, alpha=0.0001, t=200, scale_s=10, epsilon=0.1)
 lbg.set_dataset(input_matrix)
-lbg.run(file_alphabet='alphabet3.txt')
+lbg.run(file_alphabet='alphabet10.txt')
 print('DONE!!!')
