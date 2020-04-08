@@ -1,11 +1,6 @@
-import numpy as np
-import pandas as pd
-from matplotlib.pyplot import hist
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import SelectKBest, f_classif, SelectFromModel, RFE
 from sklearn.metrics import classification_report
-from matplotlib import pyplot as plt
-from classification.SplitData import SplitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels

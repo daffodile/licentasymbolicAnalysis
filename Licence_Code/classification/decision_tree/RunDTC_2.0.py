@@ -3,11 +3,10 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
-from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels, obtain_features_labels_log
+from utils.DataSpliting import train_test_doa, obtain_features_labels_log
 
 ####### to change for each  classifier this 3 files #################################
 csv_file = "dtc_30_all.csv"

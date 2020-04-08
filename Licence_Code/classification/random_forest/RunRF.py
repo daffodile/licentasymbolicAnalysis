@@ -2,19 +2,17 @@ import numpy as np
 from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
-from sklearn.svm import SVC
 
-from classification.SplitData import SplitData
-from classification.svm.Train_and_Test_TESPAR import splitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
 
 ####### to change for each  classifier this 3 files #################################
-csv_file = "rf_30_all.csv"
-csv_results = "rf_30_averages.csv"
+csv_file = "rf_30_all_good.csv"
+csv_results = "rf_30_averages_good.csv"
 # open file to write the indices of  each splitting
-indexes_file = "rf_30_test_indexes.txt"
+indexes_file = "rf_30_test_indexes_good.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
@@ -33,7 +31,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 '''
 for calculating the average acc or af1-score

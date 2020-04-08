@@ -5,7 +5,7 @@ SCRIPT TO TEST OVERFITTING
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
 
-from classification.SplitData import SplitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels

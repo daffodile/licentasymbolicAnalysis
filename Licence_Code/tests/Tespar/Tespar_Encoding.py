@@ -4,7 +4,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from Tests.DataSet.TrialExtractorEPD import TrialExtractorEPD
+from tests.DataSet.TrialExtractorEPD import TrialExtractorEPD
 
 project_path = os.path.join('', '..')
 data_dir = os.path.join(project_path, 'data', '')

@@ -11,12 +11,13 @@ class Result:
 
 class NewData:
 
-    def __init__(self, name, array):
+    def __init__(self, name, array, array_validate):
         self.name = name
-        self.array = array
+        self.array_data = array
+        self.array_validate = array_validate
 
 
-class SplitData:
+class ExtractData:
 
     def __init__(self, doas, channels, levels, segment, orientation=['all']):
         # dataset
@@ -36,6 +37,7 @@ class SplitData:
         for j in range(len(self.doas)):
             if self.doas[j].level in self.levels:
                 array = []
+                array_validate = []
                 for channel in self.doas[j].channels:
                     if channel.number in self.channels:
                         for trial in channel.trials:
@@ -44,12 +46,15 @@ class SplitData:
                                     # print('the segment is:' + segment)
                                     if segment == 'spontaneous':
                                         array.append(trial.spontaneous.values)
+                                        array_validate.append(trial.spontaneous.values_outsiders)
                                     if segment == 'stimulus':
                                         array.append(trial.stimulus.values)
+                                        array_validate.append(trial.stimulus.values_outsiders)
                                     if segment == 'poststimulus':
                                         array.append(trial.poststimulus.values)
+                                        array_validate.append(trial.poststimulus.values_outsiders)
 
-                array_final = NewData(self.doas[j].level, array)
+                array_final = NewData(self.doas[j].level, array, array_validate)
                 self.result.arrays.append(array_final)
 
         # print(self.result)

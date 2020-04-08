@@ -1,9 +1,8 @@
 import numpy as np
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 
-from classification.SplitData import SplitData
+from tests.Classifiers.SplitData import SplitData
 
 from feature_extraction.TESPAR.Encoding import Encoding
 

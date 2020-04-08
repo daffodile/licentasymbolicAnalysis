@@ -1,9 +1,7 @@
-import numpy as np
 from sklearn.metrics import classification_report
-from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
-from classification.SplitData import SplitData
+from tests.Classifiers.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels

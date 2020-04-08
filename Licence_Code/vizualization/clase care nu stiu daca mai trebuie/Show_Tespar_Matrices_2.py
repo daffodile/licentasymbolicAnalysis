@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib import gridspec
 
-from feature_extraction.TESPAR.Encoding import Encoding
+from tests.Tespar.Encoding_before_checking_bursts import Encoding
 
 encoder = Encoding('../../data_to_be_saved/alphabet_1_150hz.txt')
 

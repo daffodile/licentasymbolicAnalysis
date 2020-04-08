@@ -3,15 +3,16 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
-from classification.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
+from utils.ExtractData import ExtractData
+from utils.TrialsOutsiders import mark_outsiders
 
 csv_results = "svm_runs.csv"
 
 # how many models to train a for a channel-segment pair
-run_nr = 10
+run_nr = 3
 # run_nr = 100
 
 channel = 19
@@ -22,7 +23,8 @@ segment = 'spontaneous'
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
+mark_outsiders(doas)
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 accuracies = []
 f1scores = []
@@ -34,8 +36,8 @@ for run in range(run_nr):
     print("run " + str(run))
 
     # SplitData(self, doas, channels, levels, segment, orientation):
-    train_data = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
-    test_data = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
+    train_data = ExtractData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
+    test_data = ExtractData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
 
     X_train, y_train = obtain_features_labels(train_data, encoding)
     x_test, y_test = obtain_features_labels(test_data, encoding)

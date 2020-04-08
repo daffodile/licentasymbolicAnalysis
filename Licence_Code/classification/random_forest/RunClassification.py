@@ -1,13 +1,10 @@
 import numpy as np
 from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import SelectFromModel
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.svm import SVC
+from sklearn.metrics import classification_report
 
-from classification.SplitData import SplitData
-from classification.random_forest.Train_and_Test_TESPAR import splitData_concatenate, obtain_concatenate_segments
-from classification.svm.Train_and_Test_TESPAR import splitData
+from tests.Classifiers.SplitData import SplitData
+from classification.random_forest.Train_and_Test_TESPAR import obtain_concatenate_segments
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
