@@ -25,14 +25,14 @@ def plot_matrix_A(DOA, segment, channel_number, values):
     ax = fig.add_subplot()
     cax = ax.matshow(values, cmap=plt.cm.jet_r)
     cbar = fig.colorbar(cax)
-    cbar.mappable.set_clim(0, 500.0)
+    # cbar.mappable.set_clim(0, 500.0)
     cbar.ax.tick_params(labelsize=30)
     ax.tick_params(labelsize=30)
     ax.invert_yaxis()
     ax.xaxis.tick_bottom()
     fig.suptitle("A Matrix - " + DOA + " " + segment + " ch: " + str(channel_number), fontsize=35, y=0.99,
                  fontweight='bold')
-    plot_name = 'compare_channels/normal/Channel_' + str(channel_number) + "_" + DOA + "_" + segment + "_A.png"
+    plot_name = 'ch' + str(channel_number) + "_" + DOA + "_" + segment + "_A.png"
     plt.show()
     fig.savefig(plot_name)
 
@@ -53,6 +53,6 @@ def plotMatrixA_Difference(DOA, segment, channel_number, values):
     ax.xaxis.tick_bottom()
     fig.suptitle("A Matrix - " + DOA + " " + segment + " ch: " + str(channel_number), fontsize=35, y=0.99,
                  fontweight='bold')
-    plot_name = 'compare_channels/diff/Channels_' + str(channel_number) + "_" + DOA + "_" + segment + "_A.png"
+    plot_name = 'ch' + str(channel_number) + "_" + DOA + "_" + segment + "_A.png"
     plt.show()
     fig.savefig(plot_name)

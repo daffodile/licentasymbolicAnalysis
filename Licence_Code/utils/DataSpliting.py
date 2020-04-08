@@ -2,7 +2,6 @@ import random
 import numpy as np
 import pandas as pd
 
-from input_reader.InitDataSet import InitDataSet
 from input_reader.Models import *
 
 
@@ -19,17 +18,19 @@ def obtain_features_labels_log(inputData, encoding):
     return pd.DataFrame(X), Y
 
 
-def obtain_features_labels(inputData, encoding):
+def obtain_features_labels(inputData, encoding, selected_symbols=32):
     X = []
     Y = []
 
     for i in range(len(inputData.result.arrays)):
         for j in range(len(inputData.result.arrays[i].array_data)):
             X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array_data[j],
-                                               inputData.result.arrays[i].array_validate[j])).ravel())
+                                               inputData.result.arrays[i].array_validate[j],
+                                               selected_symbols)).ravel())
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y
+
 
 def obtain_S_TESPAR_features(inputData, encoding):
     X = []
@@ -41,6 +42,7 @@ def obtain_S_TESPAR_features(inputData, encoding):
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y
+
 
 def train_test_doa(doas, percent):
     doas_train = []
@@ -77,7 +79,3 @@ def train_test_doa(doas, percent):
 
     # print('debug')
     return doas_train, doas_test, ind_test
-
-# initialization = InitDataSet()
-# doas = initialization.get_dataset_as_doas()
-# train_test_doa(doas, 0.33)
