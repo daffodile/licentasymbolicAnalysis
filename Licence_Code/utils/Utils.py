@@ -45,7 +45,35 @@ def get_channel_trials_values_and_outsiders(doas, level, segment, channel_number
     return channel_trials, channel_outsiders_trials
 
 
-def get_trial_values(doas, level, segment, channel_number, trial_number):
+def get_trial_from_doas(doas, level, channel_number, trial_number):
+    """
+    :return: the values of the particular trial searched in a doa,
+    given the channel_number and the doa lovel
+    """
+    doa = get_doa_of_level(doas, level)
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
+    return trial
+
+
+def get_trial_values_and_outsiders(doas, level, channel_number, trial_number):
+    """
+    :return: the values of the particular trial searched in a doa,
+    given the channel_number and doa level
+    """
+    doa = get_doa_of_level(doas, level)
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
+    trial_values = []
+    trial_values_outsiders = []
+    for segment in ['spontaneous', 'stimulus', 'poststimulus']:
+        trial_values.extend(getattr(trial, segment).values)
+        trial_values_outsiders.extend(getattr(trial, segment).values_outsiders)
+
+    return trial_values, trial_values_outsiders
+
+
+def get_trial_segment_values(doas, level, segment, channel_number, trial_number):
     """
     :return: the values of the particular trial searched in a doa,
     given he channel_number and segment
@@ -56,7 +84,7 @@ def get_trial_values(doas, level, segment, channel_number, trial_number):
     return getattr(trial, segment).values
 
 
-def get_trial_values_and_outsiders(doas, level, segment, channel_number, trial_number):
+def get_trial_segment_values_and_outsiders(doas, level, segment, channel_number, trial_number):
     """
     :return: the values of the particular trial searched in a doa,
     given he channel_number and segment
