@@ -3,8 +3,9 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
+from utils.ExtractData import ExtractData
 from vizualization.classification.Accuracy_distribution import plot_distributions
-from tests.Classifiers.SplitData import SplitData
+
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
@@ -54,8 +55,8 @@ for run in range(run_nr):
             print("start running for channel " + str(all_channels[channel]) + ' ' + segment + '\n')
 
             # SplitData(self, doas, channels, levels, segment, orientation):
-            train_data = SplitData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
-            test_data = SplitData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
+            train_data = ExtractData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
+            test_data = ExtractData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
 
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)

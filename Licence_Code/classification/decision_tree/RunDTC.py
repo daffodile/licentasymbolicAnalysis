@@ -2,10 +2,11 @@
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
-from tests.Classifiers.SplitData import SplitData
+
 from tests.Classifiers.decision_tree.Train_and_Test import TrainTestSplitting
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from utils.ExtractData import ExtractData
 
 channels_range = 31
 segments = ['spontaneous', 'stimulus', 'poststimulus']
@@ -19,7 +20,7 @@ for segment in segments:
         print(str(channel) + ' ' + segment + '\n')
 
         # SplitData(self, doas, channels, levels, segment, orientation):
-        split_data = SplitData(doas, [channel], ['light', 'deep'], [segment], ['all'])
+        split_data = ExtractData(doas, [channel], ['light', 'deep'], [segment], ['all'])
 
         # encoding = Encoding('./../../data_to_be_saved/alphabet_3hz.txt')
         trainTestSplit = TrainTestSplitting(split_data, 'alphabet_1_150hz', 1)
