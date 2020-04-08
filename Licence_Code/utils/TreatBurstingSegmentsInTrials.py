@@ -109,6 +109,6 @@ def mark_outsiders(doas, liberty=2, max_interbursts_dist=500):
                         print('AnalyseBurstsIntervals: outside_in and outside_out of different lengths ',
                               file=sys.stderr)
                         sys.exit()
-                print(f'DONE FOR DOA {doa.level}')
+        print(f'DONE FOR DOA {doa.level}')
 
     print("COMPLETED marking outline regions for trials")
