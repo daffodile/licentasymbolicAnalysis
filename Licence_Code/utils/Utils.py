@@ -30,7 +30,7 @@ def get_channel_trials_values(doas, level, segment, channel_number):
     return channel_trials
 
 
-def get_channel_trials_values_and_outsiders(doas, level, segment, channel_number):
+def get_channel_trials_segment_values_and_outsiders(doas, level, segment, channel_number):
     """
     :return: 2 arrays, one containing arrays of all the trials values
                     the second one containing all the arrays of values_outsiders
@@ -56,12 +56,11 @@ def get_trial_from_doas(doas, level, channel_number, trial_number):
     return trial
 
 
-def get_trial_values_and_outsiders(doas, level, channel_number, trial_number):
+def get_trial_values_and_outsiders(doa, level, channel_number, trial_number):
     """
-    :return: the values of the particular trial searched in a doa,
+    :return: the values and the outsiders of the particular trial searched in a doa,
     given the channel_number and doa level
     """
-    doa = get_doa_of_level(doas, level)
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
     trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
     trial_values = []
@@ -107,6 +106,15 @@ def obtain_floats_from_DOA(doa):
             resulting_floats.append(trial.poststimulus.values)
 
     return resulting_floats
+
+
+def get_channel_index(doa, channel_number):
+    """
+    :return: the index of the specified channel number
+    """
+    for i in range(30):
+        if doa.channels[i].number == channel_number:
+            return i
 
 
 #  NOT USED

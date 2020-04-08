@@ -1,26 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from input_reader.InitDataSet import InitDataSet
-from utils.TrialsOutsiders import mark_outsiders
-from utils.Utils import get_trial_values_and_outsiders
+from utils.Utils import get_trial_values_and_outsiders, get_doa_of_level, get_channel_index
 
 
-def get_channel_index(doas, channel_number):
-    for i in range(30):
-        if doas[0].channels[i].number == channel_number:
-            return i
-
-
-def get_channel_values(doas, doa_level, channel_numbers, trial_number, stdX):
+def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
     contor = 0
+
+    doa = get_doa_of_level(doas, doa_level)
+
     for ch_number in range(len(channel_numbers)):
-        channel_index = get_channel_index(doas, channel_numbers[ch_number])
+        channel_index = get_channel_index(doa, channel_numbers[ch_number])
 
-        channel_mean = doas[doa_level].channels[channel_index].mean
-        channel_std_der = doas[doa_level].channels[channel_index].std_der
+        channel_mean = doa.channels[channel_index].mean
 
-        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doas, 'deep',
+        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa, 'deep',
                                                                               channel_numbers[ch_number],
                                                                               trial_number)
         outsider_points = []
@@ -47,32 +41,9 @@ def get_channel_values(doas, doa_level, channel_numbers, trial_number, stdX):
             plt.plot(x_values, y_values, color='black')
         contor += 100
 
-    # plt.legend(loc=(1.05, 0.5))
-    # plt.tight_layout()
-
     plt.ylabel('Amplitudes')
     plt.xlabel('Relative Timestamp')
     plt.title('Trial ' + str(trial_number) + ' Snapshot')
-    # Put a legend below current axis
     plt.legend(loc='upper center', bbox_to_anchor=(0.2, -0.05),
-              fancybox=True, shadow=True, ncol=5)
+               fancybox=True, shadow=True, ncol=5)
     plt.show()
-
-    # app = MyApp(trial_values, outsider_points, channel_number, trial_number, channel_mean, channel_std_der, y_min,
-    #             y_max, stdX)
-    # app.MainLoop()
-
-
-initialization = InitDataSet()
-doas = initialization.get_dataset_as_doas()
-mark_outsiders(doas)
-
-channel_numbers = [2,3,4]
-trial_number = 14
-stdX = 2
-
-# to view the plot in a new window
-# go to file - settings - tools - python scientific - unmark the "show plots in tool window"
-# then run the class
-# after you are done go back and mark it again :)
-get_channel_values(doas, 0, channel_numbers, trial_number, stdX)
