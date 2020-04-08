@@ -7,7 +7,7 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa, obtain_features_labels
 from utils.ExtractData import ExtractData
-from tests.NO_BURSTS.TrialsOutsiders import mark_outsiders
+from utils.TreatBurstingSegmentsInTrials import mark_outsiders
 
 csv_results = "svm_runs.csv"
 
