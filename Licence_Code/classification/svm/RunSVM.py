@@ -22,7 +22,7 @@ run_nr = 10
 # # once per filter hereee
 channels_range = 31
 
-segments = ['spontaneous', 'stimulus', 'poststimulus']
+segments = ['spontaneous']
 # segments = ['spontaneous', 'stimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
