@@ -48,7 +48,8 @@ class CreateDOA:
 
             self.amplitude_array = self.amplitude[self.timestamp_array[0]:]
 
-            channel = Channel(i + 1)
+            channel_number = self.reader_epd.channel_info[i]
+            channel = Channel(int(channel_number[len(channel_number) - 7:len(channel_number) - 4]))
 
             # for de 240 de iteratii
             for j in range(self.reader_eti.no_trials):
