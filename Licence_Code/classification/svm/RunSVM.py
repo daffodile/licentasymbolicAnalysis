@@ -17,7 +17,7 @@ indexes_file = "svm_30_test_indexes.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 30
+run_nr = 10
 
 # # once per filter hereee
 channels_range = 31
@@ -30,9 +30,10 @@ column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_1_150hz.txt')
 
 '''
 for calculating the average acc or af1-score
