@@ -1,8 +1,8 @@
 /data/
-/Afisare/A/
-/Afisare/log/
-/Afisare/S/
-/Afisare/symbols/
+/tests/Afisare/A/
+/tests/Afisare/log/
+/tests/Afisare/S/
+/tests/Afisare/symbols/
 /.idea/
 /.idea
 /data_to_be_saved
