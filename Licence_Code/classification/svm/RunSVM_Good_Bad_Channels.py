@@ -4,24 +4,24 @@ from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
 from vizualization.classification.Accuracy_distribution import plot_distributions
-from tests.Classifiers.SplitData import SplitData
+from utils.ExtractData import ExtractData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels
+from utils.DataSpliting import train_test_doa, obtain_features_labels, train_test_doa_check_trials
 
 ####### to change for each  classifier this 3 files #################################
-csv_file = "svm_10_good5.csv"
-csv_results = "svm_10_good_averages5.csv"
+csv_file = "svm_10_good3.csv"
+csv_results = "svm_10_good_averages3.csv"
 # open file to write the indices of  each splitting
-indexes_file = "svm_10_good_test_indexex5.txt"
+indexes_file = "svm_10_good_test_indexex3.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 30
+run_nr = 10
 
 # # once per filter hereee
-channels_range = 4
-all_channels = [1, 5, 14]
+channels_range = 6
+all_channels = [2, 3, 5, 7, 13]
 
 segments = ['spontaneous', 'stimulus', 'poststimulus']
 
@@ -32,7 +32,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -45,7 +45,8 @@ f1scores = [[[] for i in range(channels_range - 1)] for j in range(len(segments)
 for run in range(run_nr):
     print('************************RUN ' + str(run) + '************************')
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    # doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
     np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
     write_file.write('\n')
 
@@ -54,8 +55,8 @@ for run in range(run_nr):
             print("start running for channel " + str(all_channels[channel]) + ' ' + segment + '\n')
 
             # SplitData(self, doas, channels, levels, segment, orientation):
-            train_data = SplitData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
-            test_data = SplitData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
+            train_data = ExtractData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
+            test_data = ExtractData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
 
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
@@ -101,6 +102,6 @@ for ind_segment, segment in enumerate(segments):
                                        ignore_index=True)
         d_i.append([acc_avr, acc_std])
         n.append(all_channels[channel])
-    plot_distributions(d_i, n, str(segment) + str(5))
+    plot_distributions(d_i, n, str(segment) + str(3))
 
 df_results.to_csv(csv_results, mode='a', header=False)

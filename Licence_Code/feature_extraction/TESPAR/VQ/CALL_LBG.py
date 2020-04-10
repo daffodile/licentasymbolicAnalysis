@@ -21,11 +21,11 @@ start = timer()
 print('start time' + str(start))  # Time in seconds
 
 # apply alg
-lbg = VQ_LGB(k=32, alpha=0.0001, t=100, scale_s=3)
+lbg = VQ_LGB(k=32, alpha=0.0001, t=100, scale_s=10)
 # lbg = VQ_LGB(k=32, alpha=0.0005, t=100, scale_s=1, epsilon=0.1)
 
 lbg.set_dataset(input_matrix)
-lbg.run('alphabet_3.txt')
+lbg.run('alphabet_10.txt')
 
 end = timer()
 print('end time ' + str(end))  # Time in seconds

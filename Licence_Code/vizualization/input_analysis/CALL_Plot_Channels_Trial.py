@@ -1,6 +1,7 @@
 from input_reader.InitDataSet import InitDataSet
-from utils.TrialsOutsiders import mark_outsiders
-from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
+from utils.TreatBurstingSegmentsInTrials import mark_outsiders
+
+from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial, plot_trials_channel
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
@@ -13,6 +14,8 @@ mark_outsiders(doas)
 channel_numbers = [2, 3, 4]
 trial_number = 14
 stdX = 2
-plot_channels_trial(doas, 'deep', channel_numbers, trial_number, stdX)
+# plot_channels_trial(doas, 'deep', channel_numbers, trial_number, stdX)
 
-plot_channels_trial(doas, 'deep', [10], 100, stdX)
+# plot_channels_trial(doas, 'deep', [10], 100, stdX)
+
+plot_trials_channel(doas, 'deep', 2, [1, 2, 3], stdX)

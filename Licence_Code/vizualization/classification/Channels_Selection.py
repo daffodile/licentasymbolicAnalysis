@@ -43,8 +43,21 @@ def get_good_bad_channels_indexes(avg_array):
     return good_channels, bad_channels
 
 
-def get_channels(doas, indexes_array):
+def get_channels_numbers(doas, indexes_array):
     channels_numbers = []
     for i in range(len(indexes_array)):
         channels_numbers.append(doas[0].channels[indexes_array[i][0] - 1].number)
-    print(channels_numbers)
+    return channels_numbers
+
+
+def get_channels(doas, zscores_array):
+    """
+    :param doas: where to search for the channels numbers
+    :param zscores_array: the array with computed zscores
+    :return: best 5 and worst 5 channels for the given array
+    """
+    indexes_good, indexex_bad = get_good_bad_channels_indexes(zscores_array)
+    channels_good = get_channels_numbers(doas, indexes_good)
+    channels_bad = get_channels_numbers(doas, indexex_bad)
+    print("GOOD" + str(channels_good))
+    print("BAD" + str(channels_bad))

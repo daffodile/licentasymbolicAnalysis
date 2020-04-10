@@ -1,9 +1,10 @@
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from tests.NO_BURSTS.TrialsOutsiders import mark_outsiders
-from utils.Utils import get_channel_trials_values_and_outsiders
+
 import numpy as np
 
+from utils.TreatBurstingSegmentsInTrials import mark_outsiders
+from utils.Utils import get_channel_trials_segment_values_and_outsiders
 from vizualization.TESPAR.PlotTESPARMatrices import plot_matrix_A
 
 # encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
@@ -87,7 +88,8 @@ doas = initialization.get_dataset_as_doas()
 
 mark_outsiders(doas)
 
-all_trials_values, all_trials_outsiders = get_channel_trials_values_and_outsiders(doas, 'deep', 'spontaneous', 2)
+all_trials_values, all_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas, 'deep', 'spontaneous',
+                                                                                          2)
 a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
 for i in range(len(all_trials_values)):
     a_matrix = encoding.get_a(all_trials_values[i], all_trials_outsiders[i])
@@ -105,8 +107,8 @@ plot_matrix_A(DOA='DEEP_all_no_bursts', segment='spontaneous', channel_number=2,
 
 mark_outsiders(doas, liberty=1.68)
 
-
-all_trials_values, all_trials_outsiders = get_channel_trials_values_and_outsiders(doas, 'deep', 'spontaneous', 2)
+all_trials_values, all_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas, 'deep', 'spontaneous',
+                                                                                          2)
 a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
 for i in range(len(all_trials_values)):
     a_matrix = encoding.get_a(all_trials_values[i], all_trials_outsiders[i])
@@ -114,7 +116,8 @@ for i in range(len(all_trials_values)):
 a_matrix_all = np.log10(a_matrix_all + 1)
 plot_matrix_A(DOA='lib1.68_DEEP_all_no_bursts', segment='spontaneous', channel_number=2, values=a_matrix_all)
 
-all_trials_values, all_trials_outsiders = get_channel_trials_values_and_outsiders(doas, 'deep', 'spontaneous', 7)
+all_trials_values, all_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas, 'deep', 'spontaneous',
+                                                                                          7)
 a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
 for i in range(len(all_trials_values)):
     a_matrix = encoding.get_a(all_trials_values[i], all_trials_outsiders[i])

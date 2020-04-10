@@ -300,7 +300,7 @@ class VQ_LGB():
         plt.scatter(c_x, c_y, color='red', s=0.5)  # centroids here
 
         if len(self.clusters) > 31:
-            plt.savefig('{}_alphabet_s1.png'.format(len(self.clusters)))
+            plt.savefig('{}_alphabet_s10.png'.format(len(self.clusters)))
         fig.show()
 
     def run(self, file_alphabet):

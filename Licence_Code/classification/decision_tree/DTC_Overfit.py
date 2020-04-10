@@ -1,4 +1,5 @@
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
 from feature_extraction.TESPAR.Encoding import Encoding
@@ -7,17 +8,20 @@ from utils.DataSpliting import train_test_doa, obtain_features_labels
 
 # how many models to train a for a channel-segment pair
 from utils.ExtractData import ExtractData
+import numpy as np
 
 run_nr = 10
 
-all_channels = [1, 5, 14, 16, 19, 26]
+all_channels = [2, 3, 4, 5, 6]
 
-channel = 29
+channel = 2
+# segment = 'spontaneous'
 segment = 'stimulus'
+# segment = 'poststimulus'
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
 
 print('test for overfitting DTC 0.2')
 
@@ -30,7 +34,7 @@ for run in range(run_nr):
 
     X_train, y_train = obtain_features_labels(train_data, encoding)
     x_test, y_test = obtain_features_labels(test_data, encoding)
-    #
+
     # check_params = {'criterion': ['gini', 'entropy'],
     #                 'max_depth': np.arange(2, 20)}
     # # 'max_leaf_nodes': np.arange(2, 100)

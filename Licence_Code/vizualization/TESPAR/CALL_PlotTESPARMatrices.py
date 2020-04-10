@@ -1,13 +1,23 @@
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from vizualization.TESPAR.PlotTESPARMatrices import get_matrix_A
 
-all_channels = [1, 5, 14, 16, 19, 26]
-good_channels = [1, 5, 14]
-bad_channels = [19, 19, 26]
+all_channels = [6, 13, 15, 17, 20, 27]
+good_channels = [6, 13, 15]
+bad_channels = [17, 20, 27]
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoder = Encoding('../../input_reader/initialize_TESPAR_alphabet/alphabet.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+
+levels = ['deep', 'medium', 'light']
+segments = ['spontaneous', 'stimulus', 'poststimulus']
+
+for ind_level, level in enumerate(levels):
+    for ind_segment, segment in enumerate(segments):
+        for i in range(len(good_channels)):
+            get_matrix_A(encoding, doas, level, segment, all_channels[i], log=True)
+            # get_matrix_A(encoding, doas, level, segment, all_channels[i], log=False)
 
 # normal matrix
 # log matrix

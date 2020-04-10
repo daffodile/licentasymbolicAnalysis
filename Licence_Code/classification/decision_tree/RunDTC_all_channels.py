@@ -6,19 +6,20 @@ from sklearn.tree import DecisionTreeClassifier
 from utils.ExtractData import ExtractData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels_log
+from utils.DataSpliting import train_test_doa, obtain_features_labels_log, obtain_features_labels, \
+    train_test_doa_check_trials
 
 ####### to change for each  classifier this 3 files #################################
+from utils.TreatBurstingSegmentsInTrials import mark_outsiders
 
-
-csv_file = "dtc_30_all.csv"
-csv_results = "dtc_30_averages.csv"
+csv_file = "dtc_10_all.csv"
+csv_results = "dtc_10_averages.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_30_test_indexes.txt"
+indexes_file = "dtc_10_test_indexes.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 30
+run_nr = 10
 
 # # once per filter hereee
 channels_range = 31
@@ -33,6 +34,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
+mark_outsiders(doas)
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 '''
@@ -46,7 +48,7 @@ f1scores = [[[] for i in range(channels_range - 1)] for j in range(len(segments)
 for run in range(run_nr):
     print('************************RUN ' + str(run) + '************************')
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
     np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
     write_file.write('\n')
 
