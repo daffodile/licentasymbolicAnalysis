@@ -1,8 +1,3 @@
-import numpy as np
-
-from input_reader.Models import DOA
-
-
 class Result:
 
     def __init__(self):

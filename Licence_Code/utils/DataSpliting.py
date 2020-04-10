@@ -2,8 +2,7 @@ import random
 import numpy as np
 import pandas as pd
 
-from input_reader.InitDataSet import InitDataSet
-from input_reader.Models import *
+from models.Models import *
 
 
 def obtain_features_labels_log(inputData, encoding):

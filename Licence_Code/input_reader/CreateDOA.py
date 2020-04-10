@@ -5,10 +5,10 @@ import numpy as np
 from input_reader.MedataReaderBIN import MetadataReaderBIN
 from input_reader.MetadataReaderEPD import MetadataReaderEPD
 from input_reader.MetadataReaderETI import MetadataReaderETI
-from input_reader.Models import DOA
-from input_reader.Models import Channel
-from input_reader.Models import Trial
-from input_reader.Models import Segment
+from models.Models import DOA
+from models.Models import Channel
+from models.Models import Trial
+from models.Models import Segment
 
 
 class CreateDOA:
