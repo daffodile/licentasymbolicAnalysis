@@ -8,13 +8,11 @@
     set the train and test channels
 '''
 
-# csv_results = "rf_inter_channels.csv"
+csv_results = "svm_inter_channels.csv"
 
 import numpy as np
 from pandas import DataFrame
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
 
 from sklearn.metrics import classification_report
 
@@ -59,9 +57,7 @@ for run in range(run_nr):
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            # model = SVC(gamma="auto")
-            # model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
-            # model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
+            model = SVC(gamma="auto")
 
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
@@ -110,9 +106,7 @@ for run in range(run_nr):
             X_train, y_train = obtain_features_labels(train_data, encoding)
             x_test, y_test = obtain_features_labels(test_data, encoding)
 
-            # model = SVC(gamma="auto")
-            # model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
-            # model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
+            model = SVC(gamma="auto")
 
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
