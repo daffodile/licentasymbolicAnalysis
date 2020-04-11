@@ -17,13 +17,13 @@ indexes_file = "svm_30_test_indexes.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 10
+run_nr = 30
 
 # # once per filter hereee
 channels_range = 31
 
-segments = ['spontaneous']
-# segments = ['spontaneous', 'stimulus']
+# segments = ['spontaneous']
+segments = ['spontaneous', 'stimulus', 'poststimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
 column_names = ['channel', 'segment', 'accuracy', 'f1-score']
