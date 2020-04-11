@@ -30,7 +30,7 @@ def obtain_features_labels(inputData, encoding, selected_symbols=32):
         for j in range(len(inputData.result.arrays[i].array_data)):
             X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array_data[j],
                                                inputData.result.arrays[i].array_validate[j],
-                                               selected_symbols)).ravel())
+                                               selected_symbols=selected_symbols)).ravel())
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y
