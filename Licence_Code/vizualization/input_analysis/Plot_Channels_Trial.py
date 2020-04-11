@@ -4,7 +4,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils.Utils import get_trial_values_and_outsiders, get_doa_of_level, get_channel_index
+from utils.Utils import get_doa_of_level, get_channel_index, \
+    get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags
 
 
 def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
@@ -17,9 +18,8 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
 
         channel_mean = doa.channels[channel_index].mean
 
-        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa, 'deep',
-                                                                              channel_numbers[ch_number],
-                                                                              trial_number)
+        trial_values, trial_values_outsiders = get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags(
+            doas, level=doa_level, channel_number=channel_numbers[ch_number], trial_number=trial_number)
         outsider_points = []
         if (trial_values_outsiders[0] == 1):
             outsider_points.append((0, trial_values[0]))

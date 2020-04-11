@@ -2,7 +2,7 @@
     written by Ioana Onofrei
 '''
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.MarkBurstsIntervals import mark_outsiders
+from utils.MarkOutsidersWithBurstsFlags import mark_outsiders
 from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
 initialization = InitDataSetWithBurstsFlags()

@@ -25,7 +25,7 @@ class InitDataSetWithBurstsFlags:
         self.doas = []
         self.levels = levels
         self.directory = directory
-        self.run()
+        self.run(directory)
 
     def run(self, directory):
         data_dir = os.path.join('.', '../..')
