@@ -15,6 +15,7 @@ COLOR_LIST_DISTRIBUTION_PLOTS = [
     'rosybrown',
 ]
 
+
 # generate a distribution based on mean and standard deviation
 def generate_distribution(desired_mean, desired_std_dev, num_samples=1000):
     # generate a distribution with (approximately) the desired std
@@ -86,12 +87,3 @@ def plot_distributions(distr_info, names):
         )
 
     figure.show()
-
-# 0,19,spontaneous,100,0.5691666666666667,0.039322606234977756,0.5343193145719237,0.04684505459505999
-# 0,19,spontaneous,30,0.5625,0.04443901876604489,0.5216767856509679,0.05596886011969591
-# 0,19,spontaneous,10,0.5625,0.0232923747656228,0.520351786937627,0.02879723165667191
-
-d_i = [[0.590972,	0.03979], [0.5625,0.044439],  [0.569166,0.0393226]]
-n = ['10', '30', '100']
-
-plot_distributions(d_i, n)

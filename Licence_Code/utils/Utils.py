@@ -47,14 +47,16 @@ def get_all_trials_values_from_doa_by_segment_with_bursts_flags(doas, level, seg
 
 def get_trial_from_doas(doas, level, channel_number, trial_number):
     """
-    :return: the values of the particular trial searched in a doa,
-    given the channel_number and the doa lovel
+    :return: the particular trial searched in a doa,
+    given he channel_number and segment
     """
     doa = get_doa_of_level(doas, level)
     channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
-    trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
-    return trial
-
+    if list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials)):
+        return list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
+    else:
+        print(f'There is no trial no {trial_number}  in channel no [{channel_number} of doa {level}')
+        return None
 
 def get_one_trial_segment_values_from_doas_by_channel(doas, level, segment, channel_number, trial_number):
     """

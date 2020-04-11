@@ -111,3 +111,32 @@ def mark_outsiders(doas, liberty=2, max_interbursts_dist=500):
         print(f'DONE FOR DOA {doa.level}')
 
     print("COMPLETED marking outline regions for trials")
+
+
+def get_values_and_bursts_flags_from_trial(trial):
+    """
+    :return: all the values of this trial and all the bursts flags
+    """
+    trial_values = []
+    trial_values_outsiders = []
+    for segment in ['spontaneous', 'stimulus', 'poststimulus']:
+        trial_values.extend(getattr(trial, segment).values)
+        trial_values_outsiders.extend(getattr(trial, segment).values_outsiders)
+
+    return trial_values, trial_values_outsiders
+
+
+# function in work now, do not use
+def remove_bursted_trials(doas, tolerance=0.30):
+    if tolerance < 0.0 or tolerance > 1.0:
+        print('remove_bursted_trials: tolerance param should be a value in [0.0, 1.0]', file=sys.stderr)
+        sys.exit()
+
+    for doa in doas:
+        for channel in doa.channels:
+            for trial in channel.trials:
+                _, trial_values_outsiders = get_values_and_bursts_flags_from_trial(trial)
+                length = len(trial_values_outsiders)
+                burst_count = trial_values_outsiders.count(1)
+                if burst_count > length * tolerance:
+                    channel.trials.remove(trial)
