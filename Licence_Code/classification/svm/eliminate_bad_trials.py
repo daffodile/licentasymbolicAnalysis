@@ -15,12 +15,12 @@ csv_file = "svm_bursts_all.csv"
 csv_results = "svm_bursts_avr.csv"
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
-column_names = ['bursts', 'channel', 'segment', 'accuracy', 'f1-score']
+column_names = ['old', 'channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
 # data frame that keeps avr and std of the runs
-columns = ['bursts', 'channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
+columns = ['old', 'channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
 df_results = DataFrame(columns=columns)
 df_results.to_csv(csv_results, mode='a', header=True)
 
@@ -89,7 +89,7 @@ for ind_interval, interval in enumerate(intervals):
         f1scores.append(f1sc_test)
 
         df_all = df_all.append(
-            {'bursts': bursts[ind_interval], 'channel': channel, 'segment': segment, 'accuracy': acc_test,
+            {'old': bursts[ind_interval], 'channel': channel, 'segment': segment, 'accuracy': acc_test,
              'f1-score': f1sc_test},
             ignore_index=True)
 
@@ -105,7 +105,7 @@ for ind_interval, interval in enumerate(intervals):
     f1_avr = np.mean(np.array(f1scores))
     f1_std = np.std(np.array(f1scores))
     df_results = df_results.append(
-        {'bursts': bursts[ind_interval], 'channel': channel, 'segment': segment, 'acc avr': acc_avr,
+        {'old': bursts[ind_interval], 'channel': channel, 'segment': segment, 'acc avr': acc_avr,
          'acc std_dev': acc_std, 'f1-sc avr': f1_avr, 'f1-sc std_dev': f1_std},
         ignore_index=True)
 

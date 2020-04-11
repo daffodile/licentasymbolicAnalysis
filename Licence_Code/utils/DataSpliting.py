@@ -5,14 +5,14 @@ import pandas as pd
 from input_reader.Models import *
 
 
-def obtain_features_labels_log(inputData, encoding):
+def obtain_features_labels_log(inputData, encoding,selected_symbols=32):
     X = []
     Y = []
 
     for i in range(len(inputData.result.arrays)):
         for j in range(len(inputData.result.arrays[i].array)):
             X.append(np.asarray(
-                np.log10([[v + 1 for v in r] for r in encoding.get_a(inputData.result.arrays[i].array[j], 1)])).ravel())
+                np.log10([[v + 1 for v in r] for r in encoding.get_a(inputData.result.arrays[i].array[j], 1,selected_symbols)])).ravel())
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y

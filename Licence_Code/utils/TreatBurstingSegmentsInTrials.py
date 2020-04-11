@@ -68,13 +68,13 @@ def mark_outsiders(doas, liberty=2, max_interbursts_dist=500):
 
                     if len(outside_in) == len(outside_out):
                         for ind_tuple in range(len(outside_in) - 1):
-                            # get the beginning and ending of the inter bursts zone
+                            # get the beginning and ending of the inter old zone
                             index_start = outside_out[ind_tuple][0]
                             index_end = outside_in[ind_tuple + 1][0]
                             dist_within = index_end - index_start
-                            # unify only for inter bursts region of length less than max_interbursts_dist
+                            # unify only for inter old region of length less than max_interbursts_dist
                             if dist_within < max_interbursts_dist and dist_within is not 0:
-                                #  update inter bursts segment to also be marked as burst
+                                #  update inter old segment to also be marked as burst
                                 if index_start < stimulus_start:
                                     # inter burst zone begins and ends in spontaneous part
                                     if index_end < stimulus_start:

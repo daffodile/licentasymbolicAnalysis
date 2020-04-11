@@ -125,12 +125,12 @@ def remove_bursted_trials(doas, tolerance=0.30):
 #
 #                     if len(outside_in) == len(outside_out):
 #                         for ind_tuple in range(len(outside_in) - 1):
-#                             # mark the begining and endingof the inter bursts zone
+#                             # mark the begining and endingof the inter old zone
 #                             index_start = outside_out[ind_tuple][0]
 #                             index_end = outside_in[ind_tuple + 1][0]
 #                             dist_within = index_end - index_start
 #                             if dist_within < max_interbursts_dist and dist_within is not 0:
-#                                 #  update inter bursts segment to also be marked as burst
+#                                 #  update inter old segment to also be marked as burst
 #                                 if index_start < stimulus_start:
 #                                     # burst zone begins in spontaneous part
 #                                     if index_end < stimulus_start:  # this inter burst interval is in spontaneous
