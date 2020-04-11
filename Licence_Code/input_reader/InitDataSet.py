@@ -21,7 +21,7 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self, directory='filtered'):
+    def __init__(self, directory='no_bursts'):
         self.doas = []
         self.run(directory)
 

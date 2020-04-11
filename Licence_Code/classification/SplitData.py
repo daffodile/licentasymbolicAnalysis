@@ -54,3 +54,29 @@ class SplitData:
 
         # print(self.result)
         return self.result
+
+    def get_data_2matrices(self):
+
+        self.result = Result()
+        for j in range(len(self.doas)):
+            if self.doas[j].level in self.levels:
+                array = []
+                for channel in self.doas[j].channels:
+                    if channel.number in self.channels:
+                        for trial in channel.trials:
+                            if trial.direction in self.orientation or 'all' in self.orientation:
+                                arr_temp = []
+                                for segment in self.segment:
+                                    # print('the segment is:' + segment)
+                                    if segment == 'spontaneous':
+                                        arr_temp.extend(trial.spontaneous.values)
+                                    if segment == 'stimulus':
+                                        arr_temp.extend(trial.stimulus.values)
+                                    if segment == 'poststimulus':
+                                        arr_temp.extend(trial.poststimulus.values)
+                                array.append(arr_temp)
+                array_final = NewData(self.doas[j].level, array)
+                self.result.arrays.append(array_final)
+
+        # print(self.result)
+        return self.result
