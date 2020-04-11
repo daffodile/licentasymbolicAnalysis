@@ -6,7 +6,7 @@ from sklearn.tree import DecisionTreeClassifier
 from utils.ExtractData import ExtractData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels_log
+from utils.DataSpliting import train_test_doa, obtain_features_labels_log, obtain_features_labels
 
 ####### to change for each  classifier this 3 files #################################
 
@@ -58,8 +58,8 @@ for run in range(run_nr):
             train_data = ExtractData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
             test_data = ExtractData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
 
-            X_train, y_train = obtain_features_labels_log(train_data, encoding)
-            x_test, y_test = obtain_features_labels_log(test_data, encoding)
+            X_train, y_train = obtain_features_labels(train_data, encoding)
+            x_test, y_test = obtain_features_labels(test_data, encoding)
 
             model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
             model.fit(X_train, y_train)
