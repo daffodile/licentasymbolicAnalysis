@@ -1,11 +1,11 @@
 '''
     written by Ioana Onofrei
 '''
-from input_reader.InitDataSet import InitDataSet
-from utils.TrialsOutsiders import mark_outsiders
+from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
+from utils.MarkBurstsIntervals import mark_outsiders
 from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
-initialization = InitDataSet()
+initialization = InitDataSetWithBurstsFlags()
 doas = initialization.get_dataset_as_doas()
 mark_outsiders(doas)
 

@@ -2,11 +2,10 @@ import sys
 
 import numpy as np
 
-from input_reader.InitDataSet import InitDataSet
 from vizualization.analysis.ploting_functions import plot_hist
 
 
-def analyse_interburst_intervals(doas, liberty=2, max_interbursts_dist=500):
+def mark_outsiders(doas, liberty=2, max_interbursts_dist=500):
     """
     function to mark the values that ore outside interval
           [ mean - liberty*std_dev,  mean + liberty*std_dev]
@@ -101,7 +100,6 @@ def analyse_interburst_intervals(doas, liberty=2, max_interbursts_dist=500):
               y_label="count")
     print("COMPLETED marking outliners for trials")
 
-
-initialization = InitDataSet(levels=['deep', 'medium', 'light'])
-doas = initialization.get_dataset_as_doas()
-analyse_interburst_intervals(doas)
+# initialization = InitDataSet(levels=['deep', 'medium', 'light'])
+# doas = initialization.get_dataset_as_doas()
+# mark_outsiders(doas)
