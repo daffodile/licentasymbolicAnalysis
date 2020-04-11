@@ -15,7 +15,7 @@ class NewData:
         self.array_validate = array_validate
 
 
-class ExtractData:
+class SplitDataWithBurstsFlags:
 
     def __init__(self, doas, channels, levels, segment, orientation=['all']):
         # dataset
