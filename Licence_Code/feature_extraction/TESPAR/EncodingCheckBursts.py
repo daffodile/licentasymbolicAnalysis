@@ -7,7 +7,7 @@ import numpy as np
 from scipy.signal import find_peaks
 
 
-class Encoding:
+class EncodingCheckBursts:
     '''
        alphabet - a matrix of DS having the corresponding 'symbol' on each position
        '''
