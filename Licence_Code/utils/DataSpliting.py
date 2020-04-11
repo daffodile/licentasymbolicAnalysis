@@ -40,8 +40,8 @@ def obtain_features_labels_with_bursts_flags(inputData, encoding, selected_symbo
     Y = []
 
     for i in range(len(inputData.result.arrays)):
-        for j in range(len(inputData.result.arrays[i].array_data)):
-            X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array_data[j],
+        for j in range(len(inputData.result.arrays[i].array)):
+            X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array[j],
                                                inputData.result.arrays[i].array_validate[j],
                                                selected_symbols)).ravel())
             Y.append(inputData.result.arrays[i].name)

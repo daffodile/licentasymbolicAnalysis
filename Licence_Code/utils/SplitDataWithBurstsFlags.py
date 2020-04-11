@@ -11,7 +11,7 @@ class NewData:
 
     def __init__(self, name, array, array_validate):
         self.name = name
-        self.array_data = array
+        self.array = array
         self.array_validate = array_validate
 
 
