@@ -16,6 +16,8 @@ class DOA(JsonEncoder):
 class Channel(JsonEncoder):
     def __init__(self, number):
         self.number = number
+        self.mean = None
+        self.std_dev = None
         self.trials = []
 
 
