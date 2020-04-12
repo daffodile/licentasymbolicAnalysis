@@ -57,8 +57,11 @@ def compare_TESPAR_encodings(doas, level, segment, channel_no):
 
 ################ CALL THE ABOVE FUNCTION ##########################
 
-initialization = InitDataSetWithBurstsFlags(levels=['deep', 'medium'])
+initialization = InitDataSetWithBurstsFlags(levels=['deep', 'light'])
 doas = initialization.get_dataset_as_doas()
 
-compare_TESPAR_encodings(doas, 'deep', 'poststimulus', 14)
-compare_TESPAR_encodings(doas, 'medium', 'stimulus', 24)
+compare_TESPAR_encodings(doas, 'deep', 'spontaneous', 5)
+
+compare_TESPAR_encodings(doas, 'light', 'spontaneous', 5)
+
+print('debug')

@@ -13,7 +13,7 @@ class NewData:
 
 class SplitData:
 
-    def __init__(self, doas, channels, levels, segment, orientation):
+    def __init__(self, doas, channels, levels, segment, orientation=['all']):
         # dataset
         self.doas = doas
         # features
