@@ -143,7 +143,7 @@ def train_test_doa_check_trials(doas, percent):
     if needed_test_samples > len_trials_common_to_all:
         ind_test = trials_common_to_all
     else:
-        # random.shuffle(trials_common_to_all)
+        random.shuffle(trials_common_to_all)
         ind_test = trials_common_to_all[-needed_test_samples:]
 
     for doa in doas:
