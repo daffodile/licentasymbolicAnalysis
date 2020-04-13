@@ -16,7 +16,8 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
     for ch_number in range(len(channel_numbers)):
         channel_index = get_channel_index(doa, channel_numbers[ch_number])
 
-        channel_mean = doa.channels[channel_index].mean
+        # channel_mean = doa.channels[channel_index].mean
+        channel_mean = 0
 
         trial_values, trial_values_outsiders = get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags(
             doas, level=doa_level, channel_number=channel_numbers[ch_number], trial_number=trial_number)
