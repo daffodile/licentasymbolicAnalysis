@@ -16,7 +16,7 @@ def obtain_features_labels_log(inputData, encoding, selected_symbols=32):
             X.append(np.asarray(
                 np.log10([[v + 1 for v in r] for r in encoding.get_a(inputData.result.arrays[i].array_data[j],
                                                                      inputData.result.arrays[i].array_validate[j],
-                                                                     selected_symbols)])).ravel())
+                                                                     selected_symbols=selected_symbols)])).ravel())
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y
