@@ -21,7 +21,7 @@ doa_info = {
 
 
 class InitDataSet:
-    def __init__(self, levels=['deep', 'medium', 'light'], directory='no_bursts', trials_to_skip=None):
+    def __init__(self, levels=['deep','medium', 'light'], directory='noburst', trials_to_skip=None):
         if trials_to_skip is None:
             trials_to_skip = []
         self.doas = []
@@ -31,8 +31,8 @@ class InitDataSet:
         self.run()
 
     def run(self):
-        data_dir = os.path.join('..', '..')
-        # data_dir = os.path.join('..', '')
+        # data_dir = os.path.join('..', '..')
+        data_dir = os.path.join('..', '')
         data_dir = os.path.join(data_dir, 'data/', self.directory)
         sys.path.append(data_dir)
 
