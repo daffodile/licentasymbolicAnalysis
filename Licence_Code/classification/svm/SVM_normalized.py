@@ -57,8 +57,6 @@ for run in range(run_nr):
             X_train = scaler.transform(X_train)
             X_test = scaler.transform(X_test)
 
-            model = SVC(gamma="auto")
-
             model = SVC(gamma="auto", verbose=True)
 
             model.fit(X_train, y_train)
