@@ -3,39 +3,41 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
-from utils.ExtractData import ExtractData
-from utils.TreatBurstingSegmentsInTrials import mark_outsiders
-from vizualization.classification.Accuracy_distribution import plot_distributions
-
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels
+from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels, obtain_features_labels_log, \
+    obtain_features_labels_quality
+from utils.ExtractData import ExtractData
+from utils.TreatBurstingSegmentsInTrials import mark_outsiders
 
-####### to change for each  classifier this 3 files #################################
-csv_file = "dtc_10_good3.csv"
-csv_results = "dtc_10_good_averages3.csv"
+csv_file = "dtc_32_32_wlogQ_alph3.csv"
+csv_results = "dtc_32_avg_32_wlogQ_alph3.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_10_good_test_indexex3.txt"
-write_file = open(indexes_file, "w")
+indexes_file = "dtc_32_indexes_32_wlogQ_alph3.txt"
+write_file = open(indexes_file, "a")
 
 # how many models to train a for a channel-segment pair
 run_nr = 10
 
-# # once per filter hereee
-channels_range = 6
-all_channels = [4, 6, 7, 13, 14]
+channels_range = 31
+all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
+                31, 32]
+# channels_range = 7
+# all_channels = [6, 7, 15, 20, 26, 27]
 
 segments = ['spontaneous', 'stimulus', 'poststimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
 column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
-df_all.to_csv(csv_file, mode='a', header=True)
+df_all.to_csv(csv_file, mode='w', header=True)
 
-initialization = InitDataSet()
+# initialization = InitDataSet()
+initialization = InitDataSet(trials_to_skip=[1, 2])
 doas = initialization.get_dataset_as_doas()
-# mark_outsiders(doas)
+mark_outsiders(doas, max_interbursts_dist=500)
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+# encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -48,7 +50,7 @@ f1scores = [[[] for i in range(channels_range - 1)] for j in range(len(segments)
 for run in range(run_nr):
     print('************************RUN ' + str(run) + '************************')
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
     np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
     write_file.write('\n')
 
@@ -60,8 +62,8 @@ for run in range(run_nr):
             train_data = ExtractData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
             test_data = ExtractData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
 
-            X_train, y_train = obtain_features_labels(train_data, encoding)
-            x_test, y_test = obtain_features_labels(test_data, encoding)
+            X_train, y_train = obtain_features_labels_quality(train_data, encoding, 32)
+            x_test, y_test = obtain_features_labels_quality(test_data, encoding, 32)
 
             model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
             model.fit(X_train, y_train)
@@ -104,6 +106,6 @@ for ind_segment, segment in enumerate(segments):
                                        ignore_index=True)
         d_i.append([acc_avr, acc_std])
         n.append(all_channels[channel])
-    plot_distributions(d_i, n, str(segment) + str(3))
+    # plot_distributions(d_i, n, str(segment) + str(3))
 
 df_results.to_csv(csv_results, mode='a', header=False)

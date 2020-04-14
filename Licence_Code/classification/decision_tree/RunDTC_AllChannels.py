@@ -8,19 +8,18 @@ from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels, obtain_features_labels_log
 from utils.ExtractData import ExtractData
 
-csv_file = "dtc_6_16_wlog_alph5.csv"
-csv_results = "dtc_6_avg_16_wlog_alph5.csv"
+csv_file = "dtc_30_16_wlog_alph5.csv"
+csv_results = "dtc_30_avg_16_wlog_alph5.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_6_indexes_16_wlog_alph5.txt"
+indexes_file = "dtc_30_indexes_16_wlog_alph5.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
 run_nr = 10
 
-channels_range = 7
-# all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
-#                 31, 32]
-all_channels = [6, 7, 15, 20, 26, 27]
+channels_range = 31
+all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
+                31, 32]
 
 segments = ['spontaneous', 'stimulus', 'poststimulus']
 
