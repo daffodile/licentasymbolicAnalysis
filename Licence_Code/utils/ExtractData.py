@@ -59,3 +59,35 @@ class ExtractData:
 
         # print(self.result)
         return self.result
+
+    def get_data_2matrices_test(self):
+
+        self.result = Result()
+        for j in range(len(self.doas)):
+            if self.doas[j].level in self.levels:
+                array = []
+                array_validate = []
+                for channel in self.doas[j].channels:
+                    if channel.number in self.channels:
+                        for trial in channel.trials:
+                            if trial.direction in self.orientation or 'all' in self.orientation:
+                                values_temp = []
+                                validations_temp = []
+                                for segment in self.segment:
+                                    # print('the segment is:' + segment)
+                                    if segment == 'spontaneous':
+                                        values_temp.extend(trial.spontaneous.values)
+                                        validations_temp.extend(trial.spontaneous.values_outsiders)
+                                    if segment == 'stimulus':
+                                        values_temp.extend(trial.stimulus.values)
+                                        validations_temp.extend(trial.stimulus.values_outsiders)
+                                    if segment == 'poststimulus':
+                                        values_temp.extend(trial.poststimulus.values)
+                                        validations_temp.extend(trial.poststimulus.values_outsiders)
+                                array.append(values_temp)
+                                array_validate.append(validations_temp)
+                array_final = NewData(self.doas[j].level, array, array_validate)
+                self.result.arrays.append(array_final)
+
+        # print(self.result)
+        return self.result

@@ -3,12 +3,13 @@ from pandas import DataFrame
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
-from classification.decision_tree.old.Old_Encoding import Old_Encoding
-from classification.decision_tree.old.Old_Obtain_Features import obtain_features_labels, train_test_doa
-from classification.decision_tree.old.Old_SplitData import SplitData
+from classification.decision_tree.SplitData_Old import SplitData
+from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
 ####### to change for each  classifier this 3 files #################################
+from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels
+
 csv_file = "dtc_30_all_test.csv"
 csv_results = "dtc_30_avg_all_test.csv"
 # open file to write the indices of  each splitting
@@ -33,7 +34,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Old_Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -46,7 +47,7 @@ f1scores = [[] for i in range(channels_range - 1) for j in range(1)]
 for run in range(run_nr):
     print('************************RUN ' + str(run) + '************************')
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
     np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
     write_file.write('\n')
 
