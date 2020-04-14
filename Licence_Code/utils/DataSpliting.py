@@ -16,7 +16,7 @@ def obtain_features_labels_log(inputData, encoding, selected_symbols=32):
             X.append(np.asarray(
                 np.log10([[v + 1 for v in r] for r in encoding.get_a(inputData.result.arrays[i].array_data[j],
                                                                      inputData.result.arrays[i].array_validate[j],
-                                                                     selected_symbols)])).ravel())
+                                                                     selected_symbols=selected_symbols)])).ravel())
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y
@@ -40,6 +40,7 @@ def obtain_S_TESPAR_features(inputData, encoding):
     X = []
     Y = []
 
+    # todo
     for i in range(len(inputData.result.arrays)):
         for j in range(len(inputData.result.arrays[i].array)):
             X.append(np.asarray(encoding.get_s(inputData.result.arrays[i].array[j])))
