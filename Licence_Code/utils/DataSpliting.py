@@ -35,6 +35,33 @@ def obtain_features_labels(inputData, encoding, selected_symbols=32):
     return pd.DataFrame(X), Y
 
 
+def obtain_features_labels_from_doa(doas, channel_number, segment, encoding, selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            seg = getattr(trial, segment)
+            X.append(np.asarray(encoding.get_a(seg.values, selected_symbols=selected_symbols)).ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
+
+# work on getting 2 segments
+# def obtain_features_labels_more_seg(inputData, encoding, segments = ['spontaneous', 'stimulus'], selected_symbols=32):
+#     X = []
+#     Y = []
+#
+#     for i in range(len(inputData.result.arrays)):
+#         for j in range(len(inputData.result.arrays[i].array)):
+#             X.append(np.asarray(
+#                 encoding.get_a(inputData.result.arrays[i].array[j], selected_symbols=selected_symbols)).ravel())
+#             Y.append(inputData.result.arrays[i].name)
+#
+#     return pd.DataFrame(X), Y
+
 def obtain_features_labels_with_bursts_flags(inputData, encoding, selected_symbols=32):
     X = []
     Y = []
