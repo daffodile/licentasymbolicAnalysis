@@ -6,8 +6,8 @@ from vizualization.classification.Channels_Selection import compute_zscores, get
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 
-# dtc_file = '../../classification/results/dtc_30_averages.csv'
-dtc_file = '../../classification/results/dtc_30_good_averages20.csv'
+dtc_file = '../../classification/decision_tree/new_runnings/1/dtc_30_avg_all_32_wlog_alph3.csv'
+# dtc_file = '../../classification/results/dtc_30_good_averages20.csv'
 zscores_dtc = compute_zscores(dtc_file)
 
 rfc_file = '../../classification/results/rf_30_averages.csv'

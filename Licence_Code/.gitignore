@@ -7,12 +7,8 @@
 /.idea
 /data_to_be_saved
 /classification/svm/results/
-/classification/decision_tree/results/
-/classification/decision_tree/dtc_report.csv
 /tests
 /classification/results/
-/classification/decision_tree/good_bad_10runs/
 /Afisare/
 /classification/decision_tree/runnings/
-/vizualization/TESPAR/compare_channels/
-/classification/decision_tree/good_bad_10runs/
+/classification/decision_tree/new_runnings/

@@ -14,7 +14,7 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
 
         channel_mean = doa.channels[channel_index].mean
 
-        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa, 'deep',
+        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa,
                                                                               channel_numbers[ch_number],
                                                                               trial_number)
         outsider_points = []
@@ -43,7 +43,7 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
 
     plt.ylabel('Amplitudes')
     plt.xlabel('Relative Timestamp')
-    plt.title('Trial ' + str(trial_number) + ' Snapshot')
+    plt.title('Trial ' + str(trial_number) + ' Snapshot - '+doa_level.capitalize())
     plt.legend(loc='upper center', bbox_to_anchor=(0.2, -0.05),
                fancybox=True, shadow=True, ncol=5)
     plt.show()
@@ -59,7 +59,7 @@ def plot_trials_channel(doas, doa_level, channel_number, trial_numbers, stdX):
 
     for tr_number in range(len(trial_numbers)):
 
-        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa, 'deep',
+        trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa,
                                                                               channel_number,
                                                                               trial_numbers[tr_number])
         outsider_points = []
@@ -84,11 +84,15 @@ def plot_trials_channel(doas, doa_level, channel_number, trial_numbers, stdX):
             x_values = [outsider_points[i][0], outsider_points[i + 1][0]]
             y_values = [channel_mean + contor, channel_mean + contor]
             plt.plot(x_values, y_values, color='black')
-        contor += 20
+
+        if doa_level == 'deep':
+            contor += 50
+        else:
+            contor += 100
 
     plt.ylabel('Amplitudes')
     plt.xlabel('Relative Timestamp')
-    plt.title('Channel ' + str(channel_number) + ' Snapshot')
+    plt.title('Channel ' + str(channel_number) + ' Snapshot - ' + doa_level)
     plt.legend(loc='upper center', bbox_to_anchor=(0.2, -0.02),
                fancybox=True, shadow=True, ncol=5)
     plt.show()

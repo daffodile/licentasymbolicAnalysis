@@ -12,10 +12,16 @@ mark_outsiders(doas)
 # then run the class
 # after you are done go back and mark it again :)
 channel_numbers = [2, 3, 4]
-trial_number = 14
+# trial_number = 8
+trial_number = 11
 stdX = 2
-# plot_channels_trial(doas, 'deep', channel_numbers, trial_number, stdX)
+plot_channels_trial(doas, 'deep', channel_numbers, trial_number, stdX)
+plot_channels_trial(doas, 'light', channel_numbers, trial_number, stdX)
 
 # plot_channels_trial(doas, 'deep', [10], 100, stdX)
 
-plot_trials_channel(doas, 'deep', 2, [1, 2, 3], stdX)
+# def plot_trials_channel(doas, doa_level, channel_number, trial_numbers, stdX):
+# plot_trials_channel(doas, 'deep', 2, [8, 15, 23], stdX)
+# plot_trials_channel(doas, 'light', 2, [8, 15, 23], stdX)
+# plot_trials_channel(doas, 'deep',6, [1,3,18], stdX)
+# plot_trials_channel(doas, 'light', 6, [1,3,18], stdX)

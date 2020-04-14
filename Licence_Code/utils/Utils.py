@@ -56,7 +56,7 @@ def get_trial_from_doas(doas, level, channel_number, trial_number):
     return trial
 
 
-def get_trial_values_and_outsiders(doa, level, channel_number, trial_number):
+def get_trial_values_and_outsiders(doa, channel_number, trial_number):
     """
     :return: the values and the outsiders of the particular trial searched in a doa,
     given the channel_number and doa level
