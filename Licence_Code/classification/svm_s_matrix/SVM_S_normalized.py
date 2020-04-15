@@ -7,22 +7,24 @@ from sklearn.svm import SVC
 ####### to change for each  classifier this 3 files #################################
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels_from_doa
+from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels_from_doa, \
+    obtain_S_TESPAR_features_from_doa
 
-csv_file = "svm_30_normalized.csv"
-csv_results = "svm_30_normalized_avr.csv"
+csv_file = "svm_S_normalized.csv"
+csv_results = "svm_S_normalized_avr.csv"
 # open file to write the indices of  each splitting
-indexes_file = "svm_30_normalized_indexes.txt"
+indexes_file = "svm_S_normalized_indexes.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 30
+run_nr = 20
 
 # # once per filter hereee
 # channels_range = 31
 # all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
 #                 31, 32]
-all_channels = [2, 3, 5, 6, 7, 13, 15, 19, 20, 21, 25, 26, 27, 29]
+# all_channels = [3, 5, 7, 13, 15]
+all_channels = [ 2, 3, 5, 6, 7, 13, 15, 19, 20, 21, 25, 26, 27, 29]
 
 segments = ['spontaneous', 'stimulus']
 
@@ -50,15 +52,15 @@ for run in range(run_nr):
         for chn_ind, channel in enumerate(all_channels):
             print("start running for channel " + str(channel) + ' ' + segment + '\n')
 
-            X_train, y_train = obtain_features_labels_from_doa(doas_train, channel, segment, encoding)
-            X_test, y_test = obtain_features_labels_from_doa(doas_test, channel, segment, encoding)
+            X_train, y_train = obtain_S_TESPAR_features_from_doa(doas_train, channel, segment, encoding)
+            X_test, y_test = obtain_S_TESPAR_features_from_doa(doas_test, channel, segment, encoding)
 
             scaler = StandardScaler()
             scaler.fit(X_train)
             X_train = scaler.transform(X_train)
             X_test = scaler.transform(X_test)
 
-            model = SVC(gamma="auto", verbose=True)
+            model = SVC(gamma="auto")
 
             model.fit(X_train, y_train)
             predictions = model.predict(X_test)

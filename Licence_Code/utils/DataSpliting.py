@@ -49,16 +49,54 @@ def obtain_features_labels_from_doa(doas, channel_number, segment, encoding, sel
     return pd.DataFrame(X), Y
 
 
-# work on getting 2 segments
-# def obtain_features_labels_more_seg(inputData, encoding, segments = ['spontaneous', 'stimulus'], selected_symbols=32):
+def obtain_A_features_from_doa_with_bursts_frags(doas, channel_number, segment, encoding, selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            seg = getattr(trial, segment)
+            X.append(
+                np.asarray(encoding.get_a(seg.values, seg.values_outsiders, selected_symbols=selected_symbols)).ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
+#  CHECK THIS IN DEBUG
+# def obtain_A_features_2segm_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
+#                                      selected_symbols=None):
 #     X = []
 #     Y = []
 #
-#     for i in range(len(inputData.result.arrays)):
-#         for j in range(len(inputData.result.arrays[i].array)):
-#             X.append(np.asarray(
-#                 encoding.get_a(inputData.result.arrays[i].array[j], selected_symbols=selected_symbols)).ravel())
-#             Y.append(inputData.result.arrays[i].name)
+#     for doa in doas:
+#         channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+#         for trial in channel.trials:
+#             trials_values = []
+#             for segment in segments:
+#                 seg = getattr(trial, segment)
+#                 trials_values.extend(seg.values)
+#
+#             X.append(np.asarray(encoding.get_a(trials_values, selected_symbols=selected_symbols)).ravel())
+#             Y.append(doa.level)
+#
+#     return pd.DataFrame(X), Y
+
+#  METHOD TO BE CHECKED IN DEBUG!!!!!
+# def obtain_2_A_features_2segm_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
+#                                      selected_symbols=None):
+#     X = []
+#     Y = []
+#
+#     for doa in doas:
+#         channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+#         for trial in channel.trials:
+#             a_concatenate_matrix = []
+#             for segment in segments:
+#                 seg = getattr(trial, segment)
+#                 a_concatenate_matrix.extend(encoding.get_a(seg.values, selected_symbols=selected_symbols).flatten())
+#             X.append(np.asarray(a_concatenate_matrix))
+#             Y.append(doa.level)
 #
 #     return pd.DataFrame(X), Y
 
@@ -90,14 +128,28 @@ def obtain_S_TESPAR_features(inputData, encoding):
     return pd.DataFrame(X), Y
 
 
+def obtain_S_TESPAR_features_from_doa(doas, channel_number, segment, encoding):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            seg = getattr(trial, segment)
+            X.append(np.asarray(encoding.get_s(seg.values)).ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
+
 def train_test_doa(doas, percent):
     doas_train = []
     doas_test = []
 
     minim = MAX_NR_OF_TRIALS
     for doa in doas:
-        if minim > len(doas[0].channels[0].trials):
-            minim = len(doas[0].channels[0].trials)
+        if minim > len(doa.channels[0].trials):
+            minim = len(doa.channels[0].trials)
 
     indexes = [i for i in range(minim)]
     random.shuffle(indexes)
