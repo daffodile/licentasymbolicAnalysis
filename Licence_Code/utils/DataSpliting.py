@@ -63,42 +63,45 @@ def obtain_A_features_from_doa_with_bursts_frags(doas, channel_number, segment, 
 
     return pd.DataFrame(X), Y
 
-#  CHECK THIS IN DEBUG
-# def obtain_A_features_2segm_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
-#                                      selected_symbols=None):
-#     X = []
-#     Y = []
-#
-#     for doa in doas:
-#         channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
-#         for trial in channel.trials:
-#             trials_values = []
-#             for segment in segments:
-#                 seg = getattr(trial, segment)
-#                 trials_values.extend(seg.values)
-#
-#             X.append(np.asarray(encoding.get_a(trials_values, selected_symbols=selected_symbols)).ravel())
-#             Y.append(doa.level)
-#
-#     return pd.DataFrame(X), Y
+
+def obtain_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
+                               selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            # extract the values from the selected segments
+            trial_values = []
+            for segment in segments:
+                seg = getattr(trial, segment)
+                trial_values.extend(seg.values)
+                # trial_values.extend( getattr(trial, segment).values)
+
+            X.append(np.asarray(encoding.get_a(trial_values, selected_symbols=selected_symbols)).ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
 
 #  METHOD TO BE CHECKED IN DEBUG!!!!!
-# def obtain_2_A_features_2segm_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
-#                                      selected_symbols=None):
-#     X = []
-#     Y = []
-#
-#     for doa in doas:
-#         channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
-#         for trial in channel.trials:
-#             a_concatenate_matrix = []
-#             for segment in segments:
-#                 seg = getattr(trial, segment)
-#                 a_concatenate_matrix.extend(encoding.get_a(seg.values, selected_symbols=selected_symbols).flatten())
-#             X.append(np.asarray(a_concatenate_matrix))
-#             Y.append(doa.level)
-#
-#     return pd.DataFrame(X), Y
+def obtain_more_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
+                                     selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            a_concatenate_matrix = []
+            for segment in segments:
+                seg = getattr(trial, segment)
+                a_concatenate_matrix.extend(encoding.get_a(seg.values, selected_symbols=selected_symbols).flatten())
+            X.append(np.asarray(a_concatenate_matrix))
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
 
 def obtain_features_labels_with_bursts_flags(inputData, encoding, selected_symbols=32):
     X = []

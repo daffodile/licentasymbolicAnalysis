@@ -7,6 +7,7 @@ def mark_outsiders(doas, liberty=2, max_interbursts_dist=500):
     function to mark the values that ore outside interval
           [ mean - liberty*std_dev,  mean + liberty*std_dev]
     on each channel in each DOA
+
     :param doas: array of DOAs to mark
     :param liberty: coeff for multiplying with std_dev on a channel
     :param max_interbursts_dist: limit distance where considering to unify consecutive bursting regions
@@ -128,24 +129,84 @@ def get_values_and_bursts_flags_from_trial(trial):
 
 MAX_NR_OF_TRIALS = 240
 
+'''
+     mehod takes into consideration full trial = all 3 segments and it is replaced with tha above one
+     that chooses the segments
+'''
 
-# function in work now, do not use
-def remove_bursted_trials_when_full_trial(doas, tolerance_inside_trial=0.30, tolerance_over_channels=0.3):
+
+# def remove_bursted_trials_when_full_trial(doas, tolerance_inside_trial=0.30, tolerance_over_channels=0.3):
+#     '''
+#     this function assumes that the channels have all the trials in the beginning and that a trial_number is its index+1
+#
+#     :param doas: dataset as DOAS, the trials frag for bursting regions should be set
+#     :param tolerance_inside_trial: percentage threshold that decides when a trial is taken into consideration to be removed
+#     :param tolerance_over_channels: raport that says in how many of the channels a trial has to be marked as bursted to be removed
+#     :return: no return type, it alters the doas  from the input
+#     '''
+#     if tolerance_inside_trial < 0.0 or tolerance_inside_trial > 1.0:
+#         print('remove_bursted_trials_when_full_trial: tolerance_inside_trial param should be a value in [0.0, 1.0]',
+#               file=sys.stderr)
+#         sys.exit()
+#
+#     if tolerance_over_channels < 0.0 or tolerance_over_channels > 1.0:
+#         print('remove_bursted_trials_when_full_trial: tolerance_over_channels param should be a value in [0.0, 1.0]',
+#               file=sys.stderr)
+#         sys.exit()
+#
+#     # keep track of how many times a trial is considered to be bursted on the channels in a doa
+#     count_burst_trials = np.zeros((len(doas), MAX_NR_OF_TRIALS), dtype=int)
+#
+#     for ind_doa, doa in enumerate(doas):
+#         for channel in doa.channels:
+#             for ind_trial, trial in enumerate(channel.trials):
+#                 _, trial_values_outsiders = get_values_and_bursts_flags_from_trial(trial)
+#                 length = len(trial_values_outsiders)
+#                 burst_count = trial_values_outsiders.count(1)
+#                 if burst_count > length * tolerance_inside_trial:
+#                     count_burst_trials[ind_doa][ind_trial] += 1
+#                     # channel.trials.remove(trial)
+#
+#     for ind_doa, doa in enumerate(doas):
+#         no_of_channels = len(doa.channels)
+#         threshold_no_of_channels = no_of_channels * tolerance_over_channels
+#
+#         trials_to_remove = []
+#
+#         # iterate the array of len = MAX_NR_OF_TRIALS that
+#         for trial_position in range(MAX_NR_OF_TRIALS):
+#             # if more than threshold_no_of_channels channels consider that this trial is to be removed:
+#             if count_burst_trials[ind_doa][trial_position] >= threshold_no_of_channels:
+#                 # will remove the trial by trial_number
+#                 trials_to_remove.append(trial_position + 1)
+#
+#         print(trials_to_remove)
+#
+#         # now remove each trial from all the channels of this doa
+#         for channel in doa.channels:
+#             channel.trials = list(filter(lambda t: (t.trial_number not in trials_to_remove), channel.trials))
+#
+#         print(f'{doa.level} in a channel there are {len(doa.channels[0].trials)} trials left')
+
+
+def remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'], tolerance_inside_trial=0.33,
+                                       tolerance_over_channels=0.33):
     '''
     this function assumes that the channels have all the trials in the beginning and that a trial_number is its index+1
 
-    :param doas: dataset as DOAS, the trials frag for bursting regions should be set
+    :param doas: dataset as DOAS, the trials flag for bursting regions should be set
+    :param: segment: segment to choose
     :param tolerance_inside_trial: percentage threshold that decides when a trial is taken into consideration to be removed
     :param tolerance_over_channels: raport that says in how many of the channels a trial has to be marked as bursted to be removed
     :return: no return type, it alters the doas  from the input
     '''
     if tolerance_inside_trial < 0.0 or tolerance_inside_trial > 1.0:
-        print('remove_bursted_trials_when_full_trial: tolerance_inside_trial param should be a value in [0.0, 1.0]',
+        print('remove_bursted_trials_when_segment: tolerance_inside_trial param should be a value in [0.0, 1.0]',
               file=sys.stderr)
         sys.exit()
 
     if tolerance_over_channels < 0.0 or tolerance_over_channels > 1.0:
-        print('remove_bursted_trials_when_full_trial: tolerance_over_channels param should be a value in [0.0, 1.0]',
+        print('remove_bursted_trials_when_segment: tolerance_over_channels param should be a value in [0.0, 1.0]',
               file=sys.stderr)
         sys.exit()
 
@@ -155,12 +216,15 @@ def remove_bursted_trials_when_full_trial(doas, tolerance_inside_trial=0.30, tol
     for ind_doa, doa in enumerate(doas):
         for channel in doa.channels:
             for ind_trial, trial in enumerate(channel.trials):
-                _, trial_values_outsiders = get_values_and_bursts_flags_from_trial(trial)
-                length = len(trial_values_outsiders)
-                burst_count = trial_values_outsiders.count(1)
-                if burst_count > length * tolerance_inside_trial:
+                values_outsiders = []
+                for segment in segments:
+                    values_outsiders.extend(getattr(trial, segment).values_outsiders)
+                burst_count = values_outsiders.count(1)
+
+                # print(f'{doa.level} ch {channel.number} tr {trial.trial_number} bursts count {burst_count}')
+
+                if burst_count > len(values_outsiders) * tolerance_inside_trial:
                     count_burst_trials[ind_doa][ind_trial] += 1
-                    # channel.trials.remove(trial)
 
     for ind_doa, doa in enumerate(doas):
         no_of_channels = len(doa.channels)

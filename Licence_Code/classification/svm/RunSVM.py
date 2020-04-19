@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from pandas import DataFrame
 from sklearn.metrics import classification_report
@@ -31,7 +33,10 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
-initialization = InitDataSet()
+
+data_dir = os.path.join('..', '..')
+
+initialization = InitDataSet(data_dir=data_dir)
 doas = initialization.get_dataset_as_doas()
 
 '''
