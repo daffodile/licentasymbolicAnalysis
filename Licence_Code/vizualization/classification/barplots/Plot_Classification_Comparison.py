@@ -33,7 +33,7 @@ def plot_accuracies(labels, arrays, legends, segment, title):
         title=title + ' - ' + segment,
         xaxis_tickfont_size=14,
         yaxis=dict(
-            title='Accuracies',
+            title='Burst Percent',
             titlefont_size=16,
             tickfont_size=14,
         ),
@@ -48,3 +48,5 @@ def plot_accuracies(labels, arrays, legends, segment, title):
         bargroupgap=0.1  # gap between bars of the same location coordinate.
     )
     fig.show()
+
+
