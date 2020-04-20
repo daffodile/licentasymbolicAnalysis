@@ -3,9 +3,6 @@ import sys
 import numpy as np
 from scipy.signal import hilbert
 
-from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
-
 
 def mark_burst_basic_one_threshold(doas, threshold):
     for doa in doas:

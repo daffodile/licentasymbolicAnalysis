@@ -1,10 +1,9 @@
 import scipy
 
-from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
 import numpy as np
 
-from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_burst_basic
-from utils.MarkOutsidersWithBurstsFlags_OneThreshold import mark_burst_basic_one_threshold
+from input_reader.InitDataSet import InitDataSet
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_burst_basic
 
 
 def mak_burst_basic(doas, threshold):
@@ -72,7 +71,7 @@ def see_procents_distances(doas, q=0.95):
     return quantile
 
 
-initialization = InitDataSetWithBurstsFlags(levels=['deep', 'medium', 'light'])
+initialization = InitDataSet(levels=['deep', 'medium', 'light'])
 doas = initialization.get_dataset_as_doas()
 
 # print('start marking interbursts')

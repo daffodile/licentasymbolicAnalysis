@@ -3,9 +3,9 @@
 '''
 from pylab import *
 
-from utils.MarkOutsidersWithBurstsFlags_OneThreshold import mark_burst_basic_one_threshold
 
 from input_reader.InitDataSet import InitDataSet
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags_OneThreshold import mark_burst_basic_one_threshold
 
 
 def determine_threshold(doas, iterations=8):

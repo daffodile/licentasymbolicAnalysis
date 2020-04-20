@@ -1,8 +1,10 @@
-from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
-from utils.MarkOutsidersWithBurstsFlags_OneThreshold import mark_bursts_regions_one_threshold
 
-initialization = InitDataSetWithBurstsFlags(levels=['deep', 'medium', 'light'])
+from input_reader.InitDataSet import InitDataSet
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags_OneThreshold import mark_bursts_regions_one_threshold
+
+initialization = InitDataSet(levels=['deep', 'medium', 'light'])
 doas = initialization.get_dataset_as_doas()
 
 # first original method with 2*std_dev
@@ -10,7 +12,12 @@ doas = initialization.get_dataset_as_doas()
 
 print('do not expand left right')
 
+# SAU 1 SAU 2
+#  1 th
 mark_bursts_regions_one_threshold(doas)
+
+# diff th
+mark_bursts_regions(doas)
 
 remove_bursted_trials_when_segment(doas)
 
