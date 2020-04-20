@@ -8,7 +8,7 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
 from utils.DataSpliting import train_test_doa_check_trials, obtain_A_features_from_doa
 from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
-from utils.Remake_ThresholdMarkOutsiderWithBurstFlags import mark_bursts_regions
+from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
 csv_file = "svm_remove_bursts_2segs.csv"
 csv_results = "svm_remove_bursts_2segs_avr.csv"
@@ -17,7 +17,7 @@ indexes_file = "svm_remove_bursts_2segs_indexes.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 15
+run_nr = 30
 
 all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
                 31, 32]

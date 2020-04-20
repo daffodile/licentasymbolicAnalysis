@@ -10,7 +10,7 @@ from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
 from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels_from_doa, \
     obtain_A_features_from_doa_with_bursts_frags
 from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
-from utils.Remake_ThresholdMarkOutsiderWithBurstFlags import mark_bursts_regions
+from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
 csv_file = "svm_remove_bursts.csv"
 csv_results = "svm_remove_bursts_avr.csv"
