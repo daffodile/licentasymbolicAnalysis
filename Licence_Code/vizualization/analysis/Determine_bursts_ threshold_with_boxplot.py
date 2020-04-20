@@ -2,8 +2,9 @@
     call once to determine the threshold used for marking bursts
 '''
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.ThresholdMarkOutsiderWithBurstsFlags import mak_burst_basic
 from pylab import *
+
+from utils.MarkOutsidersWithBurstsFlags_OneThreshold import mark_burst_basic_one_threshold
 
 
 def determine_threshold(doas, iterations=8):
@@ -18,13 +19,13 @@ def determine_threshold(doas, iterations=8):
     threshold = get_initial_threshold(doas)
 
     # mark the bursts for the first time, according to first threshold
-    mak_burst_basic(doas, threshold)
+    mark_burst_basic_one_threshold(doas, threshold)
 
     new_th = 0
     for it in range(iterations):
         new_th = get_threshold_non_bursts_values(doas)
         print(f'{it}th iteration updated_th {new_th}')
-        mak_burst_basic(doas, new_th)
+        mark_burst_basic_one_threshold(doas, new_th)
 
     print(f'final threshold is {new_th}')
     return new_th
@@ -79,6 +80,6 @@ def get_threshold_non_bursts_values(doas):
 
 ######### call the above methods
 
-initialization = InitDataSetWithBurstsFlags(levels='light')
+initialization = InitDataSetWithBurstsFlags(levels=['deep', 'medium', 'light'])
 doas = initialization.get_dataset_as_doas()
 determine_threshold(doas)
