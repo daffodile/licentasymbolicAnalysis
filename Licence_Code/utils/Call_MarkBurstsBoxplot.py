@@ -1,4 +1,5 @@
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
+from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
 initialization = InitDataSetWithBurstsFlags(levels=['deep', 'medium', 'light'])
