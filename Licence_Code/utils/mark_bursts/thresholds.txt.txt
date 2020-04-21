@@ -1,0 +1,50 @@
+deep:
+START marking outliners of trials
+min fliers 19.741195678710938
+0th iteration updated_th 16.97981071472168
+1th iteration updated_th 16.494293212890625
+2th iteration updated_th 16.39179039001465
+3th iteration updated_th 16.369688034057617
+4th iteration updated_th 16.364681243896484
+5th iteration updated_th 16.363584518432617
+6th iteration updated_th 16.363370895385742
+7th iteration updated_th 16.363306045532227
+final threshold is 16.363306045532227
+
+medium:
+min fliers 24.972856521606445
+0th iteration updated_th 21.297565460205078
+1th iteration updated_th 20.42424774169922
+2th iteration updated_th 20.181243896484375
+3th iteration updated_th 20.110610961914062
+4th iteration updated_th 20.089855194091797
+5th iteration updated_th 20.08338165283203
+6th iteration updated_th 20.08152961730957
+7th iteration updated_th 20.080978393554688
+final threshold is 20.080978393554688
+
+
+light
+min fliers 32.000030517578125
+0th iteration updated_th 28.141925811767578
+1th iteration updated_th 27.1693172454834
+2th iteration updated_th 26.883262634277344
+3th iteration updated_th 26.794239044189453
+4th iteration updated_th 26.76595687866211
+5th iteration updated_th 26.75746726989746
+6th iteration updated_th 26.75472068786621
+7th iteration updated_th 26.753854751586914
+final threshold is 26.753854751586914
+
+all 3 levels:
+min fliers 24.844926834106445
+0th iteration updated_th 21.150178909301758
+1th iteration updated_th 20.287153244018555
+2th iteration updated_th 20.047283172607422
+3th iteration updated_th 19.977943420410156
+4th iteration updated_th 19.95734214782715
+5th iteration updated_th 19.951271057128906
+6th iteration updated_th 19.94952392578125
+7th iteration updated_th 19.94902229309082
+final threshold is 19.94902229309082
+
