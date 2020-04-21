@@ -9,11 +9,12 @@ from input_reader.InitDataSet import InitDataSet
 
 ####### to change for each  classifier this 3 files #################################
 from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels
+from utils.ExtractData import ExtractData
 
-csv_file = "dtc_30_all_test.csv"
-csv_results = "dtc_30_avg_all_test.csv"
+csv_file = "dtc_30_32_wlog_alph5_2cls_wmark.csv"
+csv_results = "dtc_30_avg_32_wlog_alph5_2cls_wmark.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_30_avg_all_test.txt"
+indexes_file = "dtc_30_indexes_32_wlog_alph5_2cls_wmark.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
@@ -33,8 +34,10 @@ df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
+# initialization = InitDataSet(trials_to_skip=[1, 2])
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+# encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -56,8 +59,9 @@ for run in range(run_nr):
         print("start running for channel " + str(channel) + '\n')
 
         # SplitData(self, doas, channels, levels, segment, orientation):
-        train_data = SplitData(doas_train, [channel], ['light', 'deep'], segments, ['all'])
-        test_data = SplitData(doas_test, [channel], ['light', 'deep'], segments, ['all'])
+        train_data = ExtractData(doas_train, [all_channels[ind_channel]], ['deep', 'light'], segments,
+                                 ['all'])
+        test_data = ExtractData(doas_test, [all_channels[ind_channel]], ['deep', 'light'], segments, ['all'])
 
         X_train, y_train = obtain_features_labels(train_data, encoding, 32)
         x_test, y_test = obtain_features_labels(test_data, encoding, 32)

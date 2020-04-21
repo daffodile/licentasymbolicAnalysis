@@ -10,10 +10,10 @@ from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labe
 from utils.ExtractData import ExtractData
 from utils.TreatBurstingSegmentsInTrials import mark_outsiders
 
-csv_file = "dtc_32_32_wlogQ_alph3.csv"
-csv_results = "dtc_32_avg_32_wlogQ_alph3.csv"
+csv_file = "dtc_30_32_wlog_alph5.csv"
+csv_results = "dtc_30_avg_32_wlog_alph5.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_32_indexes_32_wlogQ_alph3.txt"
+indexes_file = "dtc_30_indexes_32_wlog_alph5.txt"
 write_file = open(indexes_file, "a")
 
 # how many models to train a for a channel-segment pair
@@ -36,8 +36,8 @@ df_all.to_csv(csv_file, mode='w', header=True)
 initialization = InitDataSet(trials_to_skip=[1, 2])
 doas = initialization.get_dataset_as_doas()
 mark_outsiders(doas, max_interbursts_dist=500)
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
-# encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
+# encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
 
 '''
 for calculating the average acc or af1-score
@@ -59,11 +59,12 @@ for run in range(run_nr):
             print("start running for channel " + str(all_channels[channel]) + ' ' + segment + '\n')
 
             # SplitData(self, doas, channels, levels, segment, orientation):
-            train_data = ExtractData(doas_train, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
-            test_data = ExtractData(doas_test, [all_channels[channel]], ['light', 'deep'], [segment], ['all'])
+            train_data = ExtractData(doas_train, [all_channels[channel]], ['deep', 'light'], [segment],
+                                     ['all'])
+            test_data = ExtractData(doas_test, [all_channels[channel]], ['deep', 'light'], [segment], ['all'])
 
-            X_train, y_train = obtain_features_labels_quality(train_data, encoding, 32)
-            x_test, y_test = obtain_features_labels_quality(test_data, encoding, 32)
+            X_train, y_train = obtain_features_labels(train_data, encoding, 32)
+            x_test, y_test = obtain_features_labels(test_data, encoding, 32)
 
             model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
             model.fit(X_train, y_train)
