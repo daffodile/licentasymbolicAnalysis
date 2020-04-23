@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from pandas import DataFrame
 from sklearn.metrics import classification_report
@@ -8,33 +10,35 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from feature_extraction.TESPAR.EncodingCheckBursts import EncodingCheckBursts
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
 from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels_from_doa, \
-    obtain_A_features_from_doa_with_bursts_frags
+    obtain_A_features_from_doa_with_bursts_frags, obtain_S_TESPAR_features_from_doa
 from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
-from utils.MarkOutsidersWithBurstsFlags_OneThreshold import mark_bursts_regions_one_threshold
 
-csv_file = "svm_remove_bursts.csv"
-csv_results = "svm_remove_bursts_avr.csv"
+csv_file = "svm_remove_bursts_s.csv"
+csv_results = "svm_remove_bursts_s_avr.csv"
 # open file to write the indices of  each splitting
-indexes_file = "svm_remove_bursts_indexes.txt"
+indexes_file = "svm_remove_bursts_s_indexes.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
 run_nr = 30
 
-all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
-                31, 32]
+# all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
+#                 31, 32]
 
-# all_channels = [2, 3, 5, 6, 7, 13, 15, 19, 20, 21, 25, 26, 27, 29]
-
-segments = ['spontaneous', 'stimulus', 'poststimulus']
+all_channels = [2, 3, 5, 6, 7, 13, 15, 19, 20, 21, 25, 26, 27, 29]
+segments = ['spontaneous', 'stimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
 column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
-initialization = InitDataSetWithBurstsFlags()
+# encoding = EncodingCheckBursts('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+
+data_dir = os.path.join('..', '..')
+initialization = InitDataSetWithBurstsFlags(data_dir)
 doas = initialization.get_dataset_as_doas()
 
 '''
@@ -46,12 +50,7 @@ def remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'
 '''
 mark_bursts_regions(doas)
 
-# remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'], tolerance_inside_trial=0.33,
-#                                        tolerance_over_channels=0.33)
-
 remove_bursted_trials_when_segment(doas)
-
-encoding = EncodingCheckBursts('./../../data_to_be_saved/alphabet_3.txt')
 
 accuracies = [[[] for i in range(len(all_channels))] for j in range(len(segments))]
 f1scores = [[[] for i in range(len(all_channels))] for j in range(len(segments))]
@@ -68,11 +67,15 @@ for run in range(run_nr):
         for chn_ind, channel in enumerate(all_channels):
             print("start running for channel " + str(channel) + ' ' + segment + '\n')
 
+            # already run as this:
             # obtain_A_features_from_doa_with_bursts_frags(doas, channel_number, segment, encoding, selected_symbols=None):
-            X_train, y_train = obtain_A_features_from_doa_with_bursts_frags(doas_train, channel, segment, encoding)
-            x_test, y_test = obtain_A_features_from_doa_with_bursts_frags(doas_test, channel, segment, encoding)
+            # X_train, y_train = obtain_A_features_from_doa_with_bursts_frags(doas_train, channel, segment, encoding)
+            # x_test, y_test = obtain_A_features_from_doa_with_bursts_frags(doas_test, channel, segment, encoding)
 
-            model = SVC(gamma="auto", verbose=True)
+            X_train, y_train = obtain_S_TESPAR_features_from_doa(doas_train, channel, segment, encoding)
+            x_test, y_test = obtain_S_TESPAR_features_from_doa(doas_test, channel, segment, encoding)
+
+            model = SVC(gamma="auto")
 
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
