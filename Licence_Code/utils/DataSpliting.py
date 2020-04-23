@@ -88,7 +88,7 @@ def obtain_A_features_from_doa(doas, channel_number, encoding, segments=['sponta
 
 #  METHOD TO BE CHECKED IN DEBUG!!!!!
 def obtain_more_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
-                                     selected_symbols=None):
+                                    selected_symbols=None):
     X = []
     Y = []
 
@@ -103,6 +103,7 @@ def obtain_more_A_features_from_doa(doas, channel_number, encoding, segments=['s
             Y.append(doa.level)
 
     return pd.DataFrame(X), Y
+
 
 def obtain_features_labels_with_bursts_flags(inputData, encoding, selected_symbols=32):
     X = []
@@ -222,6 +223,8 @@ def train_test_doa_check_trials(doas, percent):
         if presence_of_trials[tr_num - 1]:
             trials_common_to_all.append(tr_num)
 
+    print('train test split: trials common to all')
+    print(trials_common_to_all)
     len_trials_common_to_all = len(trials_common_to_all)
     if needed_test_samples > len_trials_common_to_all:
         ind_test = trials_common_to_all
@@ -229,7 +232,8 @@ def train_test_doa_check_trials(doas, percent):
         # random.Random(4).shuffle(trials_common_to_all)
         random.shuffle(trials_common_to_all)
         ind_test = trials_common_to_all[-needed_test_samples:]
-
+    print("train test split: trials in test")
+    print(ind_test)
     for doa in doas:
         doa_train = DOA(doa.level)
         doa_test = DOA(doa.level)
