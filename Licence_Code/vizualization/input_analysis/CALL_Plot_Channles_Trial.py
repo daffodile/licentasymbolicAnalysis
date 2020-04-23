@@ -1,21 +1,67 @@
 '''
     written by Ioana Onofrei
 '''
+import os
+
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.MarkOutsidersWithBurstsFlags import mark_outsiders
+from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
+from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
-initialization = InitDataSetWithBurstsFlags(levels=['deep'])
+data_dir = os.path.join('..', '..')
+initialization = InitDataSetWithBurstsFlags(data_dir, levels=['deep', 'medium', 'light'])
 doas = initialization.get_dataset_as_doas()
-mark_outsiders(doas)
 
-# to view the plot in a new window
-# go to file - settings - tools - python scientific - unmark the "show plots in tool window"
-# then run the class
-# after you are done go back and mark it again :)
-channel_numbers = [2, 3, 4]
-trial_number = 14
-stdX = 2
-plot_channels_trial(doas, 'deep', channel_numbers, trial_number, stdX)
+# 1.75 601
+thresholds_175 = {'2': [-26.212846755981445, 26.881168365478516], '3': [-25.215452194213867, 26.072696685791016],
+                  '4': [-30.9038143157959, 31.774932861328125], '5': [-25.17731475830078, 26.05272102355957],
+                  '6': [-26.361085891723633, 27.034509658813477], '7': [-25.202640533447266, 26.071456909179688],
+                  '8': [-31.2733097076416, 32.16081619262695], '9': [-32.98964309692383, 34.0227165222168],
+                  '10': [-25.499446868896484, 26.299909591674805], '11': [-25.644441604614258, 26.44139289855957],
+                  '12': [-25.216604232788086, 25.997833251953125], '13': [-24.607534408569336, 25.39472198486328],
+                  '14': [-31.00367546081543, 32.03046417236328], '15': [-26.711227416992188, 27.708641052246094],
+                  '16': [-33.771724700927734, 35.04311752319336], '17': [-28.37746238708496, 28.851322174072266],
+                  '18': [-36.84759521484375, 37.8336296081543], '19': [-28.71183204650879, 29.077007293701172],
+                  '20': [-24.10072898864746, 24.055879592895508], '21': [-28.872180938720703, 29.162824630737305],
+                  '23': [-29.252010345458984, 29.577116012573242], '24': [-29.501731872558594, 29.827238082885742],
+                  '25': [-29.01862144470215, 29.47837257385254], '26': [-22.955995559692383, 23.385568618774414],
+                  '27': [-28.718482971191406, 29.174833297729492], '28': [-22.854778289794922, 23.280752182006836],
+                  '29': [-28.826929092407227, 29.291156768798828], '30': [-30.71279525756836, 31.460893630981445],
+                  '31': [-28.2097110748291, 28.684202194213867], '32': [-34.140865325927734, 34.98889923095703]}
 
-plot_channels_trial(doas, 'deep', [10], 100, stdX)
+# 2
+thresholds_2 = {'2': [-29.16208267211914, 29.830608367919922], '3': [-28.065452575683594, 28.921966552734375],
+                '4': [-34.38615417480469, 35.25702667236328], '5': [-28.023412704467773, 28.899110794067383],
+                '6': [-29.32749366760254, 30.000972747802734], '7': [-28.051198959350586, 28.920198440551758],
+                '8': [-34.79737091064453, 35.684852600097656], '9': [-36.712547302246094, 37.74555969238281],
+                '10': [-28.37700843811035, 29.177644729614258], '11': [-28.5379695892334, 29.334697723388672],
+                '12': [-28.06175422668457, 28.84296226501465], '13': [-27.38531494140625, 28.172622680664062],
+                '14': [-34.50564956665039, 35.53166580200195], '15': [-29.73434829711914, 30.73203468322754],
+                '16': [-37.593997955322266, 38.8660888671875], '17': [-31.5568790435791, 32.030128479003906],
+                '18': [-40.99643325805664, 41.98263168334961], '19': [-31.922082901000977, 32.28758239746094],
+                '20': [-26.776390075683594, 26.731401443481445], '21': [-32.09612274169922, 32.387062072753906],
+                '23': [-32.520633697509766, 32.84562683105469], '24': [-32.79780197143555, 33.1236572265625],
+                '25': [-32.26771926879883, 32.728233337402344], '26': [-25.530717849731445, 25.960113525390625],
+                '27': [-31.93470573425293, 32.3910026550293], '28': [-25.4182186126709, 25.843904495239258],
+                '29': [-32.056251525878906, 32.51969909667969], '30': [-34.16683578491211, 34.915077209472656],
+                '31': [-31.370412826538086, 31.845157623291016], '32': [-37.98116683959961, 38.829158782958984]}
+
+mark_bursts_regions(doas, thresholds=thresholds_2, max_interbursts_dist=709)
+
+# channel_numbers = [2, 3, 4, 5]
+# stdX = 2
+#
+# plot_channels_trial(doas, 'deep', channel_numbers, 5, stdX)
+# plot_channels_trial(doas, 'deep', channel_numbers, 6, stdX)
+# plot_channels_trial(doas, 'deep', channel_numbers, 14, stdX)
+# plot_channels_trial(doas, 'deep', channel_numbers, 11, stdX)
+#
+# plot_channels_trial(doas, 'medium', channel_numbers, 5, stdX)
+# plot_channels_trial(doas, 'medium', channel_numbers, 6, stdX)
+# plot_channels_trial(doas, 'medium', channel_numbers, 14, stdX)
+#
+# plot_channels_trial(doas, 'light', channel_numbers, 8, stdX)
+# plot_channels_trial(doas, 'light', channel_numbers, 11, stdX)
+# plot_channels_trial(doas, 'light', channel_numbers, 14, stdX)
+
+remove_bursted_trials_when_segment(doas, tolerance_inside_trial=0.5)

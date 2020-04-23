@@ -19,7 +19,7 @@ class SegmentWithBurstsFlags(JsonEncoder):
 
     def set_values(self, float_arr):
         self.values = float_arr
-        self.values_outsiders = np.zeros(len(float_arr), dtype=bytes)
+        self.values_outsiders = np.zeros(len(float_arr))
 
     def set_values_outsiders(self, values_outsiders):
         if len(values_outsiders) != len(self.values):

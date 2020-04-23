@@ -3,10 +3,6 @@ import sys
 import numpy as np
 from scipy.signal import hilbert
 
-from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
-
-
 def mark_burst_basic_one_threshold(doas, threshold):
     for doa in doas:
         for channel in doa.channels:
@@ -209,6 +205,10 @@ def mark_bursts_regions_one_threshold(doas, threshold=19.94, max_interbursts_dis
     
     
 '''
+
+# from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
+# from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
+
 
 # initialization = InitDataSetWithBurstsFlags(levels=['deep', 'medium', 'light'])
 # doas = initialization.get_dataset_as_doas()

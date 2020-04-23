@@ -2,23 +2,35 @@ from pylab import *
 from scipy.signal import hilbert
 
 
-def mark_burst_basic(doas, thresholds):
+def mark_burst_basic_thresholds(doas, all_thresholds: dict):
     for doa in doas:
-        threshold = thresholds[f'{doa.level}']
         for channel in doa.channels:
+            ths = all_thresholds[f'{channel.number}']
             for trial in channel.trials:
-                values_outsiders_1 = np.where(np.abs(trial.spontaneous.values) < threshold, 0, 1)
+                # ddf = np.where(array < =-16 or array > 16, 1, 0)
+                values_1 = np.array(trial.spontaneous.values)
+                values_outsiders_1 = np.where(values_1 < ths[0], 1,
+                                              (np.where(values_1 > ths[1], 1, 0)))
+
                 trial.spontaneous.set_values_outsiders(values_outsiders_1)
-                values_outsiders_2 = np.where(np.abs(trial.stimulus.values) < threshold, 0, 1)
+
+                values_2 = np.array(trial.stimulus.values)
+                values_outsiders_2 = np.where(values_2 < ths[0], 1,
+                                              (np.where(values_2 > ths[1], 1, 0)))
+
                 trial.stimulus.set_values_outsiders(values_outsiders_2)
-                values_outsiders_3 = np.where(np.abs(trial.poststimulus.values) < threshold, 0, 1)
+
+                values_3 = np.array(trial.poststimulus.values)
+                values_outsiders_3 = np.where(values_3 < ths[0], 1,
+                                              (np.where(values_3 > ths[1], 1, 0)))
                 trial.poststimulus.set_values_outsiders(values_outsiders_3)
 
 
 def mark_burst_hilbert(doas, thresholds):
     for doa in doas:
-        threshold = thresholds[f'{doa.level}']
         for channel in doa.channels:
+
+            threshold = thresholds[channel.number]
             for trial in channel.trials:
                 values_outsiders_1 = np.where(np.abs(hilbert(trial.spontaneous.values)) < threshold, 0, 1)
                 trial.spontaneous.set_values_outsiders(values_outsiders_1)
@@ -171,28 +183,31 @@ def extend_margins_inter_bursts(doas, percent_margins=0.1):
                         sys.exit()
 
 
-def mark_bursts_regions(doas, thresholds={'deep': 19.74, 'medium': 24.97, 'light': 32.00}, max_interbursts_dist=364,
+thresholds_all_channels = {}
+
+
+def mark_bursts_regions(doas, thresholds=thresholds_all_channels, max_interbursts_dist=709,
                         to_extend_margins=False,
                         percent_margins=0.1, hilbert=False):
     '''
     :param doas: dataset as doas
-    :param thresholds: dictionary with threshold values for considering burst for each doa
-        default:                    thresholds={'deep': 19.74, 'medium': 24.97, 'light': 32.00}
-        after marking bursts once:  thresholds={'deep': 16.97, 'medium': 21.29, 'light': 28.14}
-        convergd values each:       thresholds={'deep': 16.36, 'medium': 20.08, 'light': 26.75}
+    :param thresholds: dictionary with threshold values for considering burst for each channel
     :param max_interbursts_dist: distances narrower that this are assimilated as bursts
     :param to_extend_margins: bool, if to extend the bursting zones to left and right
     :param percent_margins: if to_extend_margins is TRue, with what range to extend
     :return: no return type, is sets flags in dataset
     '''
+    print('START marking bursting regions')
     # initial mark of the bursts based on passed threshold
     if hilbert:
         mark_burst_hilbert(doas, thresholds)
     else:
-        mark_burst_basic(doas, thresholds)
+        mark_burst_basic_thresholds(doas, thresholds)
     # extend the bursts at the inter bursts regions
     unify_interbursts(doas, max_interbursts_dist)
 
     # extend the bursts regions if it is the case
     if (to_extend_margins):
         extend_margins_inter_bursts(doas, percent_margins)
+
+    print('COMPLETED marking bursting regions')

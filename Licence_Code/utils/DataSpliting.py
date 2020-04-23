@@ -46,7 +46,8 @@ def obtain_features_labels_from_doa(doas, channel_number, segment, encoding, sel
             X.append(np.asarray(encoding.get_a(seg.values, selected_symbols=selected_symbols)).ravel())
             Y.append(doa.level)
 
-    return pd.DataFrame(X), Y
+    # return pd.DataFrame(X), Y
+    return pd.DataFrame(X), np.array(Y)
 
 
 def obtain_A_features_from_doa_with_bursts_frags(doas, channel_number, segment, encoding, selected_symbols=None):
@@ -225,6 +226,7 @@ def train_test_doa_check_trials(doas, percent):
     if needed_test_samples > len_trials_common_to_all:
         ind_test = trials_common_to_all
     else:
+        # random.Random(4).shuffle(trials_common_to_all)
         random.shuffle(trials_common_to_all)
         ind_test = trials_common_to_all[-needed_test_samples:]
 

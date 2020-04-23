@@ -21,15 +21,16 @@ doa_info = {
 
 
 class InitDataSetWithBurstsFlags:
-    def __init__(self, levels=['deep', 'light'], directory='filtered'):
+    def __init__(self, data_dir, levels=['deep', 'light'], directory='filtered'):
         self.doas = []
         self.levels = levels
         self.directory = directory
+        self.data_dir = data_dir
         self.run(directory)
 
     def run(self, directory):
-        data_dir = os.path.join('..', '..')
-        data_dir = os.path.join(data_dir, 'data/', directory)
+        # data_dir = os.path.join('..', '..')
+        data_dir = os.path.join(self.data_dir, 'data/', directory)
         sys.path.append(data_dir)
 
         for key, value in doa_info.items():
