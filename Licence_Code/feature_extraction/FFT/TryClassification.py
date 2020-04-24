@@ -1,12 +1,15 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
-from feature_extraction.FFT.FFTFeatures import obtain_FFT_features_labels, obtain_TESPAR_FFT_features
+from feature_extraction.FFT.FFTFeatures import obtain_TESPAR_A_FFT_features
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import train_test_doa_check_trials
 from utils.ExtractData import ExtractData
 from utils.TreatBurstingSegmentsInTrials import mark_outsiders
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags_OneThreshold import mark_bursts_regions_one_threshold
 
 channel = 2
 segment = 'stimulus'
@@ -16,7 +19,14 @@ def initData():
     initialization = InitDataSet()
     doas = initialization.get_dataset_as_doas()
     encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
-    mark_outsiders(doas)
+    # SAU 1 SAU 2
+    #  1 th
+    mark_bursts_regions_one_threshold(doas)
+
+    # diff th
+    # mark_bursts_regions(doas)
+
+    # remove_bursted_trials_when_segment(doas)
 
 
     # doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
@@ -27,8 +37,8 @@ def initData():
     test_data = ExtractData(doas_test, [channel], ['light', 'medium', 'deep'], [segment], ['all'])
 
     # doar fft features
-    X_train, y_train = obtain_FFT_features_labels(train_data)
-    x_test, y_test = obtain_FFT_features_labels(test_data)
+    X_train, y_train = obtain_TESPAR_A_FFT_features(train_data)
+    x_test, y_test = obtain_TESPAR_A_FFT_features(test_data)
 
     return X_train, y_train, x_test, y_test
 

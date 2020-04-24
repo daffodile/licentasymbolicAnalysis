@@ -131,7 +131,7 @@ def get_values_and_bursts_flags_from_trial(trial):
 MAX_NR_OF_TRIALS = 240
 
 
-def remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'], tolerance_inside_trial=0.33,
+def remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'], tolerance_inside_trial=0.5,
                                        tolerance_over_channels=0.33):
     '''
     this function assumes that the channels have all the trials in the beginning and that a trial_number is its index+1
