@@ -10,11 +10,9 @@ class MetadataReaderETI:
     '''
     parameters: - path_eti: - path to the folder where the eti file is located
                 - file_eti: - name of the file with extension .eti
-
     - first 5 fields are INT
     - last field is FLOAT
     --- we use this for conversion
-
     TODO: Rename the headers in eti
     From:
 Trial,Contrast,Direction,Duration (us),Duration (frames),Error timing flag (1 if trial is compromised)
@@ -69,7 +67,7 @@ Trial,Condition,Contrast,Direction,Duration_us (us),Duration_f (frames),Error ti
             if not attributes[self.no_fields]:
                 attributes[self.no_fields] = 0
             else:
-                attributes[self.no_fields] = 1
+                attributes[self.no_fields] = int(attributes[self.no_fields])
             for j in range(self.no_fields + 1):
                 oldValues = self.trials_description[self.header_names[j].split(' ')[0]]
                 oldValues.append(attributes[j])
