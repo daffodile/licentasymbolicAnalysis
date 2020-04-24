@@ -1,11 +1,11 @@
 from input_reader.InitDataSet import InitDataSet
-from utils.TreatBurstingSegmentsInTrials import mark_outsiders
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
-from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial, plot_trials_channel
+from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
-initialization = InitDataSet()
+initialization = InitDataSet(levels=['deep', 'medium', 'light'])
 doas = initialization.get_dataset_as_doas()
-mark_outsiders(doas)
+mark_bursts_regions(doas)
 
 # to view the plot in a new window
 # go to file - settings - tools - python scientific - unmark the "show plots in tool window"
@@ -14,9 +14,8 @@ mark_outsiders(doas)
 channel_numbers = [2, 3, 4]
 # trial_number = 8
 trial_number = 11
-stdX = 2
-plot_channels_trial(doas, 'deep', channel_numbers, trial_number, stdX)
-plot_channels_trial(doas, 'light', channel_numbers, trial_number, stdX)
+plot_channels_trial(doas, 'deep', channel_numbers, trial_number)
+plot_channels_trial(doas, 'light', channel_numbers, trial_number)
 
 # plot_channels_trial(doas, 'deep', [10], 100, stdX)
 

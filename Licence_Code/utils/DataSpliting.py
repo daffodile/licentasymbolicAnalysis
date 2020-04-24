@@ -56,7 +56,7 @@ def obtain_features_labels_quality(inputData, encoding, selected_symbols=32):
             Features_Array.append(quality_feature)
 
             Features_List = list(flatten(Features_Array))
-            
+
             X.append(np.asarray(Features_List).ravel())
             Y.append(inputData.result.arrays[i].name)
 
@@ -67,13 +67,30 @@ def obtain_S_TESPAR_features(inputData, encoding):
     X = []
     Y = []
 
-    # todo
     for i in range(len(inputData.result.arrays)):
-        for j in range(len(inputData.result.arrays[i].array)):
-            X.append(np.asarray(encoding.get_s(inputData.result.arrays[i].array[j])))
+        for j in range(len(inputData.result.arrays[i].array_data)):
+            X.append(np.asarray(
+                encoding.get_s(inputData.result.arrays[i].array_data[j],
+                               inputData.result.arrays[i].array_validate[j])))
             Y.append(inputData.result.arrays[i].name)
 
     return pd.DataFrame(X), Y
+
+
+def obtain_features_labels_from_doa(doas, channel_number, segment, encoding, selected_symbols=32):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            seg = getattr(trial, segment)
+            X.append(
+                np.asarray(encoding.get_a(seg.values, seg.values_outsiders, selected_symbols=selected_symbols)).ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), pd.DataFrame(Y)
+    # return pd.DataFrame(X), Y
 
 
 def train_test_doa(doas, percent):

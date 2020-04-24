@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from utils.Utils import get_trial_values_and_outsiders, get_doa_of_level, get_channel_index
 
 
-def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
+def plot_channels_trial(doas, doa_level, channel_numbers, trial_number):
     contor = 0
 
     doa = get_doa_of_level(doas, doa_level)
@@ -12,7 +12,7 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
     for ch_number in range(len(channel_numbers)):
         channel_index = get_channel_index(doa, channel_numbers[ch_number])
 
-        channel_mean = doa.channels[channel_index].mean
+        channel_mean = 0
 
         trial_values, trial_values_outsiders = get_trial_values_and_outsiders(doa,
                                                                               channel_numbers[ch_number],
@@ -43,13 +43,13 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
 
     plt.ylabel('Amplitudes')
     plt.xlabel('Relative Timestamp')
-    plt.title('Trial ' + str(trial_number) + ' Snapshot - '+doa_level.capitalize())
+    plt.title('Trial ' + str(trial_number) + ' Snapshot - ' + doa_level.capitalize())
     plt.legend(loc='upper center', bbox_to_anchor=(0.2, -0.05),
                fancybox=True, shadow=True, ncol=5)
     plt.show()
 
 
-def plot_trials_channel(doas, doa_level, channel_number, trial_numbers, stdX):
+def plot_trials_channel(doas, doa_level, channel_number, trial_numbers):
     contor = 0
 
     doa = get_doa_of_level(doas, doa_level)

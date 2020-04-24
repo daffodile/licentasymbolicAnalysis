@@ -1,4 +1,3 @@
-
 from input_reader.InitDataSet import InitDataSet
 from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
