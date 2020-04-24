@@ -1,58 +1,58 @@
+import os
+
 import numpy as np
-from sklearn import metrics
+from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.svm import SVC
 
-from tests.Classifiers.SplitData import SplitData
-
+from feature_extraction.FFT.FFTFeatures import obtain_FFT_features_labels
 from feature_extraction.TESPAR.Encoding import Encoding
+from input_reader.InitDataSet import InitDataSet
+from utils.ExtractData import ExtractData
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
-test_percentage = 0.2
-class RandomForest:
+csv_results = "rf_3_levels_FFT_NO_burst.csv"
 
-    def __init__(self, filter, lag,  doas, channels, levels, segment, orientation):
-        #dataset
-        self.doas = doas
-        #features alphabet
-        self.lag = lag
-        self.alphabet_path = 'alphabet_' + str(filter)
-        #features
-        self.channels = channels
-        self.levels = levels
-        self.segment = segment
-        self.orientation = orientation
+# data frame that keeps avr and std of the runs
+columns = ['channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
+df_results = DataFrame(columns=columns)
+df_results.to_csv(csv_results, mode='a', header=True)
 
+segments = ['spontaneous', 'stimulus', 'poststimulus']
+all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
+                31, 32]
 
-        #functie care imi ia doar datele selectate based on features
-        split_data = SplitData(self.doas, channels, levels, segment, orientation)
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
-        #cu rezultatul de la functie fac splitul in train si test
-        trainTestSplit = TrainTestSplitting(split_data)
-        self.train_X, self.test_X, self.train_Y, self.test_Y = trainTestSplit.splitData(0.2)
+data_dir = os.path.join('../..', '..')
 
-        #get encoder
-        self.en = Encoding('./../data_to_be_saved/' + self.alphabet_path + '.txt')
+initialization = InitDataSet()
+doas = initialization.get_dataset_as_doas()
+mark_bursts_regions(doas)
 
-        #functie care antreneaza
-        self.train()
+for segment in segments:
+    for channel in all_channels:
+        print("start running for channel " + str(channel) + ' ' + segment)
+        data = ExtractData(doas, [channel], ['light', 'medium', 'deep'], [segment], ['all'])
+        X, y = obtain_FFT_features_labels(data)
 
+        model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
 
-    def train(self):
-        #encode the data
-        train_encoded_X = []
-        test_encoded_X = []
-        for i in self.test_X:
-            test_encoded_X.append(np.asarray(self.en.get_a(i, self.lag)).ravel())
+        skf = StratifiedKFold(n_splits=10)
 
-        for i in self.train_X:
-            train_encoded_X.append(np.asarray(self.en.get_a(i, self.lag)).ravel())
+        skf.get_n_splits(X, y)
 
-        # Create a Gaussian Classifier
-        clf = RandomForestClassifier(n_estimators=100)
+        results = cross_validate(model, X, y, scoring=['accuracy', 'f1_weighted'], cv=skf)
 
-        # Train the model using the training sets y_pred=clf.predict(X_test)
-        clf.fit(train_encoded_X, self.train_Y)
+        accuracy = results['test_accuracy']
+        f1score = results['test_f1_weighted']
 
-        y_pred = clf.predict(test_encoded_X)
+        print("Accuracy of Model with Cross Validation is:", accuracy.mean() * 100)
 
-        # Model Accuracy, how often is the classifier correct?
-        print("Accuracy:", metrics.accuracy_score(self.test_Y, y_pred))
+        df_results = df_results.append({'channel': channel, 'segment': segment, 'acc avr': np.mean(np.array(accuracy)),
+                                        'acc std_dev': np.std(np.array(accuracy)),
+                                        'f1-sc avr': np.mean(np.array(accuracy)),
+                                        'f1-sc std_dev': np.std(np.array(f1score))}, ignore_index=True)
+
+df_results.to_csv(csv_results, mode='a', header=False)
