@@ -24,7 +24,7 @@ from input_reader.CreateDOA import CreateDOA
 
 
 class InitDataSet:
-    def __init__(self, current_directory, subject_directory, filtering_directory, levels=['deep', 'medium', 'light'],
+    def __init__(self, current_directory, subject_directory, filtering_directory, levels,
                  trials_to_skip=None):
         '''
 
