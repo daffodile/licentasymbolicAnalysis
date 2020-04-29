@@ -11,12 +11,11 @@ from utils.DataSpliting import train_test_doa_remake_balanced, obtain_A_features
 from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
-csv_file = "svm_remove_bursts_2segs.csv"
-csv_results = "svm_remove_bursts_2segs_avr.csv"
+csv_file = "remove_bursts_3classes.csv"
+csv_results = "remove_bursts_3classes_avr.csv"
 
-output_name = "classification_results_2segs.txt"
+output_name = "classification_results_3classes.txt"
 output_file = open(output_name, 'w')
-
 # how many models to train a for a channel-segment pair
 run_nr = 20
 
@@ -30,8 +29,9 @@ column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
+# OPEN THE DATASET WITH ALL ITS CLASSES
 data_dir = os.path.join('..', '..')
-initialization = InitDataSetWithBurstsFlags(data_dir=data_dir)
+initialization = InitDataSetWithBurstsFlags(data_dir=data_dir, levels=['deep', 'medium', 'light'])
 doas = initialization.get_dataset_as_doas()
 
 mark_bursts_regions(doas)
@@ -50,9 +50,9 @@ for run in range(run_nr):
 
     for chn_ind, channel in enumerate(all_channels):
         print("start running for channel " + str(channel) + '\n')
-        output_file.write(f'run {run} channel {channel} \n')
-        # obtain_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
-        #                                selected_symbols=None):
+        output_file.write(f' \nrun {run} channel {channel} \n')
+
+        # def obtain_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
         X_train, y_train = obtain_A_features_from_doa_check_bursts(doas_train, channel, encoding)
         x_test, y_test = obtain_A_features_from_doa_check_bursts(doas_test, channel, encoding)
 
@@ -68,6 +68,7 @@ for run in range(run_nr):
 
         output_file.write(classification_report(y_test, predictions))
         np.savetxt(output_file, np.array(confusion_matrix(y_test, predictions)), fmt="%s", newline=' ')
+        output_file.write('\n')
 
         acc = report['accuracy']
         f1sc = report['weighted avg']['f1-score']
@@ -83,7 +84,6 @@ for run in range(run_nr):
     df_all = df_all.iloc[0:0]
 
 output_file.close()
-
 
 # data frame that keeps avr and std of the runs
 columns = ['channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']

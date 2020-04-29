@@ -1,53 +1,46 @@
+import os
+
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
 
-####### to change for each  classifier this 3 files #################################
-from feature_extraction.TESPAR.Encoding import Encoding
 from feature_extraction.TESPAR.EncodingCheckBursts import EncodingCheckBursts
 from input_reader.InitDataSetWithBurstsFlags import InitDataSetWithBurstsFlags
-from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels_from_doa, \
-    obtain_A_features_from_doa_with_bursts_frags
+from utils.DataSpliting import train_test_doa_remake_balanced, obtain_S_features_from_doa_with_bursts_flags
 from utils.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
-from utils.MarkOutsidersWithBurstsFlags_OneThreshold import mark_bursts_regions_one_threshold
 
-csv_file = "svm_remove_bursts.csv"
-csv_results = "svm_remove_bursts_avr.csv"
-# open file to write the indices of  each splitting
-indexes_file = "svm_remove_bursts_indexes.txt"
-write_file = open(indexes_file, "w")
+csv_file = "svm_remove_bursts_balanced_s.csv"
+csv_results = "svm_remove_bursts_balanced_s_avr.csv"
+
+output_name = "classification_results_balanced_s.txt"
+output_name = "classification_results_balanced_s.txt"
+output_file = open(output_name, 'w')
+
+output_file.write("Remove bursts balanced train test split 26 apr \n")
+output_file.write("LIGHT DEEP S matrix \n")
+output_file.write("train_test_doa_remake_balanced 80% of smallest class \n")
 
 # how many models to train a for a channel-segment pair
-run_nr = 30
+run_nr = 20
 
 all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
                 31, 32]
 
-# all_channels = [2, 3, 5, 6, 7, 13, 15, 19, 20, 21, 25, 26, 27, 29]
-
-segments = ['spontaneous', 'stimulus', 'poststimulus']
+segments = ['spontaneous', 'stimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
 column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
-initialization = InitDataSetWithBurstsFlags()
+# DEFAULT DATASET CONTAINS DEEP LIGHT CLASSES
+data_dir = os.path.join('..', '..')
+initialization = InitDataSetWithBurstsFlags(data_dir=data_dir)
 doas = initialization.get_dataset_as_doas()
 
-'''
-default settings are:
-def mark_bursts_regions(doas, thresholds={'deep': 19.74, 'medium': 24.97, 'light': 32.00}, max_interbursts_dist=364,
-                        to_extend_margins=False, percent_margins=0.1, hilbert=False):
-def remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'], tolerance_inside_trial=0.33,
-               tolerance_over_channels=0.33):
-'''
 mark_bursts_regions(doas)
-
-# remove_bursted_trials_when_segment(doas, segments=['spontaneous', 'stimulus'], tolerance_inside_trial=0.33,
-#                                        tolerance_over_channels=0.33)
 
 remove_bursted_trials_when_segment(doas)
 
@@ -59,25 +52,30 @@ f1scores = [[[] for i in range(len(all_channels))] for j in range(len(segments))
 for run in range(run_nr):
     print('************************RUN ' + str(run) + '************************')
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
-
-    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
-    write_file.write('\n')
+    doas_train, doas_test = train_test_doa_remake_balanced(doas)
 
     for ind_segment, segment in enumerate(segments):
         for chn_ind, channel in enumerate(all_channels):
             print("start running for channel " + str(channel) + ' ' + segment + '\n')
+            output_file.write(f'run {run} channel {channel} \n')
 
             # obtain_A_features_from_doa_with_bursts_frags(doas, channel_number, segment, encoding, selected_symbols=None):
-            X_train, y_train = obtain_A_features_from_doa_with_bursts_frags(doas_train, channel, segment, encoding)
-            x_test, y_test = obtain_A_features_from_doa_with_bursts_frags(doas_test, channel, segment, encoding)
+            X_train, y_train = obtain_S_features_from_doa_with_bursts_flags(doas_train, channel, segment, encoding)
+            x_test, y_test = obtain_S_features_from_doa_with_bursts_flags(doas_test, channel, segment, encoding)
 
-            model = SVC(gamma="auto", verbose=True)
+            model = SVC(gamma="auto")
 
             model.fit(X_train, y_train)
             predictions = model.predict(x_test)
 
             report = classification_report(y_test, predictions, output_dict=True)
+
+            print(classification_report(y_test, predictions))
+            print(confusion_matrix(y_test, predictions))
+
+            output_file.write(classification_report(y_test, predictions))
+            np.savetxt(output_file, np.array(confusion_matrix(y_test, predictions)), fmt="%s", newline=' ')
+            output_file.write('\n')
 
             acc = report['accuracy']
             f1sc = report['weighted avg']['f1-score']
@@ -92,7 +90,7 @@ for run in range(run_nr):
     df_all.to_csv(csv_file, mode='a', header=False)
     df_all = df_all.iloc[0:0]
 
-write_file.close()
+output_file.close()
 
 # data frame that keeps avr and std of the runs
 columns = ['channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']
