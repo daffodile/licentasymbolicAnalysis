@@ -21,11 +21,14 @@ doa_info = {
 
 
 class InitDataSetWithBurstsFlags:
-    def __init__(self, data_dir, levels=['deep', 'light'], directory='filtered'):
+    def __init__(self, data_dir, levels=['deep', 'light'], directory='filtered', trials_to_skip=None):
+        if trials_to_skip is None:
+            trials_to_skip = []
         self.doas = []
         self.levels = levels
         self.directory = directory
         self.data_dir = data_dir
+        self.trials_to_skip = trials_to_skip
         self.run(directory)
 
     def run(self, directory):
@@ -36,7 +39,7 @@ class InitDataSetWithBurstsFlags:
         for key, value in doa_info.items():
             if key in self.levels:
                 doa_factory = CreateDOAWithBurstsFlags(data_dir, value['epd'], value['eti'], key)
-                doa = doa_factory.create()
+                doa = doa_factory.create(self.trials_to_skip)
                 self.doas.append(doa)
 
     def get_dataset_as_doas(self):
