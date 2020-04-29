@@ -1,0 +1,26 @@
+11/4/2020 see best channels for SVM after
+re running 30 times for all on 10 apr
+
+output:
+svm_30_averages.csv was processed
+SVM
+SPONTANEOUS
+GOOD
+[5, 7, 13, 3, 6]
+BAD
+[20, 17, 31, 21, 24]
+------------------------------------------------------------------
+STIMULUS
+GOOD
+[6, 13, 2, 7, 15]
+BAD
+[20, 21, 17, 31, 27]
+------------------------------------------------------------------
+POSTSTIMULUS
+GOOD
+[15, 2, 5, 6, 16]
+BAD
+[20, 19, 26, 29, 25]
+
+GOOD: 2, 3, 5, 6, 7, 13, 15, 16
+BAD: 17, 19, 20, 21, 24, 25, 26, 27, 29, 31
