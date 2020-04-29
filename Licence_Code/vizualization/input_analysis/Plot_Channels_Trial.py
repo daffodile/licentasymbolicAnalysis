@@ -47,7 +47,7 @@ def plot_channels_trial(doas, doa_level, channel_numbers, trial_number, stdX):
 
     plt.ylabel('Amplitudes')
     plt.xlabel('Relative Timestamp')
-    plt.title('Trial ' + str(trial_number) + ' Snapshot')
+    plt.title('Trial ' + str(trial_number) + doa_level)
     plt.legend(loc='upper center', bbox_to_anchor=(0.2, -0.05),
                fancybox=True, shadow=True, ncol=5)
     plt.savefig(f'{doa_level}_t{trial_number}')
