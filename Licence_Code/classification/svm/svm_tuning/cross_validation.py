@@ -1,6 +1,4 @@
 import os
-import numpy as np
-import pandas as pd
 
 from sklearn.model_selection import cross_val_score, StratifiedKFold, cross_validate
 from sklearn.svm import SVC
@@ -39,7 +37,6 @@ print('### cross_validate  ### ')
 results = cross_validate(model, X, y, scoring=['accuracy', 'f1_weighted'], cv=skf)
 print(results['test_accuracy'])
 print(results['test_f1_weighted'])
-
 
 # always this output: for StratifiedKFold of 5
 # [0.64583333 0.70833333 0.59375    0.76041667 0.69791667]
