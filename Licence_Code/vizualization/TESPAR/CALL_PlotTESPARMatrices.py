@@ -1,50 +1,23 @@
+import os
+
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
+from vizualization.TESPAR.PlotTESPARMatrices import get_channel_matrix_A
 
-all_channels = [1, 5, 14, 16, 19, 26]
-good_channels = [1, 5, 14]
-bad_channels = [19, 19, 26]
+current_dir = os.path.join('..', '..')
 
-initialization = InitDataSet()
+levels = ['deep2', 'medium3', 'light4']
+
+# def __init__(self, current_directory, subject_directory, filtering_directory, levels=['deep', 'medium', 'light'], trials_to_skip=None):
+initialization = InitDataSet(current_directory=current_dir, subject_directory="m014", filtering_directory="classic",
+                             levels=levels)
 doas = initialization.get_dataset_as_doas()
-encoder = Encoding('../../input_reader/initialize_TESPAR_alphabet/alphabet.txt')
 
-# normal matrix
-# log matrix
-# for i in range(len(all_channels)):
-# channel_values_deep = get_channel_values(doas, 0, all_channels[i])
-# channel_values_medium = get_channel_values(doas, 1, all_channels[i])
-# channel_values_light = get_channel_values(doas, 2, all_channels[i])
+encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
-# a_matrix_deep_normal = np.array(encoder.get_a(channel_values_deep, 1))
-# a_matrix_deep_log = np.array(np.log10([[v + 1 for v in r] for r in encoder.get_a(channel_values_deep, 1)]))
-# a_matrix_medium_normal = np.array(encoder.get_a(channel_values_medium, 1))
-# a_matrix_medium_log = np.array(np.log10([[v + 1 for v in r] for r in encoder.get_a(channel_values_medium, 1)]))
-# a_matrix_light_normal = np.array(encoder.get_a(channel_values_light, 1))
-# a_matrix_light_log = np.array(np.log10([[v + 1 for v in r] for r in encoder.get_a(channel_values_light, 1)]))
+channels = [2, 6, 20, 29]
 
-# plotMatrixA_Single("Deep", "Poststimulus", all_channels[i], a_matrix_deep_normal)
-# plotMatrixA_SingleLog("Deep", "Poststimulus", all_channels[i], a_matrix_deep_log)
-# plotMatrixA_Single("Medium", "Poststimulus", all_channels[i], a_matrix_medium_normal)
-# plotMatrixA_SingleLog("Medium", "Poststimulus", all_channels[i], a_matrix_medium_log)
-# plotMatrixA_Single("Light", "Poststimulus", all_channels[i], a_matrix_light_normal)
-# plotMatrixA_SingleLog("Light", "Poststimulus", all_channels[i], a_matrix_light_log)
-
-# for i in range(len(all_channels)):
-#     channel_value_deep = get_channel_values(doas, 0, all_channels[i])
-#     channel_value_light = get_channel_values(doas, 2, all_channels[i])
-#     a_matrix_deep = np.array(encoder.get_a(channel_value_deep, 1))
-#     a_matrix_light = np.array(encoder.get_a(channel_value_light, 1))
-#     dif_matrix = a_matrix_deep - a_matrix_light
-#     plotMatrixA_Difference("Deep-Light", "Spontaneous", all_channels[i], dif_matrix)
-
-
-###### use fct from util taht gets array of arrays of trials.values  ################
-# channel_value_deep = get_channel_values(doas, 0, 1)
-# channel_value_light = get_channel_values(doas, 2, 1)
-# a_matrix_deep_log = np.array(np.log10([[v + 1 for v in r] for r in encoder.get_a(channel_value_deep, 1)]))
-# # a_matrix_light_log = np.array(np.log10([[v + 1 for v in r] for r in encoder.get_a(channel_value_light, 1)]))
-# # # dif_matrix = a_matrix_deep - a_matrix_light
-# # # plotMatrixA_Difference("Deep-Light", "Stimulus", 1, dif_matrix)
-# # plotMatrixA_SingleLog("Light", "Stimulus", 1, a_matrix_light_log)
-# # plotMatrixA_SingleLog("Deep", "Stimulus", 1, a_matrix_deep_log)
+for level in levels:
+    for channel in channels:
+        get_channel_matrix_A(encoding, doas, level, 'stimulus', channel, log=False)
+        get_channel_matrix_A(encoding, doas, level, 'stimulus', channel, log=True)
