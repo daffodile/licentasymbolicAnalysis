@@ -6,19 +6,23 @@ import sys
 '''
 structure of the datasets:
 
-data -> m014: raw 
-            classic :   one .epd file per condition  - identify all the binary files
-                        one .eti file per condition  - reading details about trials
-                        one .csv file per condition // we do not read it for now (29/04/2020)
-                        one Event-Timestamps.bin file per condition - identifying trials in time
-                        one Event-Codes.bin file per condition - identifying segments
-                        33 binary files of the recording per condition
-                        doa_info.txt containing a dictionary 
+data -> m014: -> raw 
+              -> classic :  one .epd file per condition  - identify all the binary files
+                            one .eti file per condition  - reading details about trials
+                            one .csv file per condition // we do not read it for now (29/04/2020)
+                            one Event-Timestamps.bin file per condition - identifying trials in time
+                            one Event-Codes.bin file per condition - identifying segments
+                            33 binary files of the recording per condition
+                            doa_info.txt containing a dictionary 
                                 key = condition name
                                 values = .eti, .epd files for the condition
-                        filters.txt - optional file, describes the filters that have been applied to this version
-                                    of the dataset
-                                    - all mentioned filters were applied for each condition individually
+                            filters.txt - optional file, describes the filters that have been applied to this version
+                                         of the dataset
+                                        - all mentioned filters were applied for each condition individually
+              -> highpass10 : same structure
+              
+     -> m015: -> same structure
+        
 '''
 from input_reader.CreateDOA import CreateDOA
 
