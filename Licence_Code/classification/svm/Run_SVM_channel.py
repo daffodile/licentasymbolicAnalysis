@@ -1,12 +1,14 @@
+import os
+
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
 
 from classification.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels
+from utils.DataSpliting import obtain_features_labels, train_test_doa_remake_balanced
 
 csv_results = "svm_runs.csv"
 
@@ -20,7 +22,9 @@ channel = 5
 
 segment = 'spontaneous'
 
-initialization = InitDataSet()
+data_dir = os.path.join('..', '..')
+
+initialization = InitDataSet(data_dir=data_dir)
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
@@ -29,7 +33,7 @@ f1scores = []
 
 for run in range(run_nr):
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa(doas, 0.2)
+    doas_train, doas_test = train_test_doa_remake_balanced(doas)
 
     print("run " + str(run))
 
@@ -40,13 +44,14 @@ for run in range(run_nr):
     X_train, y_train = obtain_features_labels(train_data, encoding)
     x_test, y_test = obtain_features_labels(test_data, encoding)
 
-    model = SVC(gamma="auto")
+    model = SVC(gamma="auto", verbose=True)
 
     model.fit(X_train, y_train)
     predictions = model.predict(x_test)
 
     report = classification_report(y_test, predictions, output_dict=True)
-
+    print(report)
+    print(confusion_matrix(y_test, predictions))
     acc = report['accuracy']
     f1sc = report['weighted avg']['f1-score']
     accuracies.append(acc)
