@@ -8,7 +8,7 @@ from sklearn.svm import SVC
 from classification.SplitData import SplitData
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import obtain_features_labels, train_test_doa_remake_balanced
+from utils.DataSpliting import obtain_features_labels, train_test_doa_remake_balanced, obtain_A_features_from_doa
 
 csv_results = "svm_runs.csv"
 
@@ -20,12 +20,14 @@ channel = 5
 
 # channels = [4, 11, 15]
 
-segment = 'spontaneous'
+# segment = 'spontaneous'
 
 data_dir = os.path.join('..', '..')
 
-initialization = InitDataSet(data_dir=data_dir)
+initialization = InitDataSet(current_directory=data_dir, subject_directory="m014", filtering_directory="classic",
+                             levels=['deep2', 'medium3', 'light4'])
 doas = initialization.get_dataset_as_doas()
+
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 accuracies = []
@@ -37,12 +39,9 @@ for run in range(run_nr):
 
     print("run " + str(run))
 
-    # SplitData(self, doas, channels, levels, segment, orientation):
-    train_data = SplitData(doas_train, [channel], ['light', 'deep'], [segment], ['all'])
-    test_data = SplitData(doas_test, [channel], ['light', 'deep'], [segment], ['all'])
+    X_train, y_train = obtain_A_features_from_doa(doas_train, channel, encoding)
+    x_test, y_test = obtain_A_features_from_doa(doas_test, channel, encoding)
 
-    X_train, y_train = obtain_features_labels(train_data, encoding)
-    x_test, y_test = obtain_features_labels(test_data, encoding)
 
     model = SVC(gamma="auto", verbose=True)
 
@@ -68,7 +67,8 @@ acc_std = np.std(np.array(accuracies))
 f1_avr = np.mean(np.array(f1scores))
 f1_std = np.std(np.array(f1scores))
 
-df_results = df_results.append({'channel': channel, 'segment': segment, 'runs': run_nr, 'acc avr': acc_avr,
+df_results = df_results.append({'channel': channel, 'segment': "spon-stim"
+                                                               "", 'runs': run_nr, 'acc avr': acc_avr,
                                 'acc std_dev': acc_std, 'f1-sc avr': f1_avr, 'f1-sc std_dev': f1_std},
                                ignore_index=True)
 
