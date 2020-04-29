@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from utils.Utils import get_channel_trials_segment_values_and_outsiders, get_trial_segment_values_and_outsiders, \
-    get_trial_values_and_outsiders, get_doa_of_level
+from utils.Utils import get_all_trials_values_from_doa_by_segment_with_bursts_flags, \
+    get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags
 
 
 def plot_matrix_A(values, title, plot_name):
@@ -44,9 +44,10 @@ def plot_matrix_A_Difference(values, title, plot_name):
 
 
 def get_channel_matrix_A(encoding, doas, doa_level, segment, channel_number, log):
-    channel_trials_values, channel_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas, doa_level,
-                                                                                                      segment,
-                                                                                                      channel_number)
+    channel_trials_values, channel_trials_outsiders = get_all_trials_values_from_doa_by_segment_with_bursts_flags(doas,
+                                                                                                                  doa_level,
+                                                                                                                  segment,
+                                                                                                                  channel_number)
     a_matrix_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
     for i in range(len(channel_trials_values)):
         a_matrix = encoding.get_a(channel_trials_values[i], channel_trials_outsiders[i])
@@ -64,8 +65,8 @@ def get_channel_matrix_A(encoding, doas, doa_level, segment, channel_number, log
 
 
 def get_channel_trial_matrix_A(encoding, doas, doa_level, channel_number, trial_number, log):
-    doa = get_doa_of_level(doas, doa_level)
-    channel_trial_values, channel_trial_outsiders = get_trial_values_and_outsiders(doa, channel_number, trial_number)
+    channel_trial_values, channel_trial_outsiders = get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags(
+        doas, doa_level, channel_number, trial_number)
 
     a_matrix = encoding.get_a(channel_trial_values, channel_trial_outsiders)
     if (log == True):
@@ -81,14 +82,16 @@ def get_channel_trial_matrix_A(encoding, doas, doa_level, channel_number, trial_
 
 
 def get_channels_difference_matrix_A(encoding, doas, doa_levels, segment, channels, log):
-    channel1_trials_values, channel1_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas,
-                                                                                                        doa_levels[0],
-                                                                                                        segment,
-                                                                                                        channels[0])
-    channel2_trials_values, channel2_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas,
-                                                                                                        doa_levels[1],
-                                                                                                        segment,
-                                                                                                        channels[1])
+    channel1_trials_values, channel1_trials_outsiders = get_all_trials_values_from_doa_by_segment_with_bursts_flags(
+        doas,
+        doa_levels[0],
+        segment,
+        channels[0])
+    channel2_trials_values, channel2_trials_outsiders = get_all_trials_values_from_doa_by_segment_with_bursts_flags(
+        doas,
+        doa_levels[1],
+        segment,
+        channels[1])
     a_matrix1_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
     for i in range(len(channel1_trials_values)):
         a_matrix1 = encoding.get_a(channel1_trials_values[i], channel1_trials_outsiders[i])
