@@ -21,7 +21,7 @@ data -> m014: -> raw
                                         - all mentioned filters were applied for each condition individually
               -> highpass10 : same structure
               
-     -> m015: -> same structure
+     -> m016: -> same structure
         
 '''
 from input_reader.CreateDOA import CreateDOA
