@@ -11,12 +11,13 @@ from scipy.signal import detrend
 from utils.ExtractData import ExtractData
 
 eeg_bands = {'Delta': (1.5, 4),
-                          'Theta': (4, 8),
-                          'Alpha': (8, 12),
-                          'Beta': (12, 30),
-                          'GammaLow': (30, 50),
-                          'GammaHigh': (50, 80),
-                          'Fast': (80, 150)}
+             'Theta': (4, 8),
+             'Alpha': (8, 12),
+             'Beta': (12, 30),
+             'GammaLow': (30, 50),
+             'GammaHigh': (50, 80),
+             'Fast': (80, 150)}
+
 
 def window_no_burst(trial_validate, array, index, window_size=250):
     # get rid of windows that have 20% values with burst
@@ -141,9 +142,9 @@ def get_average_band_power(trial, trial_validate):
     return band_fft_avg
 
 
-def get_max_band_power(trial):
+def get_max_band_power(trial, trial_validate):
     band_fft_max = dict()
-    f, PSD = get_PSD(trial)
+    f, PSD = get_PSD(trial, trial_validate)
     if len(PSD) != 0:
         for band in eeg_bands:
             freq_ix = np.where((f >= eeg_bands[band][0]) &
@@ -163,7 +164,7 @@ def get_max_band_power(trial):
     #         # plt.title("Max Values of bands for " + str(self.level) + " " + str(self.segment) + " segment, trial " + str(
     #         #     trial) + ", channel " + str(self.channels))
     #         # plt.show()
-    return self.band_fft_max
+    return band_fft_max
 
 
 class Welch:
@@ -178,17 +179,17 @@ class Welch:
         self.segment = segment
         self.orientation = orientation
         # freg bands
-        self.band_fft_avg = dict()
-        self.band_fft_max = dict()
-        self.eeg_bands = {'Delta': (1.5, 4),
-                          'Theta': (4, 8),
-                          'Alpha': (8, 12),
-                          'Beta': (12, 30),
-                          'GammaLow': (30, 50),
-                          'GammaHigh': (50, 80),
-                          'Fast': (80, 150)}
+        # self.band_fft_avg = dict()
+        # self.band_fft_max = dict()
+        # self.eeg_bands = {'Delta': (1.5, 4),
+        #                   'Theta': (4, 8),
+        #                   'Alpha': (8, 12),
+        #                   'Beta': (12, 30),
+        #                   'GammaLow': (30, 50),
+        #                   'GammaHigh': (50, 80),
+        #                   'Fast': (80, 150)}
         # functie care imi ia doar datele selectate based on features
-        self.get_data()
+
 
     def get_data(self):
 
@@ -205,3 +206,4 @@ class Welch:
                 self.X.append(split_data.result.arrays[i].array_data[j])
             for j in range(len(split_data.result.arrays[i].array_validate)):
                 self.X_validate.append(split_data.result.arrays[i].array_validate[j])
+        return self.X, self.X_validate

@@ -3,29 +3,33 @@ from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
-from feature_extraction.FFT.FFTFeatures import obtain_FFT_features_labels
+from classification.random_forest.Utils_classification import train_test_doa_remake_balanced
+from feature_extraction.FFT.FFTFeatures import obtain_FFT_features_labels, obtain_TESPAR_A_FFT_features, \
+    obtain_concatenate_segments_fft
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import train_test_doa, obtain_features_labels, train_test_doa_check_trials
+from utils.DataSpliting import train_test_doa, obtain_features_labels, train_test_doa_check_trials, \
+    split_train_test_balance
 
 ####### to change for each  classifier this 3 files #################################
 from utils.ExtractData import ExtractData
 from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 
-csv_file = "rf_30_noburst_fft_good.csv"
-csv_results = "rf_30_averages_noburst_fft_good.csv"
+csv_file = "rf_30_fft_burst_concatenate_segments_deep_medium.csv"
+csv_results = "rf_30_averages_fft_burst_concatenate_segments_deep_medium.csv"
 # open file to write the indices of  each splitting
-indexes_file = "rf_30_test_indexes_fft_good.txt"
+indexes_file = "rf_30_indexes_fft_concatenate_seg_dm.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
-run_nr = 30
+run_nr = 10
 
 # # once per filter hereee
 channels_range = 31
 all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
                 31, 32]
-segments = ['spontaneous',   'stimulus', 'poststimulus']
+segments = [['spontaneous',   'stimulus']]
 # segments = ['spontaneous', 'stimulus']
 
 # data frame that keeps all runs for all channels, that will be added to .csv file
@@ -37,6 +41,8 @@ initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 mark_bursts_regions(doas)
+#
+remove_bursted_trials_when_segment(doas)
 
 '''
 for calculating the average acc or af1-score
@@ -48,20 +54,20 @@ f1scores = [[[] for i in range(channels_range - 1)] for j in range(len(segments)
 
 for run in range(run_nr):
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
-    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
-    write_file.write('\n')
+    doas_train, doas_test = train_test_doa_remake_balanced(doas)
+    # np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
+    # write_file.write('\n')
 
     for ind_segment, segment in enumerate(segments):
         for channel in range(len(all_channels)):
-            print("start running for channel " + str(channel) + ' ' + segment + '\n')
+            print("start running for channel " + str(channel) + '\n')
 
             # SplitData(self, doas, channels, levels, segment, orientation):
-            train_data = ExtractData(doas_train, [all_channels[channel]], ['light', 'medium','deep'], [segment], ['all'])
-            test_data = ExtractData(doas_test, [all_channels[channel]], ['light','medium', 'deep'], [segment], ['all'])
+            train_data = ExtractData(doas_train, [all_channels[channel]], [ 'medium','deep'], ['spontaneous', 'stimulus'], ['all'])
+            test_data = ExtractData(doas_test, [all_channels[channel]], ['medium', 'deep'], ['spontaneous', 'stimulus'], ['all'])
 
-            X_train, y_train = obtain_FFT_features_labels(train_data)
-            x_test, y_test = obtain_FFT_features_labels(test_data)
+            X_train, y_train = obtain_concatenate_segments_fft(train_data)
+            x_test, y_test = obtain_concatenate_segments_fft(test_data)
 
             model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
             model.fit(X_train, y_train)
@@ -75,7 +81,7 @@ for run in range(run_nr):
             f1scores[ind_segment][channel - 1].append(f1sc)
 
             # calculate and write the mean  and std_dev of the average & f1-score
-            df_all = df_all.append({'channel': all_channels[channel], 'segment': segment, 'accuracy': acc, 'f1-score': f1sc},
+            df_all = df_all.append({'channel': all_channels[channel], 'segment': 'spont&stim', 'accuracy': acc, 'f1-score': f1sc},
                                    ignore_index=True)
 
             # print('debug')

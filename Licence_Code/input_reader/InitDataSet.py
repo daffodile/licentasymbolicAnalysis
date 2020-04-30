@@ -1,44 +1,68 @@
 import json
+import ast
 import os
 import sys
 
-from input_reader.CreateDOA import CreateDOA
+'''
+structure of the datasets:
 
-doa_info = {
-    'deep': {
-        'epd': 'M014_S001_SRCS3L_25,50,100_0002.epd',
-        'eti': 'Results M014_S001_SRCS3L_25,50,100_0002 Variable contrast, all orientations.eti'
-    },
-    'medium': {
-        'epd': 'M014_S001_SRCS3L_25,50,100_0003.epd',
-        'eti': 'Results M014_S001_SRCS3L_25,50,100_0003 Variable contrast, all orientations.eti'
-    },
-    'light': {
-        'epd': 'M014_S001_SRCS3L_25,50,100_0004.epd',
-        'eti': 'Results M014_S001_SRCS3L_25,50,100_0004 Variable contrast, all orientations.eti'
-    }
-}
+data -> m014: -> raw 
+              -> classic :  one .epd file per condition  - identify all the binary files
+                            one .eti file per condition  - reading details about trials
+                            one .csv file per condition // we do not read it for now (29/04/2020)
+                            one Event-Timestamps.bin file per condition - identifying trials in time
+                            one Event-Codes.bin file per condition - identifying segments
+                            33 binary files of the recording per condition
+                            doa_info.txt containing a dictionary 
+                                key = condition name
+                                values = .eti, .epd files for the condition
+                            filters.txt - optional file, describes the filters that have been applied to this version
+                                         of the dataset
+                                        - all mentioned filters were applied for each condition individually
+              -> highpass10 : same structure
+              
+     -> m015: -> same structure
+        
+'''
+from input_reader.CreateDOA import CreateDOA
 
 
 class InitDataSet:
-    def __init__(self, levels=['deep', 'medium', 'light'], directory='noburst', trials_to_skip=None):
+    def __init__(self, current_directory, subject_directory, filtering_directory, levels,
+                 trials_to_skip=None):
+        '''
+
+        :param current_directory: path from the parent directory of the calling file up to the root directory of 'data'
+        :param subject_directory: which subject to choose 'm014', 'm015'
+        :param filtering_directory: name of the filtering status: 'raw', 'classic', 'highpass10'
+        :param levels: which conditions to be fetched to form tha dataset: 'deep1', 'deep2', 'medium3', 'light4', 'medium5'
+        :param trials_to_skip: if there are manually annotated trials in the .eti file, else ignore
+        '''
         if trials_to_skip is None:
             trials_to_skip = []
         self.doas = []
         self.levels = levels
-        self.directory = directory
         self.trials_to_skip = trials_to_skip
+
+        # create the directories structure
+        data_dir = os.path.join(current_directory, 'data/')
+        data_dir = os.path.join(data_dir, subject_directory)
+        data_dir = os.path.join(data_dir, filtering_directory)
+        self.data_dir = data_dir
+        sys.path.append(data_dir)
         self.run()
 
     def run(self):
-        data_dir = os.path.join('..', '..')
-        # data_dir = os.path.join('..', '')
-        data_dir = os.path.join(data_dir, 'data/', self.directory)
-        sys.path.append(data_dir)
+        # get the dictionary that keep conditions files
+        doa_file = self.data_dir + '/doa_info.txt'
+        with open(doa_file, 'r') as f:
+            # with open('doa_info.txt', 'r') as f:
+            s = f.read()
+            doa_info = ast.literal_eval(s)
 
         for key, value in doa_info.items():
             if key in self.levels:
-                doa_factory = CreateDOA(data_dir, value['epd'], value['eti'], key)
+                doa_factory = CreateDOA(self.data_dir, value['epd'], value['eti'], key)
                 doa = doa_factory.create(self.trials_to_skip)
                 self.doas.append(doa)
 
