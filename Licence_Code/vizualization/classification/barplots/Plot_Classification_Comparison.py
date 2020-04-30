@@ -38,7 +38,7 @@ def plot_accuracies(labels, arrays, legends, segment, title):
             tickfont_size=14,
         ),
         legend=dict(
-            x=0,
+            x=0.5,
             y=1.3,
             bgcolor='rgba(255, 255, 255, 0)',
             bordercolor='rgba(255, 255, 255, 0)'

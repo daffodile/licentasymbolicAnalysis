@@ -3,13 +3,17 @@ from scipy import signal
 import matplotlib.pyplot as plt
 import numpy as np
 
-from feature_extraction.FFT.Welch import Welch
+from feature_extraction.FFT.Welch import Welch, get_average_band_power, get_max_band_power
 from input_reader.InitDataSet import InitDataSet
 from utils.TreatBurstingSegmentsInTrials import mark_outsiders
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-mark_outsiders(doas)
+mark_bursts_regions(doas)
+#
+remove_bursted_trials_when_segment(doas)
 
 # delta_avg = 0
 # beta_avg = 0
@@ -27,12 +31,14 @@ gamma_lo = []
 alpha = []
 fast = []
 
-FFT = Welch(doas, [10], ['medium'], ['stimulus'], ['all'])
-for i in range(240):
+FFT = Welch(doas, [10], ['light'], ['stimulus'], ['all'])
+FFT_data, data_validate = FFT.get_data()
+
+for i in range(len(FFT_data)):
     # dataset, channels, levels, segment, trial, orientation
     # FFT = Welch(doas, [1], ['deep'], ['stimulus'], [i], ['all'])
-    band_fft_avg = FFT.get_average_band_power(i)
-    band_fft_max = FFT.get_max_band_power(i)
+    band_fft_avg = get_average_band_power(FFT_data[i], data_validate[i])
+    band_fft_max = get_max_band_power(FFT_data[i], data_validate[i])
 
     # delta_avg = delta_avg + band_fft_max['Delta']
     # beta_avg = beta_avg + band_fft_max['Beta']
