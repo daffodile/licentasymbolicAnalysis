@@ -132,6 +132,86 @@ def train_test_doa(doas, percent):
     return doas_train, doas_test, ind_test
 
 
+def split_train_test_balance(doas, percent, balance_test=True):
+    doas_train = []
+    doas_test = []
+
+    min_nr_of_trials = MAX_NR_OF_TRIALS
+    for doa in doas:
+        for channel in doa.channels:
+            if min_nr_of_trials > len(channel.trials):
+                min_nr_of_trials = len(channel.trials)
+    print(min_nr_of_trials)
+    needed_train_samples = int((1 - percent) * min_nr_of_trials)
+    print("train samples needed:" + str(needed_train_samples))
+    number_of_channels = len(doas[0].channels)
+    for doa in doas:
+        if len(doa.channels) != number_of_channels:
+            print('DOAs in train_test_doa have different number of channels ', file=sys.stderr)
+            sys.exit()
+    trials_frequency = [[0 for i in range(MAX_NR_OF_TRIALS)] for j in range(len(doas))]
+    for ind_doa, doa in enumerate(doas):
+        for channel in doa.channels:
+            for trial in channel.trials:
+                trials_frequency[ind_doa][trial.trial_number - 1] += 1
+    presence_of_trials = [True for i in range(MAX_NR_OF_TRIALS)]
+
+    # mark the trials that are present in all DOAs
+    for ind_doa in range(len(doas)):
+        for ind_trial in range(MAX_NR_OF_TRIALS):
+            presence_of_trials[ind_trial] &= (trials_frequency[ind_doa][ind_trial] == number_of_channels)
+
+    all_trials_numbers = [i + 1 for i in range(MAX_NR_OF_TRIALS)]
+
+    trials_common_to_all = []
+    for tr_num in all_trials_numbers:
+        if presence_of_trials[tr_num - 1]:
+            trials_common_to_all.append(tr_num)
+
+    len_trials_common_to_all = len(trials_common_to_all)
+    print("common to all trisal we have:" + str(len_trials_common_to_all))
+
+    if needed_train_samples > len_trials_common_to_all:
+        ind_train = trials_common_to_all
+    else:
+        random.shuffle(trials_common_to_all)
+        ind_train = trials_common_to_all[-needed_train_samples:]
+    print("in final raman pentru train:" + str(len(ind_train)))
+
+    min_nr_of_trials_test = min_nr_of_trials - needed_train_samples
+
+    for doa in doas:
+        doa_train = DOA(doa.level)
+        doa_test = DOA(doa.level)
+        for channel in doa.channels:
+            count = 0
+            ch_train = Channel(channel.number)
+            ch_test = Channel(channel.number)
+            for trial in channel.trials:
+                if trial.trial_number in ind_train:
+                    # put trials in doa_test
+                    ch_train.trials.append(trial)
+                else:
+                    # if count < min_nr_of_trials_test:
+                        # put trials in doa_train
+                    ch_test.trials.append(trial)
+                        # count = count + 1
+            doa_train.channels.append(ch_train)
+            doa_test.channels.append(ch_test)
+        doas_train.append(doa_train)
+        doas_test.append(doa_test)
+
+    # if balance_test:
+    #     min_nr_of_trials_test = min_nr_of_trials - needed_train_samples
+    #     print("cate vor fi la test:" + str(min_nr_of_trials_test))
+    #     for doa in doas_test:
+    #         for channel in doa.channels:
+    #             if min_nr_of_trials_test > len(channel.trials):
+    #                 min_nr_of_trials_test = len(channel.trials)
+
+    return doas_train, doas_test, ind_train
+
+
 def train_test_doa_check_trials(doas, percent):
     doas_train = []
     doas_test = []

@@ -19,7 +19,7 @@ columns = ['channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc s
 df_results = DataFrame(columns=columns)
 df_results.to_csv(csv_results, mode='a', header=True)
 
-segments = ['spontaneous', 'stimulus', 'poststimulus']
+segments = ['spontaneous', 'stimulus']
 all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
                 31, 32]
 
@@ -35,7 +35,7 @@ for segment in segments:
     for channel in all_channels:
         print("start running for channel " + str(channel) + ' ' + segment)
         data = ExtractData(doas, [channel], ['light', 'medium', 'deep'], [segment], ['all'])
-        X, y = obtain_FFT_features_labels(data)
+        X, y = obtain_TESPAR_A_FFT_features(data, encoding)
 
         model = RandomForestClassifier(n_estimators=5000, max_depth=5, min_samples_split=5, min_samples_leaf=10)
 
