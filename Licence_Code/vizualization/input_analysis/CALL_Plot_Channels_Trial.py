@@ -11,11 +11,10 @@ mark_bursts_regions(doas)
 # go to file - settings - tools - python scientific - unmark the "show plots in tool window"
 # then run the class
 # after you are done go back and mark it again :)
-channel_numbers = [2, 3, 4]
+channel_numbers = [2]
 # trial_number = 8
-trial_number = 11
+trial_number = 22
 plot_channels_trial(doas, 'deep', channel_numbers, trial_number)
-plot_channels_trial(doas, 'light', channel_numbers, trial_number)
 
 # plot_channels_trial(doas, 'deep', [10], 100, stdX)
 

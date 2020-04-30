@@ -29,8 +29,8 @@ class ExtractData:
         self.orientation = orientation
 
         # functie care imi ia doar datele selectate based on features
-        self.get_data()
-        # self.get_data_2matrices_test()
+        # self.get_data()
+        self.get_data_2matrices_test()
 
     def get_data(self):
 

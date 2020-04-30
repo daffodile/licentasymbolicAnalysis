@@ -1,6 +1,6 @@
 import numpy as np
 from pandas import DataFrame
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.tree import DecisionTreeClassifier
 
 from classification.decision_tree.SplitData_Old import SplitData
@@ -8,13 +8,15 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 
 ####### to change for each  classifier this 3 files #################################
-from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels
+from utils.DataSpliting import train_test_doa_check_trials, obtain_features_labels, train_test_doa_remake_balanced
 from utils.ExtractData import ExtractData
+from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
+from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 
-csv_file = "dtc_30_32_wlog_alph5_2cls_wmark.csv"
-csv_results = "dtc_30_avg_32_wlog_alph5_2cls_wmark.csv"
+csv_file = "dtc_DML_30_32_alph3_wlog_umarkA_bursts_TA_SPST.csv"
+csv_results = "dtc_DML_30_avg_32_alph3_wlog_umarkA_bursts_TA_SPST.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_30_indexes_32_wlog_alph5_2cls_wmark.txt"
+indexes_file = "dtc_DML_30_indexes_32_alph3_wlog_umarkA_bursts_TA_SPST.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
@@ -36,6 +38,11 @@ df_all.to_csv(csv_file, mode='a', header=True)
 initialization = InitDataSet()
 # initialization = InitDataSet(trials_to_skip=[1, 2])
 doas = initialization.get_dataset_as_doas()
+
+# mark_bursts_regions(doas)
+
+# remove_bursted_trials_when_segment(doas)
+
 encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 # encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
 
@@ -50,8 +57,8 @@ f1scores = [[] for i in range(channels_range - 1) for j in range(1)]
 for run in range(run_nr):
     print('************************RUN ' + str(run) + '************************')
     # firstly split the input into train test
-    doas_train, doas_test, ind_test = train_test_doa_check_trials(doas, 0.2)
-    np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
+    doas_train, doas_test = train_test_doa_remake_balanced(doas)
+    # np.savetxt(write_file, np.array(ind_test), fmt="%s", newline=' ')
     write_file.write('\n')
 
     # for ind_segment, segment in enumerate(segments):
@@ -59,9 +66,9 @@ for run in range(run_nr):
         print("start running for channel " + str(channel) + '\n')
 
         # SplitData(self, doas, channels, levels, segment, orientation):
-        train_data = ExtractData(doas_train, [all_channels[ind_channel]], ['deep', 'light'], segments,
+        train_data = ExtractData(doas_train, [all_channels[ind_channel]], ['deep', 'medium', 'light'], segments,
                                  ['all'])
-        test_data = ExtractData(doas_test, [all_channels[ind_channel]], ['deep', 'light'], segments, ['all'])
+        test_data = ExtractData(doas_test, [all_channels[ind_channel]], ['deep', 'medium', 'light'], segments, ['all'])
 
         X_train, y_train = obtain_features_labels(train_data, encoding, 32)
         x_test, y_test = obtain_features_labels(test_data, encoding, 32)
@@ -71,6 +78,8 @@ for run in range(run_nr):
         predictions = model.predict(x_test)
 
         report = classification_report(y_test, predictions, output_dict=True)
+        print(report)
+        print(confusion_matrix(y_test, predictions))
 
         acc = report['accuracy']
         f1sc = report['weighted avg']['f1-score']
