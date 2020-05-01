@@ -1,10 +1,16 @@
+import os
+
 from input_reader.InitDataSet import InitDataSet
 from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
 from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
-initialization = InitDataSet(levels=['deep', 'medium', 'light'])
+
+data_dir = os.path.join('..', '..')
+initialization = InitDataSet(current_directory=data_dir, subject_directory='m014', filtering_directory='classic',
+                             levels=['deep2', 'medium3', 'light4'])
 doas = initialization.get_dataset_as_doas()
+
 mark_bursts_regions(doas)
 
 # to view the plot in a new window
