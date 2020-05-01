@@ -15,7 +15,6 @@ csv_file = "svm_remove_bursts_balanced_s.csv"
 csv_results = "svm_remove_bursts_balanced_s_avr.csv"
 
 output_name = "classification_results_balanced_s.txt"
-output_name = "classification_results_balanced_s.txt"
 output_file = open(output_name, 'w')
 
 output_file.write("Remove bursts balanced train test split 26 apr \n")
