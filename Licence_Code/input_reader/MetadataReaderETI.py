@@ -62,7 +62,12 @@ Trial,Condition,Contrast,Direction,Duration_us (us),Duration_f (frames),Error ti
             current_line = lines[current_ofs + i].rstrip()
             attributes = current_line.split(',')
             for j in range(self.no_fields - 1):
-                attributes[j] = int(attributes[j])
+                if (j != 2 and j != 3):
+                    attributes[j] = int(attributes[j])
+                elif (j == 2):
+                    attributes[j] = int(attributes[j].split(' ')[1])
+                elif (j == 3):
+                    attributes[j] = int(attributes[j].split(' ')[2])
             attributes[self.no_fields - 1] = float(attributes[self.no_fields - 1])
             if not attributes[self.no_fields]:
                 attributes[self.no_fields] = 0
