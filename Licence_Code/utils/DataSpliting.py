@@ -78,6 +78,7 @@ def obtain_A_features_from_doa_with_bursts_flags(doas, channel_number, segment, 
 
     return pd.DataFrame(X), Y
 
+
 def obtain_S_features_from_doa_with_bursts_flags(doas, channel_number, segment, encoding):
     X = []
     Y = []
@@ -110,6 +111,10 @@ def obtain_A_features_from_doa(doas, channel_number, encoding, segments=['sponta
 
             X.append(np.asarray(encoding.get_a(trial_values, selected_symbols=selected_symbols)).ravel())
             Y.append(doa.level)
+            # if doa.level == 'deep1' or doa.level == 'deep2':
+            #     Y.append('deep')
+            # else:
+            #     Y.append('medium')
 
     return pd.DataFrame(X), Y
 

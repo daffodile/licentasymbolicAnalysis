@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from utils.Utils import get_all_trials_values_from_doa_by_segment_with_bursts_flags, \
-    get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags
+    get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags, get_doa_of_level, \
+    get_one_trial_segment_values_from_doas_by_channel_with_bursts_flags
 
 
 def plot_matrix_A(values, title, plot_name):
@@ -72,26 +73,22 @@ def get_channel_trial_matrix_A(encoding, doas, doa_level, channel_number, trial_
     if (log == True):
         a_matrix = np.log10(a_matrix + 1)
         title = 'Log A Matrix '
-        plot_name = 'compare_channels/log_ch'
+        plot_name = 'log_ch'
     else:
         title = 'A Matrix '
-        plot_name = 'compare_channels/ch'
+        plot_name = 'ch'
     title += doa_level + " " + " ch: " + str(channel_number) + " tr: " + str(trial_number)
     plot_name += str(channel_number) + "_" + str(trial_number) + "_" + doa_level + "_A.png"
     plot_matrix_A(values=a_matrix, title=title, plot_name=plot_name)
 
 
 def get_channels_difference_matrix_A(encoding, doas, doa_levels, segment, channels, log):
+    # def get_all_trials_values_from_doa_by_segment_with_bursts_flags(doas, level, segment, channel_number):
     channel1_trials_values, channel1_trials_outsiders = get_all_trials_values_from_doa_by_segment_with_bursts_flags(
-        doas,
-        doa_levels[0],
-        segment,
-        channels[0])
+        doas, doa_levels[0], segment, channels[0])
     channel2_trials_values, channel2_trials_outsiders = get_all_trials_values_from_doa_by_segment_with_bursts_flags(
-        doas,
-        doa_levels[1],
-        segment,
-        channels[1])
+        doas, doa_levels[1], segment, channels[1])
+
     a_matrix1_all = np.zeros((encoding.no_symbols, encoding.no_symbols), dtype=int)
     for i in range(len(channel1_trials_values)):
         a_matrix1 = encoding.get_a(channel1_trials_values[i], channel1_trials_outsiders[i])
@@ -106,15 +103,15 @@ def get_channels_difference_matrix_A(encoding, doas, doa_levels, segment, channe
         a_matrix1_all = np.log10(a_matrix1_all + 1)
         a_matrix2_all = np.log10(a_matrix2_all + 1)
         title = 'Log A Matrix Diff '
-        plot_name = 'compare_channels/log_ch'
+        plot_name = 'log_ch'
     else:
-        title = 'A Matrix Diff'
-        plot_name = 'compare_channels/ch'
+        title = 'A Matrix Diff ' + str(channels[0]) + " "
+        plot_name = 'ch'
 
     diff_matrix = a_matrix1_all - a_matrix2_all
 
-    title += doa_levels[0] + "-"
+    title += doa_levels[0] + "-" + doa_levels[1]
     doa_levels[1] + " " + segment + " ch: " + str(channels[0]) + "-" + str(channels[1])
-    plot_name += str(channels[0]) + "-" + str(channels[1]) + "_" + doa_levels[0] + "-" + doa_levels[
+    plot_name += str(channels[0]) + "_" + doa_levels[0] + "-" + doa_levels[
         1] + "_" + segment + "_A.png"
     plot_matrix_A_Difference(values=diff_matrix, title=title, plot_name=plot_name)

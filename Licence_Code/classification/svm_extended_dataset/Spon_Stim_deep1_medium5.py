@@ -6,16 +6,16 @@ from sklearn.svm import SVC
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import obtain_A_features_from_doa, train_test_doa_remake_balanced
-from utils.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 
-csv_file = "svm_20_deep_medium_2segs.csv"
-csv_results = "svm_20_deep_medium_2segs_avr.csv"
+csv_file = "svm_deep1vs2.csv"
+csv_results = "svm_deep1vs2_avr.csv"
 
-output_name = "results_svm_20_deep_medium_2segs.txt"
+output_name = "results_svm_deep1vs2.txt"
 output_file = open(output_name, 'w')
 
-output_file.write("Classify bt 2 levels, FILTERED HIGH-PASS 10 and without marking bursts 1 may \n")
-output_file.write("DEEP2 MEDIUM4 A matrix \n")
+output_file.write("Classify bt 2 levels classic and without marking bursts 3 may \n")
+output_file.write("consider deep1 vs deep2 A matrix 32 symbols\n")
+output_file.write("Trying this classification because  deep1 has the highest percent of burst and deep2 the lowest\n")
 output_file.write("train_test_doa_remake_balanced 80% for train \n")
 
 run_nr = 20
@@ -34,14 +34,12 @@ encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
 
 data_dir = os.path.join('..', '..')
 
-levels = ['deep2', 'medium3']
+levels = ['deep1', 'deep2']
 
 # def __init__(self, current_directory, subject_directory, filtering_directory, levels=['deep', 'medium', 'light'], trials_to_skip=None):
-initialization = InitDataSet(current_directory=data_dir, subject_directory="m014", filtering_directory="highpass10",
+initialization = InitDataSet(current_directory=data_dir, subject_directory="m014", filtering_directory="classic",
                              levels=levels)
 doas = initialization.get_dataset_as_doas()
-
-# mark_bursts_regions(doas)
 
 accuracies = [[] for i in range(len(all_channels))]
 f1scores = [[] for i in range(len(all_channels))]
@@ -63,6 +61,12 @@ for run in range(run_nr):
         model = SVC(gamma="auto")
 
         model.fit(X_train, y_train)
+
+        # just for overfitting
+        report_train = classification_report(y_train, model.predict(X_train), output_dict=True)
+        acc_train = report_train['accuracy']
+        print(f'predict on train  acc {acc_train}')
+
         predictions = model.predict(x_test)
 
         report = classification_report(y_test, predictions, output_dict=True)
