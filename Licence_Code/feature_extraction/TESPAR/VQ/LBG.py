@@ -299,7 +299,7 @@ class VQ_LGB():
 
         plt.scatter(c_x, c_y, color='red', s=0.5)  # centroids here
 
-        if len(self.clusters) > 31:
+        if len(self.clusters) == self.k:
             plt.savefig('{}_alphabet_s10.png'.format(len(self.clusters)))
         fig.show()
 
@@ -352,7 +352,7 @@ class VQ_LGB():
                 print('aici ar trebui sa printez')
                 self.plot_dataset_clusters(' clusters s=1')
 
-            if current_k < 32:
+            if current_k < self.k:
                 # find the cluster having the highest relative error
                 cluster_to_replace = self.clusters[self.get_highest_relative_error_index()]
 
@@ -401,7 +401,7 @@ class VQ_LGB():
                 # re-distribute the symbols
                 self.set_all_clusters()
 
-                self.plot_dataset_clusters(' clusters s=1')
+                self.plot_dataset_clusters(f' clusters s={self.scale_s}')
 
                 f = open(file_alphabet, "w")
                 for d in range(self.dimD):

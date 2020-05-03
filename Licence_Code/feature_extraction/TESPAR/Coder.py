@@ -10,7 +10,7 @@ class Coder:
     parameters:  - doas: - array of doas containing the whole dataset
     '''
 
-    def __init__(self, path_save_file, path_floats_file="trials_as_floats_dsfinal.txt"):
+    def __init__(self, path_save_file, path_floats_file):
 
         self.path_to_save_file = path_save_file
         self.path_floats_file = path_floats_file
