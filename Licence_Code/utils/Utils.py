@@ -58,6 +58,7 @@ def get_trial_from_doas(doas, level, channel_number, trial_number):
         print(f'There is no trial no {trial_number}  in channel no [{channel_number} of doa {level}')
         return None
 
+
 def get_one_trial_segment_values_from_doas_by_channel(doas, level, segment, channel_number, trial_number):
     """
     :return: the values of the particular trial searched in a doa,
@@ -98,6 +99,22 @@ def get_one_trial__all_segments_values_from_doa_by_channel_with_bursts_flags(doa
     return trial_values, trial_values_outsiders
 
 
+def get_one_trial__more_segments_values_from_doa_by_channel(doas, level, channel_number, trial_number,
+                                                            segments=['spontaneous', 'stimulus']):
+    """
+    :return: the values and the outsiders of the particular trial searched in a doa,
+    given the channel_number and doa level
+    """
+    doa = get_doa_of_level(doas, level)
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    trial = list(filter(lambda tr: (tr.trial_number == trial_number), channel.trials))[0]
+    trial_values = []
+    for segment in segments:
+        trial_values.extend(getattr(trial, segment).values)
+
+    return trial_values
+
+
 def obtain_floats_from_DOA(doa):
     """
     :return: array of all floats values from all trials and segments of a DOA object
@@ -119,7 +136,6 @@ def get_channel_index(doa, channel_number):
     for i in range(30):
         if doa.channels[i].number == channel_number:
             return i
-
 
 #  NOT USED
 # method to obtain an array of reports from a classification_report

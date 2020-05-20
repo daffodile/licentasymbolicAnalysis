@@ -28,6 +28,54 @@ def get_channel_trials_values(doas, level, segment, channel_number):
     return channel_trials
 
 
+def get_channel_trials_values_more_seg(doas, doa_level, channel_number, segments=['spontaneous', 'stimulus']):
+    """
+    :param doa: DOA object
+    :param doa_level: 'deep', 'medium', 'light'
+    :param channel_number: int value of channel.number we search for
+    :param segments: str array of: 'spontaneous'. 'stimulus' or 'poststimulus'
+    :return: array of all values the channel
+
+    """
+    doa = get_doa_of_level(doas, doa_level)
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    channel_trials = []
+    for trial in channel.trials:
+        this_trial_values = []
+        for segment in segments:
+            this_trial_values.extend(getattr(trial, segment).values)
+        channel_trials.append(this_trial_values)
+
+    return channel_trials
+
+
+def get_channel_trials_values_and_outsiders_more_seg(doas, doa_level, channel_number,
+                                                     segments=['spontaneous', 'stimulus']):
+    """
+    :param doa: DOA object
+    :param doa_level: 'deep', 'medium', 'light'
+    :param channel_number: int value of channel.number we search for
+    :param segments: str array of: 'spontaneous'. 'stimulus' or 'poststimulus'
+    :return: array of all values the channel
+
+    """
+    doa = get_doa_of_level(doas, doa_level)
+    channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+    channel_trials = []
+    channel_trials_outliers = []
+    for trial in channel.trials:
+        this_trial_values = []
+        this_trial_outliers = []
+        for segment in segments:
+            this_trial_values.extend(getattr(trial, segment).values)
+            this_trial_outliers.extend(getattr(trial, segment).values_outsiders)
+
+        channel_trials.append(this_trial_values)
+        channel_trials_outliers.append(this_trial_outliers)
+
+    return channel_trials, channel_trials_outliers
+
+
 def get_channel_trials_segment_values_and_outsiders(doas, level, segment, channel_number):
     """
     :return: 2 arrays, one containing arrays of all the trials values
