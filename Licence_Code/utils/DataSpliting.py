@@ -142,6 +142,61 @@ def obtain_A_features_from_doa_check_bursts(doas, channel_number, encoding, segm
     return pd.DataFrame(X), Y
 
 
+def obtain_A_features_from_doa_emphasize_stimulus(doas, channel_number, encoding, selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            # extract the values from the selected segments
+            trial_spontaneous = getattr(trial, 'spontaneous').values
+            trial_stimulus = getattr(trial, 'stimulus').values
+
+            scale_f = len(trial_stimulus) / len(trial_spontaneous)  # scale to multiply spontaneous with
+
+            a_spontaneous = np.asarray(encoding.get_a(trial_spontaneous, selected_symbols=selected_symbols))
+            a_stimulus = np.asarray(encoding.get_a(trial_stimulus, selected_symbols=selected_symbols))
+
+            a_spontaneous = a_spontaneous * scale_f
+
+            a_feature = a_stimulus - a_spontaneous
+            X.append(a_feature.ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
+
+def obtain_A_features_from_doa_emphasize_stimulus_check_bursts(doas, channel_number, encoding, selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            # extract the values from the selected segments
+            trial_spontaneous = getattr(trial, 'spontaneous').values
+            spontaneous_outliers = getattr(trial, 'spontaneous').values_outsiders
+
+            trial_stimulus = getattr(trial, 'stimulus').values
+            stimulus_outliers = getattr(trial, 'stimulus').values_outsiders
+
+            scale_f = len(trial_stimulus) / len(trial_spontaneous)  # scale to multiply spontaneous with
+
+            a_spontaneous = np.asarray(
+                encoding.get_a(trial_spontaneous, spontaneous_outliers, selected_symbols=selected_symbols))
+            a_stimulus = np.asarray(
+                encoding.get_a(trial_stimulus, stimulus_outliers, selected_symbols=selected_symbols))
+
+            a_spontaneous = a_spontaneous * scale_f
+
+            a_feature = a_stimulus - a_spontaneous
+            X.append(a_feature.ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
+
 #  METHOD TO BE CHECKED IN DEBUG!!!!!
 def obtain_more_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
                                     selected_symbols=None):
@@ -472,6 +527,98 @@ def train_test_doa_remake_balanced(doas, percent_train=0.8):
                 else:
                     # put trials in doa_train
                     ch_train.trials.append(trial)
+            doa_train.channels.append(ch_train)
+            doa_test.channels.append(ch_test)
+        doas_train.append(doa_train)
+        doas_test.append(doa_test)
+
+    for doa in doas_test:
+        print(f'{doa.level} test size: {len(doa.channels[0].trials)}')
+
+    return doas_train, doas_test
+
+
+def train_test_doa_balanced_on_train_on_test(doas, percent_train=0.8):
+    if percent_train < 0.0 or percent_train > 1.0:
+        print('train_test_doa_balanced: percent_train param should be a value in [0.0, 1.0]',
+              file=sys.stderr)
+        sys.exit()
+
+    doas_train = []
+    doas_test = []
+
+    # find which doa has the minimum number of trials so we determine the BALANCED size of TRAIN set
+    min_nr_of_trials = MAX_NR_OF_TRIALS
+    for doa in doas:
+        for channel in doa.channels:
+            if min_nr_of_trials > len(channel.trials):
+                min_nr_of_trials = len(channel.trials)
+
+    # numbers of train trials from one DOA (class)
+    train_size = int(percent_train * min_nr_of_trials)
+    test_size = min_nr_of_trials - train_size
+    print(f"\n train_test_doa_remake_balanced: {train_size} TRAIN size per DOA \n")
+    print(f"\n train_test_doa_remake_balanced: {test_size} TEST size per DOA \n")
+
+    number_of_channels = len(doas[0].channels)
+
+    for doa in doas:
+        if len(doa.channels) != number_of_channels:
+            print('DOAs in train_test_doa have different number of channels ', file=sys.stderr)
+            sys.exit()
+
+    for ind_doa, doa in enumerate(doas):
+
+        # count how many times a trial appean over the channels
+        trials_frequency = [0 for i in range(MAX_NR_OF_TRIALS)]
+
+        for channel in doa.channels:
+            for trial in channel.trials:
+                trials_frequency[trial.trial_number - 1] += 1
+
+        all_trials_numbers = [i + 1 for i in range(MAX_NR_OF_TRIALS)]
+
+        # array of trial numbers that are present in each channel of the DOA
+        trials_common_to_all_channels = []
+
+        for tr_num in all_trials_numbers:
+            if trials_frequency[tr_num - 1] is number_of_channels:
+                trials_common_to_all_channels.append(tr_num)
+
+        print(f'{doa.level} train test split: trials in all channels: {len(trials_common_to_all_channels)}')
+        # print(trials_common_to_all_channels)
+        len_comm_trials = len(trials_common_to_all_channels)
+
+        # establish how many trials to have in train
+        if train_size > len_comm_trials:
+            print(f'###############################################################################')
+            print(f'in {doa.level} the trials common to channels are less than the desired train size')
+            print(f'train size ={train_size}  trials on channels ={len_comm_trials}')
+            print(f'###############################################################################')
+            ind_train = trials_common_to_all_channels
+        else:
+            # random.Random(4).shuffle(trials_common_to_all)
+            random.shuffle(trials_common_to_all_channels)
+
+            ind_train = trials_common_to_all_channels[-train_size:]
+            ind_test = trials_common_to_all_channels[:test_size]
+
+        print(f'{doa.level} test trials: ')
+        print(ind_test)
+
+        doa_train = DOA(doa.level)
+        doa_test = DOA(doa.level)
+        for channel in doa.channels:
+            ch_train = Channel(channel.number)
+            ch_test = Channel(channel.number)
+            for trial in channel.trials:
+                if trial.trial_number in ind_train:
+                    # put trials in doa_train
+                    ch_train.trials.append(trial)
+                else:
+                    if trial.trial_number in ind_test:
+                        # put trials in doa_test
+                        ch_test.trials.append(trial)
             doa_train.channels.append(ch_train)
             doa_test.channels.append(ch_test)
         doas_train.append(doa_train)
