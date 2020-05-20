@@ -152,8 +152,13 @@ def get_thresholds_non_bursts_values(doas, whis):
 
 
 data_dir = os.path.join('..', '..')
-initialization = InitDataSetWithBurstsFlags(data_dir, levels=['deep', 'medium', 'light'])
-# initialization = InitDataSetWithBurstsFlags(data_dir, levels=['deep'])
+levels = ['deep9', 'medium10', 'light11']
+# levels = ['deep6', 'light7', 'medium8']
+# initialization = InitDataSetWithBurstsFlags(data_dir, levels=levels)
+initialization = InitDataSetWithBurstsFlags(current_directory=data_dir, subject_directory="m016",
+                                            filtering_directory="classic",
+                                            levels=levels)
+
 doas = initialization.get_dataset_as_doas()
 # determine_thresholds(doas)
 

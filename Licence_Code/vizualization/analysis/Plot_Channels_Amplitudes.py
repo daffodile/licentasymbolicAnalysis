@@ -7,9 +7,10 @@ from vizualization.classification.barplots.Plot_Classidications_Comparison impor
 
 current_dir = os.path.join('..', '..')
 
-levels = ['deep1', 'deep2', 'medium3', 'light4', 'medium5']
+levels = ['deep9', 'medium10', 'light11']
+# levels = ['deep6', 'light7', 'medium8']
 
-initialization = InitDataSet(current_directory=current_dir, subject_directory="m014", filtering_directory="highpass10",
+initialization = InitDataSet(current_directory=current_dir, subject_directory="m016", filtering_directory="classic",
                              levels=levels)
 doas = initialization.get_dataset_as_doas()
 print('doas is initialized')
