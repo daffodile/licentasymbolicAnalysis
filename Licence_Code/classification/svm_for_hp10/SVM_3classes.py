@@ -7,14 +7,14 @@ from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
 from utils.DataSpliting import obtain_A_features_from_doa, train_test_doa_remake_balanced
 
-csv_file = "svm_3classes_2segs.csv"
-csv_results = "svm_3classes_2segs_avr.csv"
+csv_file = "svm_first_3classes_M014_highpass10.csv"
+csv_results = "svm_first_3classes_M014_highpass10_avr.csv"
 
-output_name = "classification_svm_3classes_2segs.txt"
+output_name = "classification_svm_first_3classes_M014_highpass10.txt"
 output_file = open(output_name, 'w')
 
-output_file.write("Classify bt classic 3 levels, FILTERED HIGH-PASS 10 and without marking bursts 2 may \n")
-output_file.write("DEEP2 MEDIUM3 LIGHT4 A matrix \n")
+output_file.write("Classify bt classic 3 levels, FILTERED HIGH-PASS 10 and without marking bursts\n")
+output_file.write("LIGHT1 DEEP2 MEDIUM3 A matrix alphabet 32sym generated on highpass10 \n")
 output_file.write("train_test_doa_remake_balanced 80% for train \n")
 
 run_nr = 20
@@ -24,23 +24,22 @@ all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
 
 segment = 'spon_stim'
 
+
 # data frame that keeps all runs for all channels, that will be added to .csv file
 column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
-encoding = Encoding('./../../data_to_be_saved/12alphabet5_hp10.txt', no_symbols=12)
+encoding = Encoding('./../../data_to_be_saved/32alphabet5_hp10_m014.txt')
 
 data_dir = os.path.join('..', '..')
 
-levels = ['deep2', 'medium3', 'light4']
+levels = ['deep1', 'deep2', 'medium3']
 
 # def __init__(self, current_directory, subject_directory, filtering_directory, levels=['deep', 'medium', 'light'], trials_to_skip=None):
 initialization = InitDataSet(current_directory=data_dir, subject_directory="m014", filtering_directory="highpass10",
                              levels=levels)
 doas = initialization.get_dataset_as_doas()
-
-# mark_bursts_regions(doas)
 
 accuracies = [[] for i in range(len(all_channels))]
 f1scores = [[] for i in range(len(all_channels))]
@@ -96,7 +95,6 @@ df_results.to_csv(csv_results, mode='a', header=True)
 for ind_ch, channel in enumerate(all_channels):
     acc_avr = np.mean(np.array(accuracies[ind_ch]))
     acc_std = np.std(np.array(accuracies[ind_ch]))
-
 
     f1_avr = np.mean(np.array(f1scores[ind_ch]))
     f1_std = np.std(np.array(f1scores[ind_ch]))

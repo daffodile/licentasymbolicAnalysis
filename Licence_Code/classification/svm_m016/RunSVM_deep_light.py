@@ -3,25 +3,29 @@ import numpy as np
 from pandas import DataFrame
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
+
 from feature_extraction.TESPAR.Encoding import Encoding
 from input_reader.InitDataSet import InitDataSet
-from utils.DataSpliting import obtain_A_features_from_doa, train_test_doa_remake_balanced
+from utils.DataSpliting import train_test_doa_remake_balanced, obtain_A_features_from_doa
 
-csv_file = "svm_deep1_light4.csv"
-csv_results = "svm_deep1_light4_avr.csv"
+csv_file = "svm_classic_deep6_light11_all.csv"
+csv_results = "svm_classic_deep6_light11_all_avr.csv"
 
-output_name = "results_svm_deep1_light4.txt"
-output_file = open(output_name, 'w')
+classification_reports = "classification_reports_svm_classic_deep6_light11.txt"
+output_classification_reports = open(classification_reports, 'w')
 
-output_file.write("Classify bt 2 levels classic and without marking bursts 3 may \n")
-output_file.write("consider deep1 vs light 4 A matrix 32 symbols\n")
-output_file.write("Trying this classification because  this 2 classes seem too similar\n")
-output_file.write("train_test_doa_remake_balanced 80% for train \n")
+confusion_file = 'confusion_matrix_svm_classic_deep6_light11.txt'
+output_confusion_matrix = open(confusion_file, 'w')
+
+output_classification_reports.write(
+    "Classify bt DEEP6 and LIGHT11:  classic, no remove no marking \n")
+output_classification_reports.write("spon_stim concatenate A matrix alfabet obtained from full dataset, s3, ioana\n")
+output_classification_reports.write("train_test_doa_remake_balanced 80% for train \n")
 
 run_nr = 20
 
-all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
-                31, 32]
+all_channels = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 21, 23, 24, 25, 26, 27, 28, 29,
+                30, 31, 32]
 
 segment = 'spon_stim'
 
@@ -30,16 +34,16 @@ column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/32alphabet_s3_classic_m016_full.txt')
 
 data_dir = os.path.join('..', '..')
 
-levels = ['deep1', 'light4']
+levels = ['deep6', 'light11']
+initialization_train = InitDataSet(current_directory=data_dir, subject_directory="m016",
+                                   filtering_directory="classic",
+                                   levels=levels)
 
-# def __init__(self, current_directory, subject_directory, filtering_directory, levels=['deep', 'medium', 'light'], trials_to_skip=None):
-initialization = InitDataSet(current_directory=data_dir, subject_directory="m014", filtering_directory="classic",
-                             levels=levels)
-doas = initialization.get_dataset_as_doas()
+doas = initialization_train.get_dataset_as_doas()
 
 accuracies = [[] for i in range(len(all_channels))]
 f1scores = [[] for i in range(len(all_channels))]
@@ -51,10 +55,8 @@ for run in range(run_nr):
 
     for chn_ind, channel in enumerate(all_channels):
         print("start running for channel " + str(channel))
-        output_file.write(f'####### run {run} channel {channel} #########\n')
+        output_classification_reports.write(f'####### run {run} channel {channel} #########\n')
 
-        # obtain_A_features_from_doa(doas, channel_number, encoding, segments=['spontaneous', 'stimulus'],
-        #                                selected_symbols=None):
         X_train, y_train = obtain_A_features_from_doa(doas_train, channel, encoding)
         x_test, y_test = obtain_A_features_from_doa(doas_test, channel, encoding)
 
@@ -74,9 +76,12 @@ for run in range(run_nr):
         print(classification_report(y_test, predictions))
         print(confusion_matrix(y_test, predictions))
 
-        output_file.write(classification_report(y_test, predictions))
-        np.savetxt(output_file, np.array(confusion_matrix(y_test, predictions)), fmt="%s", newline=' ')
-        output_file.write('\n')
+        output_classification_reports.write(classification_report(y_test, predictions))
+        output_classification_reports.write('\n')
+
+        output_confusion_matrix.write(f'{run} {channel} \n')
+        np.savetxt(output_confusion_matrix, np.array(confusion_matrix(y_test, predictions)), fmt="%s", newline=' ')
+        output_confusion_matrix.write('\n')
 
         acc = report['accuracy']
         f1sc = report['weighted avg']['f1-score']
@@ -91,7 +96,8 @@ for run in range(run_nr):
     df_all.to_csv(csv_file, mode='a', header=False)
     df_all = df_all.iloc[0:0]
 
-output_file.close()
+output_classification_reports.close()
+output_confusion_matrix.close()
 
 # data frame that keeps avr and std of the runs
 columns = ['channel', 'segment', 'acc avr', 'acc std_dev', 'f1-sc avr', 'f1-sc std_dev']

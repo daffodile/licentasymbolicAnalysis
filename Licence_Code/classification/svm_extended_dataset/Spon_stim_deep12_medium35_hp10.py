@@ -33,15 +33,15 @@ encoding = Encoding('./../../data_to_be_saved/12alphabet5_hp10.txt', no_symbols=
 data_dir = os.path.join('..', '..')
 
 # TRAIN DATA
-levels_train = ['deep2', 'medium3']
+levels_train = ['deep2', 'light4']
 initialization_train = InitDataSet(current_directory=data_dir, subject_directory="m014",
-                                   filtering_directory="highpass10", levels=levels_train)
+                                   filtering_directory="classic", levels=levels_train)
 doas_train = initialization_train.get_dataset_as_doas()
 
 # TEST DATA
 levels_test = ['deep1', 'medium5']
 initialization_test = InitDataSet(current_directory=data_dir, subject_directory="m014",
-                                  filtering_directory="highpass10", levels=levels_test)
+                                  filtering_directory="classic", levels=levels_test)
 doas_test = initialization_test.get_dataset_as_doas()
 
 # accuracies = [[] for i in range(len(all_channels))]

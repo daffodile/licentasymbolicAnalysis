@@ -1,6 +1,6 @@
 import os
 
-from sklearn.ensemble import BaggingClassifier, VotingClassifier
+from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
 
@@ -13,7 +13,9 @@ all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
 
 encoding = Encoding('./../../../data_to_be_saved/alphabet_3.txt')
 data_dir = os.path.join('../..', '..')
-initialization = InitDataSet(data_dir=data_dir)
+levels = ['deep2', 'light4']
+initialization = InitDataSet(current_directory=data_dir, subject_directory="m014", filtering_directory="classic",
+                             levels=levels)
 doas = initialization.get_dataset_as_doas()
 
 doas_train, doas_test = train_test_doa_remake_balanced(doas)
@@ -21,7 +23,6 @@ doas_train, doas_test = train_test_doa_remake_balanced(doas)
 estimators = []
 
 for channel in all_channels:
-
     print(f"############# train of channel {channel}#####################")
 
     X_train, y_train = obtain_A_features_from_doa(doas_train, channel, encoding)

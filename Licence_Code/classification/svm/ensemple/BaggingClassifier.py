@@ -12,7 +12,7 @@ all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
                 31, 32]
 
 encoding = Encoding('./../../../data_to_be_saved/alphabet_3.txt')
-data_dir = os.path.join('../..', '..')
+data_dir = os.path.join('..', '..', '..')
 initialization = InitDataSet(data_dir=data_dir)
 doas = initialization.get_dataset_as_doas()
 doas_train, doas_test, ind_test = train_test_doa_remake_balanced(doas)
