@@ -13,10 +13,10 @@ from utils.ExtractData import ExtractData
 from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 
-csv_file = "dtc_DML_30_32_alph3_wlog_markA_wbursts_TA.csv"
-csv_results = "dtc_DML_30_avg_32_alph3_wlog_markA_wbursts_TA.csv"
+csv_file = "dtc_DL_30_32_alph3_wlog_markA_wbursts_TA.csv"
+csv_results = "dtc_DL_30_avg_32_alph3_wlog_markA_wbursts_TA.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_DML_30_indexes_32_alph3_wlog_markA_wbursts_TA.txt"
+indexes_file = "dtc_DL_30_indexes_32_alph3_wlog_markA_wbursts_TA.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
@@ -41,8 +41,8 @@ mark_bursts_regions(doas)
 
 remove_bursted_trials_when_segment(doas)
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
-# encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
+encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
+# encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_5.txt')
 
 '''
 for calculating the average acc or af1-score

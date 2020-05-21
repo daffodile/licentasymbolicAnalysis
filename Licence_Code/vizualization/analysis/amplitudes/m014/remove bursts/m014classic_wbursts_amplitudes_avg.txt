@@ -1,0 +1,20 @@
+light1
+channels_mean 12.638688
+bursts_mean 22.754808
+nonbursts_mean 7.342549
+deep2
+channels_mean 9.031224
+bursts_mean 32.781776
+nonbursts_mean 5.4187446
+medium3
+channels_mean 9.835341
+bursts_mean 24.13044
+nonbursts_mean 6.2043204
+light4
+channels_mean 10.737939
+bursts_mean 21.957111
+nonbursts_mean 7.441137
+medium5
+channels_mean 8.646713
+bursts_mean 21.346102
+nonbursts_mean 6.0653744

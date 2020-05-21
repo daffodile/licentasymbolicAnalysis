@@ -12,7 +12,7 @@ trial_number = 14
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
 # mark_outsiders(doas)
-encoding = Encoding('./../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../data_to_be_saved/m014_classic_alphabet_3.txt')
 
 
 def statistic(doas):

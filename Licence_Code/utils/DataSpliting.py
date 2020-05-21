@@ -23,6 +23,33 @@ def obtain_features_labels_log(inputData, encoding, selected_symbols=32):
     return pd.DataFrame(X), Y
 
 
+def obtain_A_features_from_doa_emphasize_stimulus(doas, channel_number, encoding, selected_symbols=None):
+    X = []
+    Y = []
+
+    for doa in doas:
+        channel = list(filter(lambda ch: (ch.number == channel_number), doa.channels))[0]
+        for trial in channel.trials:
+            # extract the values from the selected segments
+            trial_spontaneous = getattr(trial, 'spontaneous').values
+            trial_spontaneous_validate = getattr(trial, 'spontaneous').values_outsiders
+            trial_stimulus = getattr(trial, 'stimulus').values
+            trial_stimulus_validate = getattr(trial, 'stimulus').values_outsiders
+
+            scale_f = len(trial_stimulus) / len(trial_spontaneous)  # scale to multiply spontaneous with
+
+            a_spontaneous = np.asarray(encoding.get_a(trial_spontaneous,trial_spontaneous_validate, selected_symbols=selected_symbols))
+            a_stimulus = np.asarray(encoding.get_a(trial_stimulus, trial_stimulus_validate,selected_symbols=selected_symbols))
+
+            a_spontaneous = a_spontaneous * scale_f
+
+            a_feature = a_stimulus - a_spontaneous
+            X.append(a_feature.ravel())
+            Y.append(doa.level)
+
+    return pd.DataFrame(X), Y
+
+
 def obtain_features_labels(inputData, encoding, selected_symbols=32):
     X = []
     Y = []
@@ -32,8 +59,11 @@ def obtain_features_labels(inputData, encoding, selected_symbols=32):
             X.append(np.asarray(encoding.get_a(inputData.result.arrays[i].array_data[j],
                                                inputData.result.arrays[i].array_validate[j],
                                                selected_symbols=selected_symbols)).ravel())
+            # if(inputData.result.arrays[i].name == 'deep1' or inputData.result.arrays[i].name == 'deep2'):
+            #     Y.append('deep')
+            # else:
+            #     Y.append('medium')
             Y.append(inputData.result.arrays[i].name)
-
     return pd.DataFrame(X), Y
 
 
@@ -49,9 +79,11 @@ def obtain_features_labels_quality(inputData, encoding, selected_symbols=32):
 
             Tespar_features = Tespar_features.ravel()
 
-            quality_feature = (len(inputData.result.arrays[i].array_validate[j]) -
-                               [np.count_nonzero(inputData.result.arrays[i].array_validate[j])]) / (
-                                  len(inputData.result.arrays[i].array_validate[j]))
+            quality_feature = [np.count_nonzero(inputData.result.arrays[i].array_validate[j])]
+            # nu e necesar pentru DTC sa normalizez
+            # quality_feature = (len(inputData.result.arrays[i].array_validate[j]) -
+            #                    np.count_nonzero(inputData.result.arrays[i].array_validate[j])) / (
+            #                       len(inputData.result.arrays[i].array_validate[j]))
 
             Features_Array = []
             Features_Array.append(Tespar_features.tolist())
@@ -193,9 +225,9 @@ def split_train_test_balance(doas, percent, balance_test=True):
                     ch_train.trials.append(trial)
                 else:
                     # if count < min_nr_of_trials_test:
-                        # put trials in doa_train
+                    # put trials in doa_train
                     ch_test.trials.append(trial)
-                        # count = count + 1
+                    # count = count + 1
             doa_train.channels.append(ch_train)
             doa_test.channels.append(ch_test)
         doas_train.append(doa_train)

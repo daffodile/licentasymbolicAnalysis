@@ -10,10 +10,10 @@
 /tests
 /classification/results/
 /Afisare/
-/classification/decision_tree/runnings/
-/classification/decision_tree/new_runnings/
-/classification/decision_tree/remove_bursts-25_Aprilie/
-/classification/decision_tree/cross_validation/
-/classification/decision_tree/balanced_split/
 /vizualization/TESPAR/compare_channels/
 /vizualization/analysis/amplitude_files/
+/classification/decision_tree/5 clase m014/
+/classification/decision_tree/M016/
+/classification/decision_tree/M014/
+/classification/decision_tree/OLD_RUNNINGS/
+/classification/decision_tree/emphasized/

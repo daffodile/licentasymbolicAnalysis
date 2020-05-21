@@ -1,0 +1,170 @@
+C:\Users\jeann\Anaconda3\envs\Licence_Code\python.exe "D:/UTCN_LICENTA/LICENSE/Git_Project/licentasymbolicAnalysis/Licence_Code/vizualization/analysis/amplitudes/Amplitudes _DOA_Final_Statistics.py"
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderETI.read_eti_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderETI.read_eti_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderETI.read_eti_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderETI.read_eti_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+[MetadataReaderETI.read_eti_metadata] COMPLETE
+[MetadataReaderEPD.read_epd_metadata] COMPLETE
+START marking bursting regions
+COMPLETED marking bursting regions
+Channel 2 light1 72.75569
+Channel 2 deep2 96.73391
+Channel 2 medium3 50.121998
+Channel 2 light4 39.516724
+Channel 2 medium5 49.617733
+Channel 3 light1 114.0522
+Channel 3 deep2 116.48929
+Channel 3 medium3 54.874348
+Channel 3 light4 44.358116
+Channel 3 medium5 54.720142
+Channel 4 light1 163.59685
+Channel 4 deep2 128.75783
+Channel 4 medium3 54.94881
+Channel 4 light4 49.588486
+Channel 4 medium5 57.975
+Channel 5 light1 113.07166
+Channel 5 deep2 116.47132
+Channel 5 medium3 54.520355
+Channel 5 light4 44.33685
+Channel 5 medium5 54.555996
+Channel 6 light1 72.99623
+Channel 6 deep2 96.57167
+Channel 6 medium3 50.80547
+Channel 6 light4 39.50917
+Channel 6 medium5 49.656265
+Channel 7 light1 114.011604
+Channel 7 deep2 116.40995
+Channel 7 medium3 54.49789
+Channel 7 light4 44.80061
+Channel 7 medium5 54.82249
+Channel 8 light1 164.76303
+Channel 8 deep2 129.72588
+Channel 8 medium3 55.224762
+Channel 8 light4 49.09784
+Channel 8 medium5 58.028915
+Channel 9 light1 173.0789
+Channel 9 deep2 141.43864
+Channel 9 medium3 63.11737
+Channel 9 light4 53.72548
+Channel 9 medium5 72.17856
+Channel 10 light1 94.75985
+Channel 10 deep2 111.545494
+Channel 10 medium3 44.856884
+Channel 10 light4 40.212772
+Channel 10 medium5 51.78146
+Channel 11 light1 95.30418
+Channel 11 deep2 112.39918
+Channel 11 medium3 45.404156
+Channel 11 light4 39.718452
+Channel 11 medium5 51.433224
+Channel 12 light1 94.56905
+Channel 12 deep2 111.06333
+Channel 12 medium3 44.98724
+Channel 12 light4 40.233963
+Channel 12 medium5 51.334896
+Channel 13 light1 89.3979
+Channel 13 deep2 103.36405
+Channel 13 medium3 47.516384
+Channel 13 light4 39.931824
+Channel 13 medium5 50.773415
+Channel 14 light1 128.6903
+Channel 14 deep2 127.92172
+Channel 14 medium3 54.947636
+Channel 14 light4 48.83024
+Channel 14 medium5 62.630207
+Channel 15 light1 104.19302
+Channel 15 deep2 111.5073
+Channel 15 medium3 48.568546
+Channel 15 light4 43.913628
+Channel 15 medium5 50.62146
+Channel 16 light1 191.73863
+Channel 16 deep2 145.98723
+Channel 16 medium3 61.31449
+Channel 16 light4 58.453754
+Channel 16 medium5 66.230515
+Channel 17 light1 86.399956
+Channel 17 deep2 123.56718
+Channel 17 medium3 58.78078
+Channel 17 light4 40.8959
+Channel 17 medium5 56.363632
+Channel 18 light1 212.40817
+Channel 18 deep2 171.63937
+Channel 18 medium3 74.99478
+Channel 18 light4 56.312866
+Channel 18 medium5 73.06148
+Channel 19 light1 100.825874
+Channel 19 deep2 149.57318
+Channel 19 medium3 64.10054
+Channel 19 light4 41.79521
+Channel 19 medium5 63.47343
+Channel 20 light1 59.986706
+Channel 20 deep2 134.9593
+Channel 20 medium3 49.209545
+Channel 20 light4 30.495262
+Channel 20 medium5 48.55776
+Channel 21 light1 95.42617
+Channel 21 deep2 164.61626
+Channel 21 medium3 62.63642
+Channel 21 light4 39.71453
+Channel 21 medium5 59.246574
+Channel 23 light1 88.381966
+Channel 23 deep2 143.41199
+Channel 23 medium3 62.321712
+Channel 23 light4 40.29343
+Channel 23 medium5 60.024124
+Channel 24 light1 88.11888
+Channel 24 deep2 142.94304
+Channel 24 medium3 61.757107
+Channel 24 light4 40.683434
+Channel 24 medium5 59.443333
+Channel 25 light1 126.605484
+Channel 25 deep2 121.80938
+Channel 25 medium3 63.1518
+Channel 25 light4 44.471622
+Channel 25 medium5 62.661396
+Channel 26 light1 67.5396
+Channel 26 deep2 108.82728
+Channel 26 medium3 55.04256
+Channel 26 light4 37.97704
+Channel 26 medium5 53.060413
+Channel 27 light1 125.77704
+Channel 27 deep2 122.01718
+Channel 27 medium3 62.384445
+Channel 27 light4 43.944187
+Channel 27 medium5 62.53299
+Channel 28 light1 67.01586
+Channel 28 deep2 106.99451
+Channel 28 medium3 53.891434
+Channel 28 light4 37.611664
+Channel 28 medium5 52.246964
+Channel 29 light1 126.73259
+Channel 29 deep2 122.198685
+Channel 29 medium3 63.11549
+Channel 29 light4 44.373016
+Channel 29 medium5 63.014572
+Channel 30 light1 115.69176
+Channel 30 deep2 124.56687
+Channel 30 medium3 65.27307
+Channel 30 light4 43.45876
+Channel 30 medium5 60.252438
+Channel 31 light1 86.41864
+Channel 31 deep2 121.9503
+Channel 31 medium3 58.852867
+Channel 31 light4 41.0762
+Channel 31 medium5 55.96179
+Channel 32 light1 152.10327
+Channel 32 deep2 149.35019
+Channel 32 medium3 67.685
+Channel 32 light4 64.00126
+Channel 32 medium5 72.113594
+
+Process finished with exit code -1

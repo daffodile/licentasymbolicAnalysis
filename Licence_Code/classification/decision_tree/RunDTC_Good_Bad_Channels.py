@@ -36,8 +36,8 @@ df_all.to_csv(csv_file, mode='w', header=True)
 initialization = InitDataSet(trials_to_skip=[1, 2])
 doas = initialization.get_dataset_as_doas()
 mark_outsiders(doas, max_interbursts_dist=500)
-# encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
-encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
+# encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_5.txt')
 
 '''
 for calculating the average acc or af1-score

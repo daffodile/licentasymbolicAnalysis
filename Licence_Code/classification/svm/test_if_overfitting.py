@@ -17,7 +17,7 @@ run_nr = 5
 channel = 1
 segment = 'spontaneous'
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
+encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_5.txt')
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()

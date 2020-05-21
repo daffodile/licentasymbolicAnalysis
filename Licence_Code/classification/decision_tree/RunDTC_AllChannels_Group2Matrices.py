@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from pandas import DataFrame
 from sklearn.metrics import classification_report, confusion_matrix
@@ -13,18 +15,20 @@ from utils.ExtractData import ExtractData
 from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark_bursts_regions
 from utils.mark_bursts.MarkOutsidersWithBurstsFlags import remove_bursted_trials_when_segment
 
-csv_file = "dtc_DML_30_32_alph3_wlog_umarkA_bursts_TA_SPST.csv"
-csv_results = "dtc_DML_30_avg_32_alph3_wlog_umarkA_bursts_TA_SPST.csv"
+csv_file = "dtc_D9L11_30_32_alph5_wlog_umarkA_bursts_TA_SPST_classic16.csv"
+csv_results = "dtc_D9L11_30_avg_32_alph5_wlog_umarkA_bursts_TA_SPST_classic16.csv"
 # open file to write the indices of  each splitting
-indexes_file = "dtc_DML_30_indexes_32_alph3_wlog_umarkA_bursts_TA_SPST.txt"
+indexes_file = "dtc_D9L11_30_indexes_32_alph5_wlog_umarkA_bursts_TA_SPST_classic16.txt"
 write_file = open(indexes_file, "w")
 
 # how many models to train a for a channel-segment pair
 run_nr = 10
 
 # # once per filter hereee
-channels_range = 31
-all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
+channels_range = 32
+# all_channels = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30,
+#                 31, 32]
+all_channels = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,22, 23, 24, 25, 26, 27, 28, 29, 30,
                 31, 32]
 
 # segments = ['spontaneous', 'stimulus', 'poststimulus']
@@ -35,17 +39,19 @@ column_names = ['channel', 'segment', 'accuracy', 'f1-score']
 df_all = DataFrame(columns=column_names)
 df_all.to_csv(csv_file, mode='a', header=True)
 
-initialization = InitDataSet()
-# initialization = InitDataSet(trials_to_skip=[1, 2])
+data_dir = os.path.join('..', '..')
+initialization = InitDataSet(current_directory=data_dir, subject_directory='m016', filtering_directory='classic',
+                             levels=['deep9', 'light11'])
 doas = initialization.get_dataset_as_doas()
 
 # mark_bursts_regions(doas)
 
-# remove_bursted_trials_when_segment(doas)
+remove_bursted_trials_when_segment(doas)
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
-# encoding = Encoding('./../../data_to_be_saved/alphabet_5.txt')
-
+# encoding = Encoding('./../../data_to_be_saved/12alphabet5_hp10.txt')
+# encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/32alphabet5_classic_m016.txt')
+#
 '''
 for calculating the average acc or af1-score
 we need
@@ -66,12 +72,12 @@ for run in range(run_nr):
         print("start running for channel " + str(channel) + '\n')
 
         # SplitData(self, doas, channels, levels, segment, orientation):
-        train_data = ExtractData(doas_train, [all_channels[ind_channel]], ['deep', 'medium', 'light'], segments,
+        train_data = ExtractData(doas_train, [all_channels[ind_channel]], ['deep9', 'light11'], segments,
                                  ['all'])
-        test_data = ExtractData(doas_test, [all_channels[ind_channel]], ['deep', 'medium', 'light'], segments, ['all'])
+        test_data = ExtractData(doas_test, [all_channels[ind_channel]], ['deep9', 'light11'], segments, ['all'])
 
-        X_train, y_train = obtain_features_labels(train_data, encoding, 32)
-        x_test, y_test = obtain_features_labels(test_data, encoding, 32)
+        X_train, y_train = obtain_features_labels(train_data, encoding, 12)
+        x_test, y_test = obtain_features_labels(test_data, encoding, 12)
 
         model = DecisionTreeClassifier(random_state=99, criterion='gini', max_depth=2)
         model.fit(X_train, y_train)

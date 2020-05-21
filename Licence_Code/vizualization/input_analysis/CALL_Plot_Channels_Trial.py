@@ -5,10 +5,9 @@ from utils.mark_bursts.MarkOutsiderWithBurstFlags_SeparateThresholds import mark
 
 from vizualization.input_analysis.Plot_Channels_Trial import plot_channels_trial
 
-
 data_dir = os.path.join('..', '..')
 initialization = InitDataSet(current_directory=data_dir, subject_directory='m014', filtering_directory='classic',
-                             levels=['deep2', 'medium3', 'light4'])
+                             levels=['deep1', 'medium5', 'light4'])
 doas = initialization.get_dataset_as_doas()
 
 mark_bursts_regions(doas)
@@ -20,7 +19,7 @@ mark_bursts_regions(doas)
 channel_numbers = [2]
 # trial_number = 8
 trial_number = 22
-plot_channels_trial(doas, 'deep', channel_numbers, trial_number)
+plot_channels_trial(doas, 'deep1', channel_numbers, trial_number)
 
 # plot_channels_trial(doas, 'deep', [10], 100, stdX)
 

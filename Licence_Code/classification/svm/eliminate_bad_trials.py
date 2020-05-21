@@ -33,7 +33,7 @@ bursts = ['all', 'no_2', 'no1_2']
 channel = 1
 segment = 'spontaneous'
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
 
 print('SVM 0.2 seg=' + str(segment) + ' ch=' + str(segment))
 

@@ -39,7 +39,7 @@ df_all.to_csv(csv_file, mode='a', header=True)
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
 mark_bursts_regions(doas)
 #
 remove_bursted_trials_when_segment(doas)

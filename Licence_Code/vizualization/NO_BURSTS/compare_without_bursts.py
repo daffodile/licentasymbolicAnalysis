@@ -7,12 +7,12 @@ from utils.TreatBurstingSegmentsInTrials import mark_outsiders
 from utils.Utils import get_channel_trials_segment_values_and_outsiders
 from vizualization.TESPAR.PlotTESPARMatrices import plot_matrix_A
 
-# encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+# encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
 #
 # initialization = InitDataSet()
 # doas = initialization.get_dataset_as_doas()
 #
-# # encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+# # encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
 #
 # ######################## here code to encode with old encoder and also no_burst_encoder to compare A
 # data = ExtractData(doas, [2], ['deep'], ['spontaneous'], ['all'])
@@ -64,7 +64,7 @@ from vizualization.TESPAR.PlotTESPARMatrices import plot_matrix_A
 
 ############### test getting all values in a channel and plotting tespar A of it ##################
 
-encoding = Encoding('./../../data_to_be_saved/alphabet_3.txt')
+encoding = Encoding('./../../data_to_be_saved/m014_classic_alphabet_3.txt')
 
 initialization = InitDataSet()
 doas = initialization.get_dataset_as_doas()

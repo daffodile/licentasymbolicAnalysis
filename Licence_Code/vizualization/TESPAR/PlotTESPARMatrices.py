@@ -5,10 +5,20 @@ from utils.Utils import get_channel_trials_segment_values_and_outsiders, get_tri
     get_trial_values_and_outsiders, get_doa_of_level
 
 
+def plot_matrix_S(values, title, plot_name):
+    plt.hist(x=values, bins=32)
+    plt.yscale('log', nonposy='clip')
+    plt.title(title)
+    plt.xlabel("Symbol")
+    plt.ylabel("log10(#)")
+    plt.savefig(plot_name)
+    plt.show()
+
+
 def plot_matrix_A(values, title, plot_name):
     fig = plt.figure(figsize=(30, 25))
     ax = fig.add_subplot()
-    cax = ax.matshow(values, cmap=plt.cm.jet_r)
+    cax = ax.matshow(values, cmap=plt.cm.jet)
     cbar = fig.colorbar(cax)
     # if (title[0:3] == 'Log'):
     #     cbar.mappable.set_clim(0, 4)
@@ -26,7 +36,7 @@ def plot_matrix_A(values, title, plot_name):
 def plot_matrix_A_Difference(values, title, plot_name):
     fig = plt.figure(figsize=(30, 25))
     ax = fig.add_subplot()
-    cax = ax.matshow(values, cmap=plt.cm.Spectral)
+    cax = ax.matshow(values, cmap=plt.cm.Spectral_r)
     cbar = fig.colorbar(cax)
     cbar.mappable.set_clim(-200.0, 200.0)
     cbar.ax.tick_params(labelsize=30)
@@ -41,6 +51,19 @@ def plot_matrix_A_Difference(values, title, plot_name):
                  fontweight='bold')
     plt.show()
     fig.savefig(plot_name)
+
+
+def get_channel_matrix_S(encoding, doas, doa_level, segment, channel_number, log):
+    channel_trials_values, channel_trials_outsiders = get_channel_trials_segment_values_and_outsiders(doas, doa_level,
+                                                                                                      segment,
+                                                                                                      channel_number)
+    all_symbols = []
+    for i in range(len(channel_trials_values)):
+        symbols = encoding.get_symbols(channel_trials_values[i], channel_trials_outsiders[i])
+        all_symbols.extend(symbols)
+    title = 'S Matrix ' + doa_level + " " + segment + " ch: " + str(channel_number)
+    plot_name = 'compare_channels/ch' + str(channel_number) + "_" + doa_level + "_" + segment + "_S.png"
+    plot_matrix_S(values=all_symbols, title=title, plot_name=plot_name)
 
 
 def get_channel_matrix_A(encoding, doas, doa_level, segment, channel_number, log):
